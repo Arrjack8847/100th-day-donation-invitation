@@ -2,72 +2,58 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import SceneBackground from "./SceneBackground";
-import ForegroundLotus from "./ForegroundLotus";
-import InvitationCard from "./InvitationCard";
-import Ribbon from "./Ribbon";
-import WaxSeal from "./WaxSeal";
-import OpenButton from "./OpenButton";
-import PetalParticles from "./PetalParticles";
+
+const A = "/opening/";
 
 export default function OpeningScene() {
-  const rootRef = useRef<HTMLElement>(null);
+  const sceneRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
-      if (reduceMotion) {
-        gsap.set(
-          [
-            ".scene-background",
-            ".foreground-lotus",
-            ".invitation-card",
-            ".baby-frame",
-            ".invitation-copy > *",
-            ".open-button",
-          ],
-          { autoAlpha: 1, clearProps: "transform" }
-        );
+      if (reduced) {
+        gsap.set(".opening-layer, .open-invitation", {
+          autoAlpha: 1,
+          clearProps: "transform,filter",
+        });
         return;
       }
 
-      gsap.set(".scene-background", { autoAlpha: 0, scale: 1.04, filter: "blur(8px)" });
-      gsap.set(".foreground-lotus", { autoAlpha: 0, y: 24, scale: 1.04 });
-      gsap.set(".invitation-card", {
+      gsap.set(".opening-bg", {
         autoAlpha: 0,
-        y: 38,
+        scale: 1.05,
+        filter: "blur(8px)",
+      });
+      gsap.set(".lotus-foreground", { autoAlpha: 0, y: 30, scale: 1.04 });
+      gsap.set(".card-stage", {
+        autoAlpha: 0,
+        y: 42,
         scale: 0.94,
-        rotateX: 2,
+        rotateX: 3,
         transformPerspective: 1100,
       });
-      gsap.set(".baby-frame", { autoAlpha: 0, scale: 1.07 });
-      gsap.set(".invitation-copy > *", { autoAlpha: 0, y: 12 });
-      gsap.set(".open-button", { autoAlpha: 0, y: 16 });
-      gsap.set(".ribbon-layer", { x: 0, y: 0, rotate: 0 });
-      gsap.set(".wax-seal", { rotate: 0, scale: 1 });
+      gsap.set(".baby-photo, .photo-frame", { autoAlpha: 0, scale: 1.06 });
+      gsap.set(".invitation-type", { autoAlpha: 0, y: 12 });
+      gsap.set(".ribbon", { x: 0, y: 0, rotate: 0 });
+      gsap.set(".seal", { rotate: 0, scale: 1 });
+      gsap.set(".open-invitation", { autoAlpha: 0, y: 18 });
 
-      const intro = gsap.timeline({ defaults: { ease: "power2.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-      intro
-        .to(".scene-background", {
-          autoAlpha: 1,
-          scale: 1,
-          filter: "blur(2px)",
-          duration: 1.15,
-        })
+      tl.to(".opening-bg", {
+        autoAlpha: 1,
+        scale: 1,
+        filter: "blur(1.5px)",
+        duration: 1.1,
+      })
         .to(
-          ".foreground-lotus",
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 1,
-          },
+          ".lotus-foreground",
+          { autoAlpha: 1, y: 0, scale: 1, duration: 1 },
           0.65
         )
         .to(
-          ".invitation-card",
+          ".card-stage",
           {
             autoAlpha: 1,
             y: 0,
@@ -78,148 +64,168 @@ export default function OpeningScene() {
           },
           1.25
         )
+        .to(".seal", { rotate: 7, scale: 0.98, duration: 0.4 }, 2.5)
         .to(
-          ".wax-seal",
+          ".ribbon",
           {
-            rotate: 7,
-            scale: 0.98,
-            duration: 0.45,
-            ease: "sine.inOut",
-          },
-          2.45
-        )
-        .to(
-          ".ribbon-layer",
-          {
-            x: 22,
+            x: 24,
             y: 8,
             rotate: 5,
-            duration: 0.9,
+            duration: 0.85,
             ease: "power2.inOut",
           },
           2.55
         )
         .to(
-          ".baby-frame",
+          ".baby-photo, .photo-frame",
           {
             autoAlpha: 1,
             scale: 1,
             duration: 0.9,
-            ease: "power2.out",
+            stagger: 0.08,
           },
-          3.1
+          3.15
         )
         .to(
-          ".invitation-copy > *",
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.55,
-            stagger: 0.2,
-          },
-          3.75
+          ".invitation-type",
+          { autoAlpha: 1, y: 0, duration: 0.75 },
+          3.95
         )
         .to(
-          ".open-button",
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.8,
-          },
-          5.55
+          ".open-invitation",
+          { autoAlpha: 1, y: 0, duration: 0.8 },
+          5.05
         );
 
-      gsap.to(".scene-glow", {
-        opacity: 0.78,
-        scale: 1.08,
-        duration: 4.5,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-      });
-
-      gsap.to(".petal", {
-        y: "18vh",
-        x: "random(-18, 18)",
-        rotate: "random(-30, 30)",
+      gsap.to(".floating-petal", {
+        y: "random(30, 90)",
+        x: "random(-22, 22)",
+        rotate: "random(-35, 35)",
         duration: "random(5, 8)",
         ease: "sine.inOut",
-        stagger: {
-          each: 0.65,
-          repeat: -1,
-          yoyo: true,
-        },
+        stagger: { each: 0.55, repeat: -1, yoyo: true },
       });
-    }, rootRef);
+    }, sceneRef);
 
     return () => ctx.revert();
   }, []);
 
   const openInvitation = () => {
-    const target = document.getElementById("invitation-content");
+    const content = document.getElementById("invitation-content");
 
-    const timeline = gsap.timeline({
-      defaults: { ease: "power3.inOut" },
-      onComplete: () => {
-        if (rootRef.current) rootRef.current.style.display = "none";
-        target?.scrollIntoView({ behavior: "auto", block: "start" });
-      },
-    });
-
-    timeline
-      .to(".open-button", { scale: 0.97, duration: 0.12 })
-      .to(".open-button", { scale: 1, duration: 0.12 })
-      .to(
-        ".foreground-lotus",
-        {
-          xPercent: (index) => (index === 0 ? -18 : 18),
-          y: 28,
-          autoAlpha: 0,
-          duration: 0.7,
+    gsap
+      .timeline({
+        defaults: { ease: "power3.inOut" },
+        onComplete: () => {
+          if (sceneRef.current) sceneRef.current.style.display = "none";
+          content?.scrollIntoView({ block: "start" });
         },
+      })
+      .to(".open-invitation", { scale: 0.97, duration: 0.12 })
+      .to(".open-invitation", { scale: 1, duration: 0.12 })
+      .to(
+        ".lotus-foreground",
+        { scale: 1.08, y: 55, autoAlpha: 0, duration: 0.75 },
         0.15
       )
       .to(
-        ".scene-background",
-        {
-          scale: 1.05,
-          filter: "blur(10px)",
-          autoAlpha: 0.45,
-          duration: 0.85,
-        },
+        ".opening-bg",
+        { scale: 1.08, filter: "blur(12px)", autoAlpha: 0.35, duration: 0.9 },
         0.15
       )
       .to(
-        ".invitation-stage",
-        {
-          scale: 1.6,
-          y: -10,
-          autoAlpha: 0,
-          duration: 0.95,
-        },
+        ".card-stage",
+        { scale: 1.65, y: -12, autoAlpha: 0, duration: 1 },
         0.25
       )
-      .to(rootRef.current, { autoAlpha: 0, duration: 0.35 }, 0.9);
+      .to(sceneRef.current, { autoAlpha: 0, duration: 0.35 }, 0.95);
   };
 
   return (
     <section
-      ref={rootRef}
+      ref={sceneRef}
       className="opening-scene"
       aria-label="100th Day Donation invitation opening"
     >
-      <SceneBackground />
-      <PetalParticles />
-      <ForegroundLotus side="left" />
-      <ForegroundLotus side="right" />
+      <img
+        className="opening-layer opening-bg"
+        src={A + "01_pagoda_backdrop.png"}
+        alt=""
+      />
 
-      <div className="invitation-stage">
-        <InvitationCard />
-        <Ribbon />
-        <WaxSeal />
+      <div className="petal-field" aria-hidden="true">
+        {[8, 22, 37, 61, 77, 89].map((left, index) => (
+          <img
+            key={left}
+            className="opening-layer floating-petal"
+            src={A + "12_floating_petal.png"}
+            alt=""
+            style={{
+              left: left + "%",
+              top: 9 + ((index * 13) % 42) + "%",
+              width: 28 + (index % 3) * 9,
+            }}
+          />
+        ))}
       </div>
 
-      <OpenButton onClick={openInvitation} />
+      <div className="card-stage">
+        <img
+          className="opening-layer card-container"
+          src={A + "03_card_container.png"}
+          alt=""
+        />
+        <img
+          className="opening-layer paper-texture"
+          src={A + "02_ivory_paper_texture.png"}
+          alt=""
+        />
+        <img
+          className="opening-layer gold-ornaments"
+          src={A + "09_gold_ornaments.png"}
+          alt=""
+        />
+        <img
+          className="opening-layer baby-photo"
+          src={A + "04_baby_photo_sample.png"}
+          alt="Child portrait"
+        />
+        <img
+          className="opening-layer photo-frame"
+          src={A + "05_photo_frame.png"}
+          alt=""
+        />
+        <img
+          className="opening-layer invitation-type"
+          src={A + "06_invitation_typography.png"}
+          alt="100th Day Donation Ceremony"
+        />
+        <img
+          className="opening-layer ribbon"
+          src={A + "07_satin_ribbon.png"}
+          alt=""
+        />
+        <img
+          className="opening-layer seal"
+          src={A + "08_lotus_wax_seal.png"}
+          alt=""
+        />
+      </div>
+
+      <img
+        className="opening-layer lotus-foreground"
+        src={A + "11_lotus_foreground.png"}
+        alt=""
+      />
+
+      <button
+        className="open-invitation"
+        type="button"
+        onClick={openInvitation}
+        aria-label="Open invitation"
+      >
+        <img src={A + "10_open_invitation_button.png"} alt="" />
+      </button>
     </section>
   );
 }
