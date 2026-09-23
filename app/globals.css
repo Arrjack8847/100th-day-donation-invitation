@@ -69,8 +69,8 @@ button {
   position: absolute;
   z-index: 10;
   left: 50%;
-  top: 48%;
-  width: min(31rem, 72vw);
+  top: 26%;
+  width: min(36rem, 35vw);
   aspect-ratio: 0.72;
   transform: translate(-50%, -50%);
   transform-origin: center;
@@ -113,45 +113,45 @@ button {
 
 .baby-photo {
   z-index: 4;
-  left: 32%;
-  top: 13%;
-  width: 36%;
-  max-height: 34%;
+  left: 29%;
+  top: 10%;
+  width: 42%;
+  max-height: 38%;
   object-fit: contain;
 }
 
 .photo-frame {
   z-index: 5;
-  left: 28%;
-  top: 9%;
-  width: 44%;
-  max-height: 42%;
+  left: 24%;
+  top: 6%;
+  width: 52%;
+  max-height: 46%;
   object-fit: contain;
 }
 
 .invitation-type {
   z-index: 6;
-  left: 20%;
-  top: 43%;
-  width: 60%;
-  max-height: 40%;
+  left: 13%;
+  top: 37%;
+  width: 74%;
+  max-height: 43%;
   object-fit: contain;
 }
 
 .ribbon {
   z-index: 7;
-  right: -10%;
-  top: 47%;
-  width: 43%;
+  right: -5%;
+  top: 45%;
+  width: 46%;
   transform-origin: 50% 50%;
   filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.18));
 }
 
 .seal {
   z-index: 8;
-  right: -1%;
-  top: 52%;
-  width: 18%;
+  right: 4%;
+  top: 49%;
+  width: 19%;
   transform-origin: center;
   filter: drop-shadow(0 7px 7px rgba(58, 42, 23, 0.18));
 }
@@ -159,9 +159,9 @@ button {
 .lotus-foreground {
   z-index: 20;
   left: 50%;
-  bottom: -3%;
-  width: min(76rem, 108vw);
-  height: min(39vh, 28rem);
+  bottom: -8%;
+  width: min(72rem, 92vw);
+  height: min(25vh, 13rem);
   object-fit: contain;
   object-position: center bottom;
   transform: translateX(-50%);
@@ -172,8 +172,8 @@ button {
   position: absolute;
   z-index: 30;
   left: 50%;
-  bottom: clamp(1.6rem, 4.5vh, 3.3rem);
-  width: min(20rem, 62vw);
+  bottom: clamp(1.2rem, 3vh, 2.4rem);
+  width: min(19rem, 58vw);
   padding: 0;
   border: 0;
   background: transparent;
@@ -227,29 +227,44 @@ button {
 
 @media (max-width: 767px) {
   .card-stage {
-    top: 44%;
-    width: min(24rem, 88vw);
+    top: 29%;
+    width: min(29rem, 106vw);
+  }
+
+  .baby-photo {
+    left: 29%;
+    top: 10%;
+    width: 42%;
+  }
+
+  .photo-frame {
+    left: 24%;
+    top: 6%;
+    width: 52%;
+  }
+
+  .invitation-type {
+    left: 12%;
+    top: 37%;
+    width: 76%;
   }
 
   .lotus-foreground {
-    width: 142vw;
-    height: 30vh;
-    bottom: 0;
+    width: 118vw;
+    height: 20vh;
+    bottom: -5%;
   }
 
   .open-invitation {
-    width: min(19rem, 72vw);
-    bottom: max(1.35rem, env(safe-area-inset-bottom));
+    width: min(18rem, 72vw);
+    bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
 
 @media (min-width: 1200px) {
   .card-stage {
-    width: min(28rem, 29vw);
-  }
-
-  .lotus-foreground {
-    height: min(42vh, 31rem);
+    top: 24%;
+    width: min(37rem, 36vw);
   }
 }
 
