@@ -33,7 +33,6 @@ button {
   overflow: hidden;
   isolation: isolate;
   background: #f3e7d1;
-  perspective: 1100px;
 }
 
 .opening-layer {
@@ -54,25 +53,34 @@ button {
 .petal-field {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 3;
   pointer-events: none;
 }
 
 .floating-petal {
   position: absolute;
   height: auto;
-  opacity: 0.56;
-  filter: drop-shadow(0 4px 4px rgba(76, 57, 31, 0.08));
+  opacity: 0.35;
+  filter: drop-shadow(0 3px 4px rgba(76, 57, 31, 0.06));
+}
+
+.invitation-stack {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  top: 50%;
+  width: min(31rem, 34vw);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.8rem, 1.8vh, 1.25rem);
 }
 
 .card-stage {
-  position: absolute;
-  z-index: 10;
-  left: 50%;
-  top: 26%;
-  width: min(36rem, 35vw);
+  position: relative;
+  width: 100%;
   aspect-ratio: 0.72;
-  transform: translate(-50%, -50%);
   transform-origin: center;
 }
 
@@ -82,104 +90,95 @@ button {
   object-fit: contain;
 }
 
+/* Master card: everything else is positioned relative to this box. */
 .card-container {
   z-index: 1;
   inset: 0;
   width: 100%;
   height: 100% !important;
   object-fit: contain !important;
-  filter: drop-shadow(0 30px 28px rgba(62, 44, 24, 0.19));
+  filter: drop-shadow(0 26px 30px rgba(62, 44, 24, 0.18));
 }
 
 .paper-texture {
   z-index: 2;
-  left: 14%;
-  top: 10%;
-  width: 72%;
-  height: 80% !important;
+  left: 12%;
+  top: 8%;
+  width: 76%;
+  height: 84% !important;
   object-fit: cover !important;
-  opacity: 0.3;
+  opacity: 0.24;
   mix-blend-mode: multiply;
 }
 
 .gold-ornaments {
   z-index: 3;
-  left: 8%;
-  top: 5%;
-  width: 84%;
-  height: 90% !important;
+  left: 7%;
+  top: 4%;
+  width: 86%;
+  height: 92% !important;
   object-fit: contain !important;
 }
 
+/* Photo + frame are one visual unit. */
 .baby-photo {
   z-index: 4;
   left: 29%;
-  top: 10%;
+  top: 10.5%;
   width: 42%;
-  max-height: 38%;
+  max-height: 33%;
   object-fit: contain;
 }
 
 .photo-frame {
   z-index: 5;
-  left: 24%;
-  top: 6%;
-  width: 52%;
-  max-height: 46%;
+  left: 24.5%;
+  top: 6.2%;
+  width: 51%;
+  max-height: 41%;
   object-fit: contain;
 }
 
+/* Typography sits in the clean middle/lower area of the card. */
 .invitation-type {
   z-index: 6;
-  left: 13%;
-  top: 37%;
-  width: 74%;
-  max-height: 43%;
+  left: 15%;
+  top: 39%;
+  width: 70%;
+  max-height: 39%;
   object-fit: contain;
 }
 
+/* Ribbon and seal stay attached to the right edge of the card. */
 .ribbon {
   z-index: 7;
-  right: -5%;
-  top: 45%;
-  width: 46%;
-  transform-origin: 50% 50%;
-  filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.18));
+  right: -13%;
+  top: 39%;
+  width: 45%;
+  transform-origin: 52% 50%;
+  filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.15));
 }
 
 .seal {
   z-index: 8;
-  right: 4%;
-  top: 49%;
-  width: 19%;
+  right: -1.5%;
+  top: 47%;
+  width: 18%;
   transform-origin: center;
-  filter: drop-shadow(0 7px 7px rgba(58, 42, 23, 0.18));
+  filter: drop-shadow(0 7px 8px rgba(58, 42, 23, 0.16));
 }
 
-.lotus-foreground {
-  z-index: 20;
-  left: 50%;
-  bottom: -8%;
-  width: min(72rem, 92vw);
-  height: min(25vh, 13rem);
-  object-fit: contain;
-  object-position: center bottom;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 18px 20px rgba(58, 47, 29, 0.13));
-}
-
+/* Button is outside the card so it never overlaps the invitation artwork. */
 .open-invitation {
-  position: absolute;
+  position: relative;
   z-index: 30;
-  left: 50%;
-  bottom: clamp(1.2rem, 3vh, 2.4rem);
-  width: min(19rem, 58vw);
+  width: min(20rem, 72%);
   padding: 0;
   border: 0;
   background: transparent;
-  transform: translateX(-50%);
   cursor: pointer;
-  filter: drop-shadow(0 10px 18px rgba(70, 51, 28, 0.16));
+  flex: 0 0 auto;
+  filter: drop-shadow(0 10px 18px rgba(70, 51, 28, 0.14));
 }
 
 .open-invitation img {
@@ -189,7 +188,21 @@ button {
 }
 
 .open-invitation:hover {
-  filter: brightness(1.035) drop-shadow(0 13px 21px rgba(70, 51, 28, 0.2));
+  filter: brightness(1.035) drop-shadow(0 13px 21px rgba(70, 51, 28, 0.18));
+}
+
+/* Foreground should frame the composition, not cover the card. */
+.lotus-foreground {
+  z-index: 7;
+  left: 50%;
+  bottom: -10%;
+  width: min(74rem, 92vw);
+  height: min(22vh, 11rem);
+  object-fit: contain;
+  object-position: center bottom;
+  transform: translateX(-50%);
+  opacity: 0.94;
+  filter: drop-shadow(0 14px 18px rgba(58, 47, 29, 0.1));
 }
 
 .content-section {
@@ -225,46 +238,45 @@ button {
   color: rgba(47, 42, 36, 0.72);
 }
 
-@media (max-width: 767px) {
-  .card-stage {
-    top: 29%;
-    width: min(29rem, 106vw);
-  }
-
-  .baby-photo {
-    left: 29%;
-    top: 10%;
-    width: 42%;
-  }
-
-  .photo-frame {
-    left: 24%;
-    top: 6%;
-    width: 52%;
-  }
-
-  .invitation-type {
-    left: 12%;
-    top: 37%;
-    width: 76%;
-  }
-
-  .lotus-foreground {
-    width: 118vw;
-    height: 20vh;
-    bottom: -5%;
-  }
-
-  .open-invitation {
-    width: min(18rem, 72vw);
-    bottom: max(1rem, env(safe-area-inset-bottom));
+@media (max-width: 1100px) {
+  .invitation-stack {
+    width: min(29rem, 46vw);
   }
 }
 
-@media (min-width: 1200px) {
-  .card-stage {
-    top: 24%;
-    width: min(37rem, 36vw);
+@media (max-width: 767px) {
+  .invitation-stack {
+    top: 48%;
+    width: min(25rem, 88vw);
+    gap: 0.65rem;
+  }
+
+  .ribbon {
+    right: -10%;
+    top: 40%;
+    width: 43%;
+  }
+
+  .seal {
+    right: 0%;
+    top: 47%;
+    width: 18%;
+  }
+
+  .open-invitation {
+    width: min(18rem, 70%);
+  }
+
+  .lotus-foreground {
+    width: 116vw;
+    height: 15vh;
+    bottom: -7%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .invitation-stack {
+    width: min(33rem, 31vw);
   }
 }
 
