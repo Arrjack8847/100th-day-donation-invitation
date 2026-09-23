@@ -190,7 +190,7 @@ export default function OpeningScene() {
         0.15
       )
       .to(
-        ".invitation-card",
+        ".invitation-stage",
         {
           scale: 1.6,
           y: -10,
