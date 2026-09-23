@@ -111,59 +111,63 @@ button {
   mix-blend-mode: multiply;
 }
 
-.gold-ornaments {
-  z-index: 3;
-  left: 7%;
-  top: 4%;
-  width: 86%;
-  height: 92% !important;
-  object-fit: contain !important;
+/* Baby photo is cropped inside the ornate arch instead of showing a rectangle. */
+.baby-window {
+  position: absolute;
+  z-index: 4;
+  left: 31.5%;
+  top: 12.5%;
+  width: 37%;
+  height: 23%;
+  overflow: hidden;
+  border-radius: 48% 48% 8% 8% / 38% 38% 8% 8%;
+  background: #efe5d6;
 }
 
-/* Photo + frame are one visual unit. */
-.baby-photo {
-  z-index: 4;
-  left: 29%;
-  top: 10.5%;
-  width: 42%;
-  max-height: 33%;
-  object-fit: contain;
+.baby-window img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 42%;
+  user-select: none;
+  pointer-events: none;
 }
 
 .photo-frame {
   z-index: 5;
-  left: 24.5%;
-  top: 6.2%;
-  width: 51%;
-  max-height: 41%;
-  object-fit: contain;
-}
-
-/* Typography sits in the clean middle/lower area of the card. */
-.invitation-type {
-  z-index: 6;
-  left: 15%;
-  top: 39%;
-  width: 70%;
+  left: 26.5%;
+  top: 8%;
+  width: 47%;
   max-height: 39%;
   object-fit: contain;
 }
 
-/* Ribbon and seal stay attached to the right edge of the card. */
+/* Typography is the visual center of the card. */
+.invitation-type {
+  z-index: 6;
+  left: 18%;
+  top: 40.5%;
+  width: 64%;
+  max-height: 37%;
+  object-fit: contain;
+}
+
+/* Ribbon overlaps only the right edge; the seal sits on its knot. */
 .ribbon {
   z-index: 7;
-  right: -13%;
-  top: 39%;
-  width: 45%;
+  right: -18%;
+  top: 41.5%;
+  width: 39%;
   transform-origin: 52% 50%;
   filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.15));
 }
 
 .seal {
   z-index: 8;
-  right: -1.5%;
-  top: 47%;
-  width: 18%;
+  right: -6.5%;
+  top: 48.5%;
+  width: 15.5%;
   transform-origin: center;
   filter: drop-shadow(0 7px 8px rgba(58, 42, 23, 0.16));
 }
@@ -173,6 +177,7 @@ button {
   position: relative;
   z-index: 30;
   width: min(20rem, 72%);
+  margin-top: -4.25rem;
   padding: 0;
   border: 0;
   background: transparent;
@@ -193,15 +198,15 @@ button {
 
 /* Foreground should frame the composition, not cover the card. */
 .lotus-foreground {
-  z-index: 7;
+  z-index: 8;
   left: 50%;
-  bottom: -10%;
-  width: min(74rem, 92vw);
-  height: min(22vh, 11rem);
+  bottom: -1.5%;
+  width: min(82rem, 96vw);
+  height: min(23vh, 13rem);
   object-fit: contain;
   object-position: center bottom;
   transform: translateX(-50%);
-  opacity: 0.94;
+  opacity: 0.88;
   filter: drop-shadow(0 14px 18px rgba(58, 47, 29, 0.1));
 }
 
@@ -251,26 +256,46 @@ button {
     gap: 0.65rem;
   }
 
+  .baby-window {
+    left: 31.5%;
+    top: 12.8%;
+    width: 37%;
+    height: 23%;
+  }
+
+  .photo-frame {
+    left: 26.5%;
+    top: 8.3%;
+    width: 47%;
+  }
+
+  .invitation-type {
+    left: 17%;
+    top: 41%;
+    width: 66%;
+  }
+
   .ribbon {
-    right: -10%;
-    top: 40%;
-    width: 43%;
+    right: -15%;
+    top: 42%;
+    width: 37%;
   }
 
   .seal {
-    right: 0%;
-    top: 47%;
-    width: 18%;
+    right: -4%;
+    top: 49%;
+    width: 15%;
   }
 
   .open-invitation {
     width: min(18rem, 70%);
+    margin-top: -2.8rem;
   }
 
   .lotus-foreground {
-    width: 116vw;
-    height: 15vh;
-    bottom: -7%;
+    width: 122vw;
+    height: 18vh;
+    bottom: -2%;
   }
 }
 
