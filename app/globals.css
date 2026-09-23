@@ -42,6 +42,15 @@ button {
   transform-origin: center;
 }
 
+.scene-background,
+.foreground-lotus,
+.invitation-card,
+.baby-frame,
+.invitation-copy > *,
+.open-button {
+  opacity: 0;
+}
+
 .scene-background {
   position: absolute;
   inset: -3%;
