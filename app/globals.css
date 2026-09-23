@@ -2,12 +2,8 @@
 
 :root {
   --cream: #f4ead7;
-  --cream-light: #fffaf0;
-  --deep-cream: #e9dcc4;
   --gold: #b48a43;
-  --gold-light: #d6bb78;
   --ink: #2f2a24;
-  --green: #6e7758;
 }
 
 * {
@@ -22,9 +18,7 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.72), transparent 36rem),
-    var(--cream);
+  background: var(--cream);
   font-family: Georgia, "Times New Roman", serif;
 }
 
@@ -38,316 +32,164 @@ button {
   z-index: 50;
   overflow: hidden;
   isolation: isolate;
-  background: var(--cream);
-  transform-origin: center;
-}
-
-.scene-background,
-.foreground-lotus,
-.invitation-card,
-.baby-frame,
-.invitation-copy > *,
-.open-button {
-  opacity: 0;
-}
-
-.scene-background {
-  position: absolute;
-  inset: -3%;
-  z-index: 0;
-  background:
-    linear-gradient(rgba(247, 238, 221, 0.58), rgba(239, 226, 201, 0.66)),
-    url("/opening/background.webp") center / cover no-repeat,
-    radial-gradient(circle at 50% 34%, #fffdf6 0 14%, #f2e6ce 44%, #ddceb1 100%);
-}
-
-.scene-background::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.12), rgba(72, 51, 25, 0.08)),
-    radial-gradient(circle at center, transparent 48%, rgba(84, 58, 30, 0.09) 100%);
-}
-
-.scene-glow {
-  position: absolute;
-  top: 7%;
-  right: 8%;
-  width: min(42vw, 32rem);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  opacity: 0.48;
-  filter: blur(48px);
-  background: rgba(255, 230, 166, 0.78);
-}
-
-.invitation-stage {
-  position: absolute;
-  z-index: 10;
-  left: 50%;
-  top: 50%;
-  width: min(34rem, 78vw);
-  aspect-ratio: 0.74;
-  transform: translate(-50%, -50%);
+  background: #f3e7d1;
   perspective: 1100px;
 }
 
-.invitation-card {
+.opening-layer {
   position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border: 1px solid rgba(180, 138, 67, 0.55);
-  border-radius: 0.4rem;
-  background:
-    linear-gradient(rgba(255, 252, 245, 0.93), rgba(250, 243, 230, 0.95)),
-    url("/opening/card-texture.webp") center / cover no-repeat;
-  box-shadow:
-    0 35px 70px rgba(71, 50, 25, 0.2),
-    0 8px 18px rgba(71, 50, 25, 0.08),
-    inset 0 0 0 0.45rem rgba(255, 255, 255, 0.44);
-  transform-origin: center;
-}
-
-.invitation-card::before,
-.invitation-card::after {
-  content: "";
-  position: absolute;
+  display: block;
+  user-select: none;
   pointer-events: none;
 }
 
-.invitation-card::before {
-  inset: 1rem;
-  border: 1px solid rgba(180, 138, 67, 0.48);
-}
-
-.invitation-card::after {
-  inset: 1.45rem;
-  border: 1px solid rgba(180, 138, 67, 0.18);
-}
-
-.card-ornament {
-  position: absolute;
-  z-index: 1;
-  inset: 1.1rem;
-  opacity: 0.55;
-  background: url("/opening/ornament.svg") center / contain no-repeat;
-  pointer-events: none;
-}
-
-.baby-frame {
-  position: relative;
-  z-index: 3;
-  width: 39%;
-  aspect-ratio: 0.82;
-  margin: 10% auto 4.5%;
-  padding: 0.28rem;
-  border: 1px solid rgba(180, 138, 67, 0.7);
-  border-radius: 48% 48% 8% 8% / 34% 34% 8% 8%;
-  background: rgba(255, 250, 239, 0.9);
-  box-shadow: 0 10px 25px rgba(79, 54, 26, 0.12);
-}
-
-.baby-photo {
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background:
-    url("/opening/baby.webp") center 28% / cover no-repeat,
-    linear-gradient(145deg, #eee1ca, #fffaf0);
-}
-
-.invitation-copy {
-  position: relative;
-  z-index: 3;
-  width: 76%;
-  margin: 0 auto;
-  text-align: center;
-  color: #533d25;
-}
-
-.copy-kicker {
-  margin: 0 0 0.55rem;
-  color: #8c7047;
-  font-size: clamp(0.48rem, 1vw, 0.68rem);
-  letter-spacing: 0.19em;
-  text-transform: uppercase;
-}
-
-.copy-small-title {
-  margin: 0;
-  font-size: clamp(0.74rem, 1.6vw, 1rem);
-  letter-spacing: 0.08em;
-  font-weight: 400;
-}
-
-.copy-main-title {
-  margin: 0.25rem 0;
-  color: #a5762f;
-  font-size: clamp(2rem, 5vw, 4rem);
-  line-height: 0.95;
-  font-weight: 400;
-  letter-spacing: -0.04em;
-}
-
-.copy-main-title sup {
-  margin-left: 0.1em;
-  font-size: 0.35em;
-  vertical-align: top;
-}
-
-.copy-ceremony {
-  margin: 0.6rem 0 0;
-  font-size: clamp(0.72rem, 1.6vw, 1.05rem);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.copy-divider {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  width: 76%;
-  margin: 1rem auto 0.85rem;
-  color: var(--gold);
-}
-
-.copy-divider::before,
-.copy-divider::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: currentColor;
-  opacity: 0.45;
-}
-
-.copy-message {
-  margin: 0;
-  color: rgba(83, 61, 37, 0.78);
-  font-size: clamp(0.62rem, 1.3vw, 0.86rem);
-  line-height: 1.55;
-  font-style: italic;
-}
-
-.ribbon-layer {
-  position: absolute;
-  z-index: 12;
-  right: -9%;
-  top: 48%;
-  width: 38%;
-  height: 22%;
-  pointer-events: none;
-  transform-origin: 52% 50%;
-  background:
-    url("/opening/ribbon.webp") center / contain no-repeat,
-    linear-gradient(
-      100deg,
-      transparent 0 8%,
-      rgba(198, 177, 119, 0.86) 9% 74%,
-      transparent 75%
-    );
-  filter: drop-shadow(0 8px 7px rgba(57, 41, 20, 0.17));
-}
-
-.wax-seal {
-  position: absolute;
-  z-index: 13;
-  right: 2%;
-  top: 53%;
-  width: clamp(3.2rem, 8vw, 5.8rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  pointer-events: none;
-  transform-origin: center;
-  background:
-    url("/opening/seal.webp") center / contain no-repeat,
-    radial-gradient(circle at 38% 32%, #e4cf8e, #b5964f 62%, #80672e);
-  box-shadow:
-    0 7px 14px rgba(70, 51, 24, 0.2),
-    inset 0 0 0 0.3rem rgba(255, 248, 211, 0.14);
-}
-
-.foreground-lotus {
-  position: absolute;
-  z-index: 20;
-  bottom: -4%;
-  width: min(36vw, 34rem);
-  height: min(42vh, 29rem);
-  pointer-events: none;
-  filter: drop-shadow(0 18px 18px rgba(54, 46, 29, 0.14));
-  background-position: bottom;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.foreground-lotus-left {
-  left: -3%;
-  background-image:
-    url("/opening/lotus-left.webp"),
-    radial-gradient(ellipse at bottom left, rgba(126, 135, 103, 0.48), transparent 65%);
-}
-
-.foreground-lotus-right {
-  right: -3%;
-  background-image:
-    url("/opening/lotus-right.webp"),
-    radial-gradient(ellipse at bottom right, rgba(126, 135, 103, 0.48), transparent 65%);
+.opening-bg {
+  z-index: 0;
+  inset: -2%;
+  width: 104%;
+  height: 104%;
+  object-fit: cover;
 }
 
 .petal-field {
   position: absolute;
   inset: 0;
-  z-index: 6;
+  z-index: 4;
   pointer-events: none;
 }
 
-.petal {
+.floating-petal {
   position: absolute;
-  width: 0.65rem;
-  height: 0.95rem;
-  border-radius: 70% 20% 70% 20%;
-  opacity: 0.42;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.85), rgba(223, 187, 164, 0.55));
-  filter: blur(0.2px);
+  height: auto;
+  opacity: 0.56;
+  filter: drop-shadow(0 4px 4px rgba(76, 57, 31, 0.08));
 }
 
-.open-button {
+.card-stage {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: 48%;
+  width: min(31rem, 72vw);
+  aspect-ratio: 0.72;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+
+.card-stage > img {
+  position: absolute;
+  height: auto;
+  object-fit: contain;
+}
+
+.card-container {
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100% !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 30px 28px rgba(62, 44, 24, 0.19));
+}
+
+.paper-texture {
+  z-index: 2;
+  left: 14%;
+  top: 10%;
+  width: 72%;
+  height: 80% !important;
+  object-fit: cover !important;
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+}
+
+.gold-ornaments {
+  z-index: 3;
+  left: 8%;
+  top: 5%;
+  width: 84%;
+  height: 90% !important;
+  object-fit: contain !important;
+}
+
+.baby-photo {
+  z-index: 4;
+  left: 32%;
+  top: 13%;
+  width: 36%;
+  max-height: 34%;
+  object-fit: contain;
+}
+
+.photo-frame {
+  z-index: 5;
+  left: 28%;
+  top: 9%;
+  width: 44%;
+  max-height: 42%;
+  object-fit: contain;
+}
+
+.invitation-type {
+  z-index: 6;
+  left: 20%;
+  top: 43%;
+  width: 60%;
+  max-height: 40%;
+  object-fit: contain;
+}
+
+.ribbon {
+  z-index: 7;
+  right: -10%;
+  top: 47%;
+  width: 43%;
+  transform-origin: 50% 50%;
+  filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.18));
+}
+
+.seal {
+  z-index: 8;
+  right: -1%;
+  top: 52%;
+  width: 18%;
+  transform-origin: center;
+  filter: drop-shadow(0 7px 7px rgba(58, 42, 23, 0.18));
+}
+
+.lotus-foreground {
+  z-index: 20;
+  left: 50%;
+  bottom: -3%;
+  width: min(76rem, 108vw);
+  height: min(39vh, 28rem);
+  object-fit: contain;
+  object-position: center bottom;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 18px 20px rgba(58, 47, 29, 0.13));
+}
+
+.open-invitation {
   position: absolute;
   z-index: 30;
   left: 50%;
-  bottom: clamp(1.75rem, 5vh, 3.5rem);
+  bottom: clamp(1.6rem, 4.5vh, 3.3rem);
+  width: min(20rem, 62vw);
+  padding: 0;
+  border: 0;
+  background: transparent;
   transform: translateX(-50%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  min-width: min(19rem, calc(100vw - 3rem));
-  padding: 0.95rem 1.5rem;
-  border: 1px solid rgba(180, 138, 67, 0.76);
-  border-radius: 999px;
-  color: #684c29;
-  background: rgba(255, 249, 237, 0.86);
-  backdrop-filter: blur(12px);
-  box-shadow:
-    0 14px 38px rgba(73, 51, 24, 0.14),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.17em;
-  font-size: 0.73rem;
   cursor: pointer;
+  filter: drop-shadow(0 10px 18px rgba(70, 51, 28, 0.16));
 }
 
-.open-button::after {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  border-radius: inherit;
-  border: 1px solid rgba(180, 138, 67, 0.18);
-  pointer-events: none;
+.open-invitation img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.open-button:hover {
-  background: rgba(255, 250, 241, 0.96);
+.open-invitation:hover {
+  filter: brightness(1.035) drop-shadow(0 13px 21px rgba(70, 51, 28, 0.2));
 }
 
 .content-section {
@@ -357,7 +199,7 @@ button {
   place-content: center;
   text-align: center;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.75), transparent 32rem),
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.76), transparent 32rem),
     var(--cream);
 }
 
@@ -384,49 +226,35 @@ button {
 }
 
 @media (max-width: 767px) {
-  .invitation-stage {
-    top: 46%;
-    width: min(22rem, 82vw);
+  .card-stage {
+    top: 44%;
+    width: min(24rem, 88vw);
   }
 
-  .foreground-lotus {
+  .lotus-foreground {
+    width: 142vw;
+    height: 30vh;
     bottom: 0;
-    width: 52vw;
-    height: 29vh;
   }
 
-  .foreground-lotus-left {
-    left: -14%;
-  }
-
-  .foreground-lotus-right {
-    right: -14%;
-  }
-
-  .copy-main-title {
-    font-size: clamp(2rem, 10vw, 3.2rem);
-  }
-
-  .open-button {
-    bottom: max(1.6rem, env(safe-area-inset-bottom));
+  .open-invitation {
+    width: min(19rem, 72vw);
+    bottom: max(1.35rem, env(safe-area-inset-bottom));
   }
 }
 
-@media (min-width: 1100px) {
-  .invitation-stage {
-    width: min(29rem, 34vw);
+@media (min-width: 1200px) {
+  .card-stage {
+    width: min(28rem, 29vw);
+  }
+
+  .lotus-foreground {
+    height: min(42vh, 31rem);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .opening-scene *,
-  .opening-scene *::before,
-  .opening-scene *::after {
-    animation: none !important;
-    transition: none !important;
   }
 }
