@@ -68,13 +68,13 @@ button {
   position: absolute;
   z-index: 12;
   left: 50%;
-  top: 50%;
-  width: min(31rem, 34vw);
+  top: 48%;
+  width: min(33rem, 36vw);
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(0.8rem, 1.8vh, 1.25rem);
+  gap: 0.9rem;
 }
 
 .card-stage {
@@ -115,12 +115,12 @@ button {
 .baby-window {
   position: absolute;
   z-index: 4;
-  left: 31.5%;
-  top: 12.5%;
-  width: 37%;
-  height: 23%;
+  left: 32.2%;
+  top: 13.2%;
+  width: 35.6%;
+  height: 20.5%;
   overflow: hidden;
-  border-radius: 48% 48% 8% 8% / 38% 38% 8% 8%;
+  border-radius: 50% 50% 6% 6% / 42% 42% 6% 6%;
   background: #efe5d6;
 }
 
@@ -129,17 +129,18 @@ button {
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 28%;
+  transform: scale(1.08);
   user-select: none;
   pointer-events: none;
 }
 
 .photo-frame {
   z-index: 5;
-  left: 26.5%;
-  top: 8%;
+  left: 26.3%;
+  top: 8.8%;
   width: 47%;
-  max-height: 39%;
+  max-height: 38%;
   object-fit: contain;
 }
 
@@ -147,27 +148,27 @@ button {
 .invitation-type {
   z-index: 6;
   left: 18%;
-  top: 40.5%;
-  width: 64%;
-  max-height: 37%;
+  top: 41.2%;
+  width: 63%;
+  max-height: 36%;
   object-fit: contain;
 }
 
 /* Ribbon overlaps only the right edge; the seal sits on its knot. */
 .ribbon {
   z-index: 7;
-  right: -18%;
-  top: 41.5%;
-  width: 39%;
+  right: -14.5%;
+  top: 42.2%;
+  width: 35.5%;
   transform-origin: 52% 50%;
   filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.15));
 }
 
 .seal {
   z-index: 8;
-  right: -6.5%;
-  top: 48.5%;
-  width: 15.5%;
+  right: -3.8%;
+  top: 49.2%;
+  width: 13.8%;
   transform-origin: center;
   filter: drop-shadow(0 7px 8px rgba(58, 42, 23, 0.16));
 }
@@ -176,8 +177,8 @@ button {
 .open-invitation {
   position: relative;
   z-index: 30;
-  width: min(20rem, 72%);
-  margin-top: -4.25rem;
+  width: min(20rem, 70%);
+  margin-top: -5.1rem;
   padding: 0;
   border: 0;
   background: transparent;
@@ -200,13 +201,13 @@ button {
 .lotus-foreground {
   z-index: 8;
   left: 50%;
-  bottom: -1.5%;
-  width: min(82rem, 96vw);
-  height: min(23vh, 13rem);
+  bottom: -3.2%;
+  width: min(86rem, 104vw);
+  height: min(21vh, 11rem);
   object-fit: contain;
   object-position: center bottom;
   transform: translateX(-50%);
-  opacity: 0.88;
+  opacity: 0.9;
   filter: drop-shadow(0 14px 18px rgba(58, 47, 29, 0.1));
 }
 
@@ -251,9 +252,9 @@ button {
 
 @media (max-width: 767px) {
   .invitation-stack {
-    top: 48%;
-    width: min(25rem, 88vw);
-    gap: 0.65rem;
+    top: 47%;
+    width: min(26rem, 90vw);
+    gap: 0.55rem;
   }
 
   .baby-window {
@@ -276,26 +277,26 @@ button {
   }
 
   .ribbon {
-    right: -15%;
-    top: 42%;
-    width: 37%;
+    right: -12%;
+    top: 42.5%;
+    width: 35%;
   }
 
   .seal {
-    right: -4%;
-    top: 49%;
-    width: 15%;
+    right: -2.5%;
+    top: 49.5%;
+    width: 13.5%;
   }
 
   .open-invitation {
-    width: min(18rem, 70%);
-    margin-top: -2.8rem;
+    width: min(18rem, 72%);
+    margin-top: -3.3rem;
   }
 
   .lotus-foreground {
-    width: 122vw;
-    height: 18vh;
-    bottom: -2%;
+    width: 128vw;
+    height: 16vh;
+    bottom: -3%;
   }
 }
 
