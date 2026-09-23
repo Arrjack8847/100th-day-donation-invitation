@@ -123,16 +123,12 @@ export default function OpeningScene() {
             src={A + "02_ivory_paper_texture.png"}
             alt=""
           />
-          <img
-            className="opening-layer gold-ornaments"
-            src={A + "09_gold_ornaments.png"}
-            alt=""
-          />
-          <img
-            className="opening-layer baby-photo"
-            src={A + "04_baby_photo_sample.png"}
-            alt="Child portrait"
-          />
+          <div className="baby-window">
+            <img
+              src={A + "04_baby_photo_sample.png"}
+              alt="Child portrait"
+            />
+          </div>
           <img
             className="opening-layer photo-frame"
             src={A + "05_photo_frame.png"}
