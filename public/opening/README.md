@@ -1,10 +1,16 @@
-# Opening video assets
+# Opening component assets
 
-Add the final cinematic opening exports here:
+The opening is built from independent layers, not a pre-rendered video.
 
-- `intro-mobile.mp4` — portrait, recommended 1080x1920, 30 fps
-- `intro-desktop.mp4` — landscape, recommended 1920x1080, 30 fps
+Expected assets:
 
-Keep the final frame visually settled so the HTML "Open Invitation" button can appear over it cleanly.
+- background.webp — soft pagoda / cream environment
+- lotus-left.webp — transparent left foreground flowers and leaves
+- lotus-right.webp — transparent right foreground flowers and leaves
+- card-texture.webp — subtle ivory paper texture
+- baby.webp — child portrait
+- ribbon.webp — transparent ribbon asset
+- seal.webp — transparent wax/lotus seal
+- ornament.svg — transparent decorative gold card ornament
 
-Recommended duration: about 5–7 seconds.
+Keep foreground assets transparent and tightly cropped. The website animates each layer separately with GSAP.
