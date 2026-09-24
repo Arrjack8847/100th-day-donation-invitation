@@ -30,7 +30,7 @@ export default function OpeningScene() {
         gsap.set(".opening-bg", {
           autoAlpha: 1,
           scale: 1,
-          filter: "blur(1.5px)",
+          filter: "blur(1.5px) saturate(0.82) contrast(0.90) brightness(1.06) sepia(0.06)",
         });
         gsap.set(".box-stage", { autoAlpha: 1, y: 0, scale: 1 });
         gsap.set(
@@ -62,11 +62,11 @@ export default function OpeningScene() {
         .timeline({ defaults: { ease: "power3.out" } })
         .fromTo(
           ".opening-bg",
-          { autoAlpha: 0, scale: 1.035, filter: "blur(7px)" },
+          { autoAlpha: 0, scale: 1.035, filter: "blur(7px) saturate(0.78) contrast(0.88) brightness(1.08) sepia(0.08)" },
           {
             autoAlpha: 1,
             scale: 1,
-            filter: "blur(1.5px)",
+            filter: "blur(1.5px) saturate(0.82) contrast(0.90) brightness(1.06) sepia(0.06)",
             duration: 0.95,
             ease: "power2.out",
           },
@@ -114,7 +114,7 @@ export default function OpeningScene() {
       )
       .to(
         ".opening-bg",
-        { scale: 1.07, filter: "blur(10px)", autoAlpha: 0.36, duration: 0.8 },
+        { scale: 1.07, filter: "blur(10px) saturate(0.76) contrast(0.88) brightness(1.08) sepia(0.08)", autoAlpha: 0.36, duration: 0.8 },
         0.24
       )
       .to(
