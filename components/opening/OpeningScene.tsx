@@ -100,7 +100,7 @@ export default function OpeningScene() {
         0.22
       )
       .to(
-        [".box-back", ".box-inner-tray"],
+        ".box-inner-tray",
         { autoAlpha: 0, scale: 0.97, duration: 0.65 },
         0.26
       )
@@ -183,12 +183,6 @@ export default function OpeningScene() {
 
       <div className="box-composition">
         <div className="box-stage">
-          <img
-            className="opening-layer box-full-layer box-back"
-            data-edit-key="back"
-            src={A.box.back}
-            alt=""
-          />
           <img
             className="opening-layer box-full-layer box-inner-tray"
             data-edit-key="tray"
