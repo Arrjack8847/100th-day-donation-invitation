@@ -1,0 +1,128 @@
+name: Verify opening screen
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "components/opening/**"
+      - "app/globals.css"
+      - "public/opening/**"
+      - ".github/workflows/verify-opening.yml"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+      - name: Production build
+        run: npm run build
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start production server
+        run: |
+          npm run start -- -p 3000 > /tmp/invitation-next.log 2>&1 &
+          echo $! > /tmp/invitation-next.pid
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:3000 >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/invitation-next.log
+          exit 1
+
+      - name: Capture mobile and desktop
+        run: |
+          mkdir -p screenshots
+          cat > /tmp/capture.cjs <<'NODE'
+          const { chromium } = require('playwright');
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+
+            const cases = [
+              { name: 'mobile', width: 390, height: 844 },
+              { name: 'desktop', width: 1440, height: 900 },
+            ];
+
+            for (const item of cases) {
+              const page = await browser.newPage({
+                viewport: { width: item.width, height: item.height },
+                deviceScaleFactor: 1,
+              });
+
+              await page.goto('http://127.0.0.1:3000', {
+                waitUntil: 'networkidle',
+              });
+
+              await page.screenshot({
+                path: `screenshots/${item.name}-closed.png`,
+                fullPage: false,
+              });
+
+              const metrics = await page.evaluate(() => {
+                const box = document.querySelector('.box-stage')?.getBoundingClientRect();
+                const button = document.querySelector('.open-invitation')?.getBoundingClientRect();
+                return {
+                  scrollWidth: document.documentElement.scrollWidth,
+                  innerWidth: window.innerWidth,
+                  box: box ? { left: box.left, right: box.right, top: box.top, bottom: box.bottom } : null,
+                  button: button ? { left: button.left, right: button.right, top: button.top, bottom: button.bottom } : null,
+                };
+              });
+
+              if (metrics.scrollWidth > metrics.innerWidth + 2) {
+                throw new Error(`${item.name}: horizontal overflow ${metrics.scrollWidth}px > ${metrics.innerWidth}px`);
+              }
+
+              if (!metrics.box || metrics.box.left < -2 || metrics.box.right > item.width + 2) {
+                throw new Error(`${item.name}: box is horizontally clipped: ${JSON.stringify(metrics.box)}`);
+              }
+
+              if (!metrics.button || metrics.button.left < -2 || metrics.button.right > item.width + 2) {
+                throw new Error(`${item.name}: button is horizontally clipped: ${JSON.stringify(metrics.button)}`);
+              }
+
+              await page.click('.open-invitation');
+              await page.waitForTimeout(2600);
+
+              await page.screenshot({
+                path: `screenshots/${item.name}-open.png`,
+                fullPage: false,
+              });
+
+              await page.close();
+            }
+
+            await browser.close();
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
+          node /tmp/capture.cjs
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: opening-screen-screenshots
+          path: screenshots/
+          if-no-files-found: error
