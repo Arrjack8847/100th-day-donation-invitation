@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "100th Day Donation Invitation",
-  description: "A special invitation to celebrate 100 days of love and blessings.",
+  title: "100th Day Donation Ceremony Invitation",
+  description:
+    "A premium Myanmar ceremonial invitation celebrating 100 days of love, gratitude and blessings.",
 };
 
 export default function RootLayout({
