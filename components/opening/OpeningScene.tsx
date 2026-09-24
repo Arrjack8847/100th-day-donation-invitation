@@ -74,7 +74,11 @@ export default function OpeningScene() {
         { autoAlpha: 0, duration: 0.42, ease: "power2.in" },
         0.22
       )
-      .to(".box-back", { autoAlpha: 0, scale: 0.97, duration: 0.65 }, 0.26)
+      .to(
+        [".box-back", ".box-inner-tray"],
+        { autoAlpha: 0, scale: 0.97, duration: 0.65 },
+        0.26
+      )
       .to(
         ".opening-bg",
         { scale: 1.07, filter: "blur(10px)", autoAlpha: 0.36, duration: 0.8 },
@@ -155,6 +159,11 @@ export default function OpeningScene() {
           <img
             className="opening-layer box-full-layer box-back"
             src={A.box.back}
+            alt=""
+          />
+          <img
+            className="opening-layer box-full-layer box-inner-tray"
+            src={A.box.innerTray}
             alt=""
           />
 
