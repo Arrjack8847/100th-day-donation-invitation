@@ -52,7 +52,7 @@ jobs:
       - name: Capture mobile and desktop
         run: |
           mkdir -p screenshots
-          cat > /tmp/capture.cjs <<'NODE'
+          cat > capture.cjs <<'NODE'
           const { chromium } = require('playwright');
 
           (async () => {
@@ -118,7 +118,7 @@ jobs:
             process.exit(1);
           });
           NODE
-          node /tmp/capture.cjs
+          node capture.cjs
 
       - uses: actions/upload-artifact@v4
         if: always()
