@@ -185,14 +185,14 @@ button {
 
 .box-left-flap {
   top: 0;
-  left: 11.4%;
+  left: 10%;
   height: 100%;
   transform-origin: left center;
 }
 
 .box-right-flap {
   top: 0;
-  right: 11.4%;
+  right: 12.8%;
   height: 100%;
   z-index: 4;
   transform-origin: right center;
@@ -222,7 +222,7 @@ button {
   position: relative;
   z-index: 30;
   width: min(18rem, 62%);
-  margin-top: -1.35rem;
+  margin-top: -0.65rem;
   padding: 0;
   border: 0;
   background: transparent;
@@ -290,7 +290,7 @@ button {
 
   .open-invitation {
     width: min(18rem, 62%);
-    margin-top: -1.25rem;
+    margin-top: -0.6rem;
   }
 }
 
@@ -312,7 +312,7 @@ button {
 
   .open-invitation {
     width: min(16rem, 72vw);
-    margin-top: -1rem;
+    margin-top: -0.5rem;
   }
 }
 
@@ -323,7 +323,7 @@ button {
   }
 
   .open-invitation {
-    margin-top: -1.1rem;
+    margin-top: -0.55rem;
   }
 }
 
