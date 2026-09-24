@@ -20,16 +20,13 @@ type HingeState = {
 const STORAGE_KEY = "opening-layout-editor-v1";
 const HINGE_STORAGE_KEY = "opening-hinge-editor-v1";
 const DEFAULT_HINGES: HingeState = {
-  left: 0,
-  right: 100,
+  left: 1.1,
+  right: 72.6,
 };
 
 const labels: Record<string, string> = {
   tray: "16 Inner Tray",
-  card: "Invitation Card",
-  baby: "Baby Mask",
-  frame: "Photo Frame",
-  typography: "Typography",
+  card: "Invitation Card Group",
   leftFlap: "14 Left Flap",
   rightFlap: "15 Right Flap",
   button: "Open Button",
@@ -92,9 +89,9 @@ export default function LayoutEditor() {
 
   const applyPreview = (mode: "closed" | "open") => {
     const card = getElement("card");
-    const baby = getElement("baby");
-    const frame = getElement("frame");
-    const typography = getElement("typography");
+    const baby = document.querySelector<HTMLElement>(".baby-mask");
+    const frame = document.querySelector<HTMLElement>(".photo-frame");
+    const typography = document.querySelector<HTMLElement>(".invitation-type");
     const left = document.querySelector<HTMLElement>(".box-left-flap .box-door-art");
     const right = document.querySelector<HTMLElement>(".box-right-flap .box-door-art");
     const button = getElement("button");
@@ -185,7 +182,7 @@ export default function LayoutEditor() {
         el.style.visibility = "hidden";
       } else if (
         preview === "open" ||
-        !["card", "baby", "frame", "typography"].includes(key)
+        key !== "card"
       ) {
         el.style.opacity = "1";
         el.style.visibility = "visible";
