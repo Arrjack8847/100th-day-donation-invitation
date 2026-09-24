@@ -64,6 +64,9 @@ button {
 }
 
 .box-stage {
+  --left-flap-hinge-x: 0%;
+  --right-flap-hinge-x: 100%;
+
   position: relative;
   width: 100%;
   aspect-ratio: 1122 / 1402;
@@ -225,10 +228,12 @@ button {
 /* These offsets are part of the approved closed layout. Never move them. */
 .box-left-flap .box-door-art {
   left: -17.2%;
+  transform-origin: var(--left-flap-hinge-x) 50%;
 }
 
 .box-right-flap .box-door-art {
   right: 12.6%;
+  transform-origin: var(--right-flap-hinge-x) 50%;
 }
 
 .open-invitation {
@@ -444,6 +449,56 @@ button {
 
 .layout-editor-range input {
   width: 100%;
+}
+
+
+.layout-editor-hinge-controls {
+  margin-top: 0.75rem;
+  padding: 0.7rem;
+  border: 1px solid rgba(31, 123, 255, 0.22);
+  border-radius: 10px;
+  background: rgba(31, 123, 255, 0.04);
+}
+
+.layout-editor-hinge-controls > label:first-child {
+  margin-top: 0;
+}
+
+.layout-editor-hinge-controls input[type="number"] {
+  width: 100%;
+  height: 2rem;
+  padding: 0 0.55rem;
+  border: 1px solid rgba(122, 91, 49, 0.25);
+  border-radius: 8px;
+  background: #fff;
+  color: #352d24;
+}
+
+.layout-editor-hinge-hint {
+  margin: 0.55rem 0 0;
+  color: rgba(53, 45, 36, 0.58);
+  line-height: 1.4;
+}
+
+.layout-editor-hinge-guide {
+  position: fixed;
+  z-index: 1001;
+  width: 0;
+  pointer-events: none;
+  border-left: 2px dashed #ff3b30;
+  transform: translateX(-1px);
+}
+
+.layout-editor-hinge-guide > span {
+  position: absolute;
+  left: 5px;
+  top: 4px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 5px;
+  background: #ff3b30;
+  color: #fff;
+  font: 600 11px/1.2 Arial, Helvetica, sans-serif;
+  white-space: nowrap;
 }
 
 .layout-editor-visible {
