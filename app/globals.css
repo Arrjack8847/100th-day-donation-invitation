@@ -80,12 +80,6 @@ button {
   object-position: center;
 }
 
-.box-back {
-  z-index: 1;
-  translate: -7.2px 33.6px;
-  filter: drop-shadow(0 26px 34px rgba(62, 44, 24, 0.16));
-}
-
 .box-inner-tray {
   z-index: 2;
   inset: 0;
