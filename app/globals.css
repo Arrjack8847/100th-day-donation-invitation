@@ -85,8 +85,8 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
-  translate: 0.8px 40px;
-  scale: 1.0062;
+  translate: 0px 34px;
+  scale: 0.900711171738388;
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 12px 18px rgba(62, 44, 24, 0.09));
@@ -196,15 +196,15 @@ button {
 
 .box-left-flap {
   left: 9.5%;
-  translate: 65px 32.8px;
-  scale: 0.8955;
+  translate: 62.00022888183594px 30.800018310546875px;
+  scale: 0.895499233814601;
   transform-origin: left center;
 }
 
 .box-right-flap {
   right: 11.4%;
-  translate: 120.6px 21.6px;
-  scale: 0.9491;
+  translate: 116.2000732421875px 19.400146484375px;
+  scale: 0.9383710960391091;
   z-index: 5;
   transform-origin: right center;
 }
@@ -243,6 +243,7 @@ button {
   background: transparent;
   cursor: pointer;
   flex: 0 0 auto;
+  translate: 3.20001220703125px 8px;
   filter: drop-shadow(0 10px 18px rgba(70, 51, 28, 0.14));
   will-change: transform, opacity;
   visibility: hidden;
