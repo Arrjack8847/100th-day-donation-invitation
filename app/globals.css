@@ -122,19 +122,6 @@ button {
   object-position: center;
 }
 
-.box-back {
-  z-index: 1;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  translate: 0px 0px;
-  scale: 1;
-  rotate: 0deg;
-  object-fit: contain;
-  object-position: center;
-  filter: drop-shadow(0 14px 22px rgba(62, 44, 24, 0.10));
-}
-
 .box-inner-tray {
   z-index: 2;
   inset: 0;
