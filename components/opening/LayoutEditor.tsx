@@ -24,6 +24,41 @@ const DEFAULT_HINGES: HingeState = {
   right: 72.6,
 };
 
+const DEFAULT_LAYOUT: LayoutState = {
+  back: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
+  tray: {
+    x: 3.40008544921875,
+    y: 40.2000732421875,
+    scale: 0.900711171738388,
+    rotate: 0,
+    visible: true,
+  },
+  card: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
+  leftFlap: {
+    x: 51.00022888183594,
+    y: 37.800018310546875,
+    scale: 0.895499233814601,
+    rotate: 0,
+    visible: true,
+  },
+  rightFlap: {
+    x: 129.79998779296875,
+    y: 26.60015869140625,
+    scale: 0.9383710960391091,
+    rotate: 0,
+    visible: true,
+  },
+  button: {
+    x: -0.79998779296875,
+    y: 35.20001220703125,
+    scale: 1,
+    rotate: 0,
+    visible: true,
+  },
+};
+
+const LOCKED_POSITION_KEYS = new Set(["tray", "leftFlap", "rightFlap", "button"]);
+
 const labels: Record<string, string> = {
   back: "13 Box Back",
   tray: "16 Inner Tray",
@@ -35,16 +70,19 @@ const labels: Record<string, string> = {
 
 const keys = Object.keys(labels);
 
-const normalise = (item?: LayoutItem): Required<LayoutItem> => ({
-  x: item?.x ?? 0,
-  y: item?.y ?? 0,
-  scale: item?.scale ?? 1,
-  rotate: item?.rotate ?? 0,
-  visible: item?.visible ?? true,
-});
+const normalise = (item?: LayoutItem, key?: string): Required<LayoutItem> => {
+  const fallback = key ? DEFAULT_LAYOUT[key] : undefined;
+  return {
+    x: item?.x ?? fallback?.x ?? 0,
+    y: item?.y ?? fallback?.y ?? 0,
+    scale: item?.scale ?? fallback?.scale ?? 1,
+    rotate: item?.rotate ?? fallback?.rotate ?? 0,
+    visible: item?.visible ?? fallback?.visible ?? true,
+  };
+};
 
 export default function LayoutEditor() {
-  const [layout, setLayout] = useState<LayoutState>({});
+  const [layout, setLayout] = useState<LayoutState>(DEFAULT_LAYOUT);
   const [ready, setReady] = useState(false);
   const layoutRef = useRef(layout);
   const [selected, setSelected] = useState("leftFlap");
@@ -54,7 +92,11 @@ export default function LayoutEditor() {
   const [hinges, setHinges] = useState<HingeState>(DEFAULT_HINGES);
   const [hingeGuide, setHingeGuide] = useState<DOMRect | null>(null);
 
-  const current = useMemo(() => normalise(layout[selected]), [layout, selected]);
+  const current = useMemo(
+    () => normalise(layout[selected], selected),
+    [layout, selected]
+  );
+  const selectedPositionLocked = LOCKED_POSITION_KEYS.has(selected);
   const selectedHinge =
     selected === "leftFlap"
       ? hinges.left
@@ -136,7 +178,16 @@ export default function LayoutEditor() {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setLayout(JSON.parse(saved));
+      if (saved) {
+        const parsed = JSON.parse(saved) as LayoutState;
+        setLayout({
+          ...DEFAULT_LAYOUT,
+          back: { ...DEFAULT_LAYOUT.back, ...parsed.back },
+          card: { ...DEFAULT_LAYOUT.card, ...parsed.card },
+        });
+      } else {
+        setLayout(DEFAULT_LAYOUT);
+      }
 
       const savedHinges = localStorage.getItem(HINGE_STORAGE_KEY);
       if (savedHinges) {
@@ -173,7 +224,7 @@ export default function LayoutEditor() {
       const el = getElement(key);
       if (!el) continue;
 
-      const item = normalise(layout[key]);
+      const item = normalise(layout[key], key);
       el.style.setProperty("translate", `${item.x}px ${item.y}px`);
       el.style.setProperty("scale", String(item.scale));
       el.style.setProperty("rotate", `${item.rotate}deg`);
@@ -219,7 +270,9 @@ export default function LayoutEditor() {
       event.stopPropagation();
       setSelected(key);
 
-      const start = normalise(layoutRef.current[key]);
+      if (LOCKED_POSITION_KEYS.has(key)) return;
+
+      const start = normalise(layoutRef.current[key], key);
       const startX = event.clientX;
       const startY = event.clientY;
 
@@ -254,10 +307,12 @@ export default function LayoutEditor() {
       if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
 
       event.preventDefault();
+      if (LOCKED_POSITION_KEYS.has(selected)) return;
+
       const amount = event.shiftKey ? 10 : 1;
 
       setLayout((previous) => {
-        const item = normalise(previous[selected]);
+        const item = normalise(previous[selected], selected);
         if (event.key === "ArrowLeft") item.x -= amount;
         if (event.key === "ArrowRight") item.x += amount;
         if (event.key === "ArrowUp") item.y -= amount;
@@ -275,10 +330,20 @@ export default function LayoutEditor() {
   }, [layout, hinges, preview, selected]);
 
   const patch = (values: Partial<LayoutItem>) => {
-    setLayout((previous) => ({
-      ...previous,
-      [selected]: { ...normalise(previous[selected]), ...values },
-    }));
+    setLayout((previous) => {
+      const nextValues =
+        LOCKED_POSITION_KEYS.has(selected)
+          ? { visible: values.visible }
+          : values;
+
+      return {
+        ...previous,
+        [selected]: {
+          ...normalise(previous[selected], selected),
+          ...nextValues,
+        },
+      };
+    });
   };
 
   const resetSelected = () => {
@@ -291,11 +356,10 @@ export default function LayoutEditor() {
       el.style.removeProperty("visibility");
     }
 
-    setLayout((previous) => {
-      const next = { ...previous };
-      delete next[selected];
-      return next;
-    });
+    setLayout((previous) => ({
+      ...previous,
+      [selected]: { ...normalise(DEFAULT_LAYOUT[selected], selected) },
+    }));
 
     requestAnimationFrame(() => applyPreview(preview));
   };
@@ -310,7 +374,7 @@ export default function LayoutEditor() {
     }
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(HINGE_STORAGE_KEY);
-    setLayout({});
+    setLayout(DEFAULT_LAYOUT);
     setHinges(DEFAULT_HINGES);
     requestAnimationFrame(() => {
       applyHinges(DEFAULT_HINGES);
@@ -320,7 +384,7 @@ export default function LayoutEditor() {
 
   const copyLayout = async () => {
     const output = keys.reduce<Record<string, Required<LayoutItem>>>((acc, key) => {
-      acc[key] = normalise(layout[key]);
+      acc[key] = normalise(layout[key], key);
       return acc;
     }, {});
 
@@ -387,12 +451,14 @@ export default function LayoutEditor() {
           }}
         >
           <span>{labels[selected]}</span>
-          <button
-            className="layout-editor-resize-handle"
-            type="button"
-            aria-label="Resize selected layer"
-            onPointerDown={startResize}
-          />
+          {!selectedPositionLocked && (
+            <button
+              className="layout-editor-resize-handle"
+              type="button"
+              aria-label="Resize selected layer"
+              onPointerDown={startResize}
+            />
+          )}
         </div>
       )}
 
@@ -436,6 +502,7 @@ export default function LayoutEditor() {
             <input
               type="number"
               value={Math.round(current.x)}
+              disabled={selectedPositionLocked}
               onChange={(event) => patch({ x: Number(event.target.value) })}
             />
           </label>
@@ -444,6 +511,7 @@ export default function LayoutEditor() {
             <input
               type="number"
               value={Math.round(current.y)}
+              disabled={selectedPositionLocked}
               onChange={(event) => patch({ y: Number(event.target.value) })}
             />
           </label>
@@ -455,6 +523,7 @@ export default function LayoutEditor() {
               max="4"
               step="0.01"
               value={Number(current.scale.toFixed(2))}
+              disabled={selectedPositionLocked}
               onChange={(event) => patch({ scale: Number(event.target.value) })}
             />
           </label>
@@ -464,6 +533,7 @@ export default function LayoutEditor() {
               type="number"
               step="1"
               value={Math.round(current.rotate)}
+              disabled={selectedPositionLocked}
               onChange={(event) => patch({ rotate: Number(event.target.value) })}
             />
           </label>
@@ -525,6 +595,12 @@ export default function LayoutEditor() {
               Move only the hinge line. Flap X, Y and scale stay exactly where you positioned them.
             </p>
           </div>
+        )}
+
+        {selectedPositionLocked && (
+          <p className="layout-editor-hinge-hint">
+            Position locked to the approved layout. X, Y, scale and rotation cannot be changed here.
+          </p>
         )}
 
         <label className="layout-editor-visible">
