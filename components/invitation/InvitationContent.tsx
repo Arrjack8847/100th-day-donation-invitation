@@ -6,8 +6,10 @@ const galleryImages = [
   "/child's photo/viber_image_2026-09-23_12-11-12-703.jpg",
   "/child's photo/viber_image_2026-09-23_12-11-13-499.jpg",
   "/child's photo/viber_image_2026-09-23_12-11-14-150.jpg",
+  "/child's photo/viber_image_2026-09-23_12-11-14-603.jpg",
   "/child's photo/viber_image_2026-09-23_12-11-15-042.jpg",
   "/child's photo/viber_image_2026-09-23_12-11-17-641.jpg",
+  "/child's photo/viber_image_2026-09-23_12-11-18-700.jpg",
   "/child's photo/viber_image_2026-09-23_12-11-25-047.jpg",
 ];
 
@@ -87,7 +89,7 @@ export default function InvitationContent() {
           <div className="hero-portrait-halo" aria-hidden="true" />
           <img
             className="hero-portrait"
-            src="/opening/Untitled design.png"
+            src="/child's photo/viber_image_2026-09-23_12-11-12-703.jpg"
             alt="Portrait for the 100th day celebration"
           />
           <img
