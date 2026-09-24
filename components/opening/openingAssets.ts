@@ -1,7 +1,7 @@
 export const openingAssets = {
   background: "/opening/01_pagoda_backdrop.png",
   card: "/opening/03_card_container.png",
-  babyPhoto: "/opening/04_baby_photo_sample.png",
+  babyPhoto: "/opening/Untitled design.png",
   photoFrame: "/opening/05_photo_frame.png",
   typography: "/opening/06_invitation_typography.png",
   openButton: "/opening/10_open_invitation_button.png",
