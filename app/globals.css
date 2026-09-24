@@ -167,18 +167,18 @@ button {
 /* Ribbon overlaps only the right edge; the seal sits on its knot. */
 .ribbon {
   z-index: 7;
-  right: -13.7%;
-  top: 42.3%;
-  width: 34.5%;
+  right: -8.5%;
+  top: 42.2%;
+  width: 34%;
   transform-origin: 52% 50%;
   filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.15));
 }
 
 .seal {
   z-index: 8;
-  right: -3.4%;
-  top: 49.1%;
-  width: 13.3%;
+  right: 1.2%;
+  top: 49%;
+  width: 13.1%;
   transform-origin: center;
   filter: drop-shadow(0 7px 8px rgba(58, 42, 23, 0.16));
 }
@@ -273,15 +273,15 @@ button {
   }
 
   .ribbon {
-    right: -11.8%;
-    top: 42.6%;
-    width: 34%;
+    right: -7%;
+    top: 42.5%;
+    width: 33.5%;
   }
 
   .seal {
-    right: -2.3%;
-    top: 49.2%;
-    width: 13.1%;
+    right: 1.5%;
+    top: 49%;
+    width: 12.9%;
   }
 
   .open-invitation {
