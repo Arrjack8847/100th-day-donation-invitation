@@ -2082,8 +2082,8 @@ body {
   position: absolute;
   z-index: 3;
   left: 50%;
-  top: 53.5%;
-  width: 52%;
+  top: 51.5%;
+  width: 64%;
   translate: none;
   scale: none;
   rotate: none;
@@ -2118,10 +2118,10 @@ body {
 .baby-mask {
   position: absolute;
   z-index: 4;
-  left: 11%;
-  top: 5.5%;
-  width: 78%;
-  height: 40%;
+  left: 8%;
+  top: 3.5%;
+  width: 84%;
+  height: 42.5%;
   aspect-ratio: auto;
   display: grid;
   place-items: center;
@@ -2148,10 +2148,10 @@ body {
 
 .photo-frame {
   z-index: 5;
-  left: 8%;
-  top: 3.6%;
-  width: 84%;
-  height: 44%;
+  left: 6%;
+  top: 2.4%;
+  width: 88%;
+  height: 46%;
   max-height: none;
   object-fit: contain;
   pointer-events: none;
@@ -2159,10 +2159,10 @@ body {
 
 .invitation-type {
   z-index: 6;
-  left: 8%;
-  top: 47%;
-  width: 84%;
-  max-height: 49%;
+  left: 5%;
+  top: 46%;
+  width: 90%;
+  max-height: 51%;
   object-fit: contain;
 }
 
@@ -2346,7 +2346,7 @@ body {
   }
 
   .box-card-slot {
-    width: 53%;
+    width: 65%;
   }
 
   .open-invitation {
