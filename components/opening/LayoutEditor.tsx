@@ -15,7 +15,6 @@ type LayoutState = Record<string, LayoutItem>;
 const STORAGE_KEY = "opening-layout-editor-v1";
 
 const labels: Record<string, string> = {
-  back: "13 Box Back",
   tray: "16 Inner Tray",
   card: "Invitation Card",
   baby: "Baby Mask",
