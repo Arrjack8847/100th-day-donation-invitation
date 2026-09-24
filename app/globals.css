@@ -198,7 +198,6 @@ button {
   left: 9.5%;
   translate: 62.00022888183594px 30.800018310546875px;
   scale: 0.895499233814601;
-  transform-origin: left center;
 }
 
 .box-right-flap {
@@ -206,6 +205,21 @@ button {
   translate: 116.2000732421875px 19.400146484375px;
   scale: 0.9383710960391091;
   z-index: 5;
+}
+
+.box-door-hinge {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.box-left-hinge {
+  transform-origin: left center;
+}
+
+.box-right-hinge {
   transform-origin: right center;
 }
 
