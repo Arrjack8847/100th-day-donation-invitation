@@ -635,3 +635,877 @@ button {
     scroll-behavior: auto;
   }
 }
+
+/* ===== Full ceremonial invitation website ===== */
+
+body {
+  overflow-x: hidden;
+}
+
+.invitation-site {
+  --paper: #f4ead7;
+  --paper-light: #fbf5e8;
+  --paper-deep: #ead9ba;
+  --gold-soft: #c5a367;
+  --gold-deep: #8f682e;
+  --warm-ink: #2f2a24;
+  position: relative;
+  overflow: hidden;
+  color: var(--warm-ink);
+  background:
+    linear-gradient(rgba(248, 239, 220, 0.92), rgba(248, 239, 220, 0.92)),
+    url("/opening/02_ivory_paper_texture.png") center top / 780px auto repeat;
+}
+
+.invitation-section,
+.invitation-hero,
+.invitation-closing {
+  position: relative;
+  isolation: isolate;
+}
+
+.section-shell {
+  position: relative;
+  z-index: 3;
+  width: min(1120px, calc(100% - 3rem));
+  margin: 0 auto;
+}
+
+.section-shell.narrow {
+  width: min(760px, calc(100% - 3rem));
+}
+
+.section-kicker {
+  margin: 0 0 1rem;
+  color: var(--gold-deep);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.gold-divider {
+  display: block;
+  width: 4.4rem;
+  height: 1px;
+  margin: 1.5rem 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(180, 138, 67, 0.95) 18%,
+    rgba(180, 138, 67, 0.95) 82%,
+    transparent
+  );
+}
+
+.section-heading {
+  max-width: 670px;
+  margin-bottom: 3rem;
+}
+
+.section-heading.centered {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.section-heading.centered .gold-divider {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.section-heading h2,
+.invitation-section h2,
+.invitation-closing h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.section-heading > p:last-child,
+.ceremony-copy,
+.story-copy p,
+.venue-address,
+.blessing-copy > p,
+.closing-card > p {
+  color: rgba(47, 42, 36, 0.72);
+  font-size: clamp(1rem, 1.7vw, 1.18rem);
+  line-height: 1.8;
+}
+
+.invitation-hero {
+  min-height: 100svh;
+  padding: clamp(6rem, 11vh, 9rem) max(1.5rem, 5vw) 5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.75fr);
+  align-items: center;
+  gap: clamp(2rem, 7vw, 7rem);
+  background:
+    radial-gradient(circle at 68% 42%, rgba(255, 255, 255, 0.74), transparent 24rem),
+    radial-gradient(circle at 18% 18%, rgba(255, 250, 240, 0.8), transparent 28rem),
+    linear-gradient(180deg, #f7edd9 0%, #f4ead7 72%, #f1e3ca 100%);
+}
+
+.paper-texture {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  opacity: 0.13;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.invitation-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 2.5rem;
+  border: 1px solid rgba(180, 138, 67, 0.16);
+  pointer-events: none;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 3;
+  width: min(650px, 100%);
+  justify-self: end;
+}
+
+.hero-script {
+  margin: 0 0 0.35rem;
+  color: rgba(143, 104, 46, 0.9);
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  font-style: italic;
+}
+
+.hero-copy h1 {
+  max-width: 690px;
+  margin: 0;
+  font-size: clamp(4.1rem, 9vw, 8.8rem);
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+}
+
+.hero-intro {
+  max-width: 580px;
+  margin: 0;
+  color: rgba(47, 42, 36, 0.7);
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  line-height: 1.75;
+}
+
+.hero-portrait-wrap {
+  position: relative;
+  z-index: 3;
+  width: min(460px, 38vw);
+  aspect-ratio: 3 / 2;
+  justify-self: start;
+  filter: drop-shadow(0 24px 45px rgba(78, 54, 28, 0.13));
+}
+
+.hero-portrait-halo {
+  position: absolute;
+  inset: -22%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 251, 241, 0.94), transparent 66%);
+}
+
+.hero-portrait {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(0.91);
+  -webkit-mask: url("/opening/05_photo_mask.svg") center / contain no-repeat;
+  mask: url("/opening/05_photo_mask.svg") center / contain no-repeat;
+}
+
+.hero-portrait-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.hero-ornament {
+  position: absolute;
+  z-index: 1;
+  width: min(300px, 30vw);
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.hero-ornament-top {
+  top: -3rem;
+  right: -2rem;
+  transform: rotate(12deg);
+}
+
+.hero-scroll-cue {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 1.5rem;
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  color: rgba(83, 62, 37, 0.48);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.64rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.hero-scroll-cue span {
+  width: 1px;
+  height: 2.2rem;
+  background: linear-gradient(rgba(180, 138, 67, 0), rgba(180, 138, 67, 0.8));
+}
+
+.invitation-section {
+  padding: clamp(6rem, 11vw, 10rem) 0;
+}
+
+.welcome-section {
+  text-align: center;
+  background:
+    radial-gradient(circle at center top, rgba(255, 255, 255, 0.6), transparent 34rem),
+    rgba(248, 239, 220, 0.64);
+}
+
+.welcome-section h2 {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.welcome-section .gold-divider {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.ceremony-copy {
+  margin: 0;
+}
+
+.details-section {
+  background:
+    linear-gradient(rgba(241, 225, 197, 0.56), rgba(244, 234, 215, 0.92)),
+    url("/opening/02_ivory_paper_texture.png") center / 720px auto repeat;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.detail-card {
+  min-height: 265px;
+  padding: 2.25rem 1.8rem;
+  border: 1px solid rgba(180, 138, 67, 0.28);
+  background:
+    linear-gradient(145deg, rgba(255, 252, 244, 0.86), rgba(244, 232, 207, 0.6));
+  box-shadow: 0 20px 55px rgba(92, 66, 34, 0.06);
+}
+
+.detail-label {
+  display: block;
+  margin-bottom: 1.4rem;
+  color: var(--gold-deep);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.detail-card strong {
+  display: block;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.detail-rule {
+  display: block;
+  width: 2.4rem;
+  height: 1px;
+  margin: 1.4rem 0;
+  background: rgba(180, 138, 67, 0.68);
+}
+
+.detail-card p {
+  margin: 0;
+  color: rgba(47, 42, 36, 0.62);
+  line-height: 1.65;
+}
+
+.schedule-note {
+  width: min(700px, 100%);
+  margin: 2.6rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  text-align: center;
+  color: rgba(47, 42, 36, 0.66);
+}
+
+.schedule-note p {
+  margin: 0;
+  line-height: 1.65;
+}
+
+.schedule-mark {
+  color: var(--gold);
+}
+
+.story-section {
+  overflow: hidden;
+  background: #f7efdf;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.95fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.story-photo-wrap {
+  position: relative;
+  width: min(520px, 100%);
+  margin: 0;
+  aspect-ratio: 4 / 5;
+}
+
+.story-photo-wrap::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 2.4rem -2.4rem -2.4rem 2.4rem;
+  border: 1px solid rgba(180, 138, 67, 0.26);
+}
+
+.story-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  box-shadow: 0 25px 60px rgba(70, 49, 27, 0.1);
+}
+
+.story-photo-border {
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid rgba(245, 225, 176, 0.62);
+  pointer-events: none;
+}
+
+.story-copy {
+  max-width: 520px;
+}
+
+.story-copy p {
+  margin: 0 0 1.25rem;
+}
+
+.gallery-section {
+  background:
+    radial-gradient(circle at 50% 5%, rgba(255, 255, 255, 0.7), transparent 30rem),
+    #f3e7d1;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 84px;
+  gap: 1rem;
+}
+
+.gallery-item {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(180, 138, 67, 0.16);
+  background: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 15px 38px rgba(74, 52, 27, 0.07);
+}
+
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 0.65rem solid rgba(248, 239, 220, 0.42);
+  pointer-events: none;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.025);
+}
+
+.gallery-item-1 {
+  grid-column: 1 / span 5;
+  grid-row: span 5;
+}
+
+.gallery-item-2 {
+  grid-column: 6 / span 3;
+  grid-row: span 4;
+}
+
+.gallery-item-3 {
+  grid-column: 9 / span 4;
+  grid-row: span 5;
+}
+
+.gallery-item-4 {
+  grid-column: 1 / span 4;
+  grid-row: span 4;
+}
+
+.gallery-item-5 {
+  grid-column: 5 / span 4;
+  grid-row: span 5;
+}
+
+.gallery-item-6 {
+  grid-column: 9 / span 4;
+  grid-row: span 4;
+}
+
+.venue-section {
+  background: #f7efdf;
+}
+
+.venue-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(340px, 0.9fr);
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.venue-copy {
+  max-width: 540px;
+}
+
+.venue-name {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.4rem, 2.7vw, 2rem);
+}
+
+.venue-address {
+  margin: 0 0 2rem;
+}
+
+.venue-button {
+  display: inline-flex;
+  min-height: 3.25rem;
+  padding: 0.75rem 1.35rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(143, 104, 46, 0.45);
+  color: rgba(89, 65, 34, 0.72);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.venue-button.is-disabled {
+  cursor: default;
+  opacity: 0.68;
+}
+
+.venue-art {
+  position: relative;
+  min-height: 500px;
+  overflow: hidden;
+  border: 1px solid rgba(180, 138, 67, 0.25);
+}
+
+.venue-pagoda {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  object-fit: cover;
+  filter: blur(1px) sepia(0.12) saturate(0.72);
+}
+
+.venue-art-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(244, 234, 215, 0.08), rgba(89, 59, 27, 0.18)),
+    radial-gradient(circle, transparent 35%, rgba(77, 52, 28, 0.12));
+}
+
+.venue-gold-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 54%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 1px solid rgba(239, 214, 158, 0.66);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 14px rgba(239, 214, 158, 0.06),
+    0 0 0 28px rgba(239, 214, 158, 0.035);
+}
+
+.blessing-section {
+  min-height: 82svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.88), transparent 27rem),
+    linear-gradient(180deg, #f0dfc0, #f6ecd9);
+}
+
+.blessing-copy {
+  padding: 4rem 0 8rem;
+}
+
+.blessing-copy .gold-divider {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.blessing-copy > p {
+  margin: 0 auto;
+  max-width: 660px;
+}
+
+.blessing-thanks {
+  margin-top: 1.4rem !important;
+  color: rgba(143, 104, 46, 0.92) !important;
+  font-style: italic;
+}
+
+.blessing-lotus {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: -7rem;
+  width: min(900px, 92vw);
+  translate: -50% 0;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.blessing-petal {
+  position: absolute;
+  z-index: 1;
+  width: clamp(26px, 4vw, 54px);
+  opacity: 0.3;
+  pointer-events: none;
+  animation: ceremonial-petal 12s ease-in-out infinite alternate;
+}
+
+.blessing-petal-one {
+  top: 18%;
+  left: 10%;
+  rotate: -18deg;
+}
+
+.blessing-petal-two {
+  top: 28%;
+  right: 12%;
+  rotate: 26deg;
+  animation-delay: -5s;
+}
+
+.invitation-closing {
+  min-height: 76svh;
+  padding: 7rem 1.5rem;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(rgba(247, 238, 218, 0.92), rgba(247, 238, 218, 0.92)),
+    url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+}
+
+.closing-card {
+  position: relative;
+  width: min(760px, 100%);
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.8rem, 7vw, 5rem);
+  border: 1px solid rgba(180, 138, 67, 0.24);
+  text-align: center;
+  background: rgba(255, 252, 245, 0.54);
+  box-shadow: 0 24px 70px rgba(70, 49, 27, 0.06);
+}
+
+.closing-card::before,
+.closing-card::after {
+  content: "";
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border-color: rgba(180, 138, 67, 0.62);
+  pointer-events: none;
+}
+
+.closing-card::before {
+  top: 12px;
+  left: 12px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.closing-card::after {
+  right: 12px;
+  bottom: 12px;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.closing-card h2 {
+  font-size: clamp(2.6rem, 6vw, 5.2rem);
+}
+
+.closing-card > p {
+  width: min(560px, 100%);
+  margin: 1.5rem auto 0;
+}
+
+.closing-signoff {
+  display: block;
+  margin-top: 2rem;
+  color: var(--gold-deep);
+  font-size: 1.15rem;
+  font-style: italic;
+}
+
+.closing-ornament {
+  width: min(180px, 38vw);
+  margin-bottom: 1rem;
+  opacity: 0.42;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px) scale(0.985);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.gallery-item:nth-child(2),
+.detail-card:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.gallery-item:nth-child(3),
+.detail-card:nth-child(3) {
+  transition-delay: 0.14s;
+}
+
+.gallery-item:nth-child(4) {
+  transition-delay: 0.06s;
+}
+
+.gallery-item:nth-child(5) {
+  transition-delay: 0.12s;
+}
+
+.gallery-item:nth-child(6) {
+  transition-delay: 0.18s;
+}
+
+@keyframes ceremonial-petal {
+  from {
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+  }
+  to {
+    transform: translate3d(12px, 18px, 0) rotate(7deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .invitation-hero {
+    grid-template-columns: 1fr;
+    align-content: center;
+    justify-items: center;
+    gap: 3rem;
+    padding-top: 7rem;
+    text-align: center;
+  }
+
+  .hero-copy {
+    justify-self: center;
+  }
+
+  .hero-copy h1 {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .hero-copy .gold-divider {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .hero-intro {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .hero-portrait-wrap {
+    width: min(440px, 78vw);
+    justify-self: center;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-card {
+    min-height: 0;
+  }
+
+  .story-grid,
+  .venue-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .story-photo-wrap,
+  .story-copy,
+  .venue-copy {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .venue-art {
+    min-height: 420px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 250px;
+  }
+
+  .gallery-item-1,
+  .gallery-item-2,
+  .gallery-item-3,
+  .gallery-item-4,
+  .gallery-item-5,
+  .gallery-item-6 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .section-shell,
+  .section-shell.narrow {
+    width: min(100% - 2rem, 1120px);
+  }
+
+  .invitation-hero {
+    min-height: 100svh;
+    padding: 5.5rem 1.15rem 4.5rem;
+  }
+
+  .invitation-hero::before {
+    inset: 0.8rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(3.7rem, 18vw, 5.6rem);
+  }
+
+  .hero-portrait-wrap {
+    width: min(92vw, 390px);
+  }
+
+  .hero-scroll-cue {
+    display: none;
+  }
+
+  .invitation-section {
+    padding: 5.8rem 0;
+  }
+
+  .section-heading h2,
+  .invitation-section h2 {
+    font-size: clamp(2.35rem, 12vw, 3.6rem);
+  }
+
+  .story-photo-wrap::before {
+    inset: 1rem -1rem -1rem 1rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: min(112vw, 420px);
+    gap: 0.8rem;
+  }
+
+  .gallery-item:nth-child(n) {
+    transition-delay: 0s;
+  }
+
+  .venue-art {
+    min-height: 330px;
+  }
+
+  .blessing-copy {
+    padding-bottom: 6rem;
+  }
+
+  .blessing-lotus {
+    bottom: -3rem;
+    width: 120vw;
+    opacity: 0.28;
+  }
+
+  .closing-card {
+    padding: 3.8rem 1.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .gallery-item img {
+    transition: none;
+  }
+
+  .blessing-petal {
+    animation: none;
+  }
+}
