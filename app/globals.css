@@ -211,16 +211,19 @@ button {
   filter: drop-shadow(0 12px 20px rgba(66, 47, 26, 0.13));
 }
 
+/*
+ * The flap artwork is registered on the same large canvas as the box.
+ * Only the physical door area should remain visible while it rotates.
+ * Clipping the unused canvas prevents the giant cream "walls" that were
+ * appearing at the sides of the viewport.
+ */
 .box-left-flap {
-  /*
-   * The PNG uses a wide registered canvas. The physical left hinge is near
-   * the left edge of the central box, not the image canvas edge.
-   */
+  clip-path: inset(8% 50% 8% 30.5%);
   transform-origin: 30.5% 50%;
 }
 
 .box-right-flap {
-  /* Mirror of the left physical hinge. */
+  clip-path: inset(8% 30.5% 8% 50%);
   transform-origin: 69.5% 50%;
 }
 
