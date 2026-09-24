@@ -25,6 +25,7 @@ const DEFAULT_HINGES: HingeState = {
 };
 
 const labels: Record<string, string> = {
+  back: "13 Box Back",
   tray: "16 Inner Tray",
   card: "Invitation Card Group",
   leftFlap: "14 Left Flap",
