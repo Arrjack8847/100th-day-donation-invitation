@@ -123,7 +123,7 @@ export default function OpeningScene() {
             src={A + "02_ivory_paper_texture.png"}
             alt=""
           />
-          <div className="baby-window">
+          <div className="baby-mask">
             <img
               src={A + "04_baby_photo_sample.png"}
               alt="Child portrait"
