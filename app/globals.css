@@ -207,37 +207,30 @@ button {
   z-index: 5;
 }
 
-/* Keep manual X/Y/scale on the outer wrappers completely untouched.
-   Only these inner shrink-wrapped layers perform the 3D door rotation. */
-.box-door-hinge {
+.box-door-art {
   position: absolute;
   top: 0;
-  height: 100%;
-  width: auto;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-.box-left-hinge {
-  left: -17.2%;
-  transform-origin: left center;
-}
-
-.box-right-hinge {
-  right: 12.6%;
-  transform-origin: right center;
-}
-
-.box-door-art {
-  position: relative;
   display: block;
   width: auto;
   height: 100%;
   max-width: none;
   object-fit: contain;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
   user-select: none;
   pointer-events: none;
+}
+
+/* These offsets are part of the approved closed layout. Never move them. */
+.box-left-flap .box-door-art {
+  left: -17.2%;
+  transform-origin: left center;
+}
+
+.box-right-flap .box-door-art {
+  right: 12.6%;
+  transform-origin: right center;
 }
 
 .open-invitation {
