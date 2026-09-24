@@ -12,9 +12,8 @@ export default function OpeningScene() {
 
     const ctx = gsap.context(() => {
       if (reduced) {
-        gsap.set(".box-left-flap", { rotateY: -74 });
-        gsap.set(".box-right-flap", { rotateY: 74 });
-        gsap.set(".box-seal", { autoAlpha: 0 });
+        gsap.set(".box-left-flap", { rotateY: -86 });
+        gsap.set(".box-right-flap", { rotateY: 86 });
         gsap.set(
           [".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type", ".open-invitation"],
           { autoAlpha: 1 }
@@ -48,63 +47,42 @@ export default function OpeningScene() {
           0.45
         )
         .to(
-          ".box-seal",
-          {
-            scale: 1.08,
-            rotate: 2,
-            filter: "drop-shadow(0 0 18px rgba(190, 137, 58, 0.38))",
-            duration: 0.22,
-            ease: "power2.out",
-          },
-          1.4
-        )
-        .to(
-          ".box-seal",
-          { scale: 0.92, rotate: -3, duration: 0.24, ease: "power2.inOut" },
-          1.62
-        )
-        .to(
-          ".box-seal",
-          { autoAlpha: 0, scale: 0.72, y: 5, duration: 0.34, ease: "power2.in" },
-          1.82
-        )
-        .to(
           ".box-left-flap",
-          { rotateY: -74, xPercent: 0, duration: 1.05, ease: "power3.inOut" },
-          1.92
+          { rotateY: -86, xPercent: 0, duration: 1.05, ease: "power3.inOut" },
+          1.45
         )
         .to(
           ".box-right-flap",
-          { rotateY: 74, xPercent: 0, duration: 1.05, ease: "power3.inOut" },
-          2.04
+          { rotateY: 86, xPercent: 0, duration: 1.05, ease: "power3.inOut" },
+          1.58
         )
         .to(
           ".box-card-slot",
           { autoAlpha: 1, scale: 1, y: 0, duration: 0.75, ease: "power3.out" },
-          2.52
+          2.02
         )
         .fromTo(
           ".photo-frame",
           { autoAlpha: 0, y: 7 },
           { autoAlpha: 1, y: 0, duration: 0.42, ease: "power2.out" },
-          3.02
+          2.5
         )
         .fromTo(
           ".baby-mask",
           { autoAlpha: 0, scale: 0.98 },
           { autoAlpha: 1, scale: 1, duration: 0.55, ease: "power2.out" },
-          3.12
+          2.62
         )
         .fromTo(
           ".invitation-type",
           { autoAlpha: 0, y: 11 },
           { autoAlpha: 1, y: 0, duration: 0.72, ease: "power2.out" },
-          3.45
+          2.95
         )
         .to(
           ".open-invitation",
           { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" },
-          4.15
+          3.65
         );
 
       gsap.to(".floating-petal", {
@@ -217,11 +195,6 @@ export default function OpeningScene() {
           <div className="box-door box-right-flap" aria-hidden="true">
             <img className="box-door-art" src={A.box.rightFlap} alt="" />
           </div>
-          <img
-            className="opening-layer box-seal"
-            src={A.waxSeal}
-            alt=""
-          />
         </div>
 
         <button
