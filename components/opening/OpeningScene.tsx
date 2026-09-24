@@ -31,7 +31,7 @@ export default function OpeningScene() {
           filter: "blur(1.5px)",
         });
         gsap.set(".box-stage", { autoAlpha: 1, y: 0, scale: 1 });
-        gsap.set([".box-left-flap", ".box-right-flap"], { rotateY: 0 });
+        gsap.set([".box-left-hinge", ".box-right-hinge"], { rotateY: 0 });
         gsap.set(".box-card-slot", { autoAlpha: 0, y: 0, scale: 1 });
         gsap.set([".baby-mask", ".photo-frame", ".invitation-type"], { autoAlpha: 0 });
         gsap.set(".open-invitation", { autoAlpha: 1, y: 0, scale: 1 });
@@ -40,7 +40,7 @@ export default function OpeningScene() {
       gsap.set([".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type"], {
         autoAlpha: 0,
       });
-      gsap.set([".box-left-flap", ".box-right-flap"], { rotateY: 0 });
+      gsap.set([".box-left-hinge", ".box-right-hinge"], { rotateY: 0 });
       gsap.set(".open-invitation", { autoAlpha: 0, y: 12 });
 
       if (reduced) {
@@ -133,14 +133,14 @@ export default function OpeningScene() {
       .to(".open-invitation", { scale: 1, duration: 0.12 })
       .to(".open-invitation", { autoAlpha: 0, y: 8, duration: 0.22 }, 0.16)
       .to(
-        ".box-left-flap",
-        { rotateY: -90, duration: 1.05, ease: "power3.inOut" },
+        ".box-left-hinge",
+        { rotateY: -92, duration: 1.05, ease: "power3.inOut" },
         0.34
       )
       .to(
-        ".box-right-flap",
-        { rotateY: 90, duration: 1.05, ease: "power3.inOut" },
-        0.46
+        ".box-right-hinge",
+        { rotateY: 92, duration: 1.05, ease: "power3.inOut" },
+        0.34
       )
       .fromTo(
         ".box-card-slot",
@@ -216,10 +216,14 @@ export default function OpeningScene() {
           </div>
 
           <div className="box-door box-left-flap" data-edit-key="leftFlap" aria-hidden="true">
-            <img className="box-door-art" src={A.box.leftFlap} alt="" />
+            <div className="box-door-hinge box-left-hinge">
+              <img className="box-door-art" src={A.box.leftFlap} alt="" />
+            </div>
           </div>
           <div className="box-door box-right-flap" data-edit-key="rightFlap" aria-hidden="true">
-            <img className="box-door-art" src={A.box.rightFlap} alt="" />
+            <div className="box-door-hinge box-right-hinge">
+              <img className="box-door-art" src={A.box.rightFlap} alt="" />
+            </div>
           </div>
         </div>
 
