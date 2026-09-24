@@ -90,6 +90,7 @@ button {
   height: 100%;
   translate: 0.00006103515625px 34.00004577636719px;
   scale: 0.900711171738388;
+  rotate: 0deg;
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 12px 18px rgba(62, 44, 24, 0.09));
@@ -101,6 +102,9 @@ button {
   left: 50%;
   top: 50%;
   width: 40%;
+  translate: 0px 0px;
+  scale: 1;
+  rotate: 0deg;
   transform: translate(-50%, -50%);
   transform-origin: center;
   will-change: transform, opacity;
@@ -136,6 +140,9 @@ button {
   left: 26.3%;
   top: 8.8%;
   width: 47%;
+  translate: 0px 0px;
+  scale: 1;
+  rotate: 0deg;
   aspect-ratio: 3 / 2;
   overflow: hidden;
 
@@ -168,6 +175,9 @@ button {
   left: 26.3%;
   top: 8.8%;
   width: 47%;
+  translate: 0px 0px;
+  scale: 1;
+  rotate: 0deg;
   max-height: 38%;
   object-fit: contain;
 }
@@ -177,6 +187,9 @@ button {
   left: 18%;
   top: 40.2%;
   width: 63%;
+  translate: 0px 0px;
+  scale: 1;
+  rotate: 0deg;
   max-height: 36%;
   object-fit: contain;
 }
@@ -201,12 +214,14 @@ button {
   left: 9.5%;
   translate: 62.00022888183594px 30.800018310546875px;
   scale: 0.895499233814601;
+  rotate: 0deg;
 }
 
 .box-right-flap {
   right: 11.4%;
   translate: 116.2000732421875px 19.400146484375px;
   scale: 0.9383710960391091;
+  rotate: 0deg;
   z-index: 5;
 }
 
@@ -247,6 +262,8 @@ button {
   cursor: pointer;
   flex: 0 0 auto;
   translate: 3.20001220703125px 8px;
+  scale: 1;
+  rotate: 0deg;
   filter: drop-shadow(0 10px 18px rgba(70, 51, 28, 0.14));
   will-change: transform, opacity;
   visibility: hidden;
