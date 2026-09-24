@@ -225,7 +225,9 @@ button {
 }
 
 .box-right-flap .box-door-art {
-  right: -33.1%;
+  /* Pull the real right cover inward so its curved edge closes against
+     the left flap and fully covers the inner tray in the closed state. */
+  right: -28.5%;
 }
 
 .open-invitation {
