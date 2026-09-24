@@ -110,7 +110,7 @@ button {
   z-index: 4;
   left: 50%;
   top: 49%;
-  width: 41.5%;
+  width: 47%;
   transform: translate(-50%, -50%);
   transform-origin: center;
   will-change: transform, opacity;
@@ -212,11 +212,16 @@ button {
 }
 
 .box-left-flap {
-  transform-origin: left center;
+  /*
+   * The PNG uses a wide registered canvas. The physical left hinge is near
+   * the left edge of the central box, not the image canvas edge.
+   */
+  transform-origin: 30.5% 50%;
 }
 
 .box-right-flap {
-  transform-origin: right center;
+  /* Mirror of the left physical hinge. */
+  transform-origin: 69.5% 50%;
 }
 
 /* Existing lotus seal becomes the presentation-box closure. */
@@ -302,7 +307,7 @@ button {
   }
 
   .box-card-slot {
-    width: 44%;
+    width: 49%;
   }
 
   .open-invitation {
@@ -323,7 +328,7 @@ button {
 
   .box-card-slot {
     top: 49%;
-    width: 50%;
+    width: 53%;
   }
 
   .invitation-type {
