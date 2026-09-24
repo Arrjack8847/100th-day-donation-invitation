@@ -1,54 +1,120 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-
-const A = "/opening/";
+import { openingAssets as A } from "./openingAssets";
 
 export default function OpeningScene() {
   const sceneRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
-      if (!reduced) {
-        gsap.fromTo(
-          ".opening-bg",
-          { autoAlpha: 0, scale: 1.025, filter: "blur(5px)" },
-          { autoAlpha: 1, scale: 1, filter: "blur(1.5px)", duration: 0.9, ease: "power2.out" }
+      if (reduced) {
+        gsap.set(".box-left-flap", { rotateY: -72 });
+        gsap.set(".box-right-flap", { rotateY: 72 });
+        gsap.set(".box-seal", { autoAlpha: 0 });
+        gsap.set(
+          [".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type", ".open-invitation"],
+          { autoAlpha: 1 }
         );
-
-        gsap.fromTo(
-          ".card-stage",
-          { autoAlpha: 0, y: 28, scale: 0.965 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 1.05, delay: 0.35, ease: "power3.out" }
-        );
-
-        gsap.fromTo(
-          ".open-invitation",
-          { autoAlpha: 0, y: 12 },
-          { autoAlpha: 1, y: 0, duration: 0.65, delay: 1.05, ease: "power2.out" }
-        );
-
-        gsap.to(".seal", {
-          rotate: 4,
-          duration: 1.8,
-          delay: 1.3,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: 1,
-        });
-
-        gsap.to(".floating-petal", {
-          y: "random(24, 70)",
-          x: "random(-18, 18)",
-          rotate: "random(-28, 28)",
-          duration: "random(5.5, 8)",
-          ease: "sine.inOut",
-          stagger: { each: 0.65, repeat: -1, yoyo: true },
-        });
+        return;
       }
+
+      gsap.set(".box-card-slot", { autoAlpha: 0, scale: 0.94, y: 18 });
+      gsap.set([".photo-frame", ".baby-mask", ".invitation-type"], { autoAlpha: 0 });
+      gsap.set(".open-invitation", { autoAlpha: 0, y: 12 });
+
+      const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      intro
+        .fromTo(
+          ".opening-bg",
+          { autoAlpha: 0, scale: 1.035, filter: "blur(7px)" },
+          {
+            autoAlpha: 1,
+            scale: 1,
+            filter: "blur(1.5px)",
+            duration: 0.95,
+            ease: "power2.out",
+          },
+          0
+        )
+        .fromTo(
+          ".box-stage",
+          { autoAlpha: 0, y: 30, scale: 0.96 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.95 },
+          0.45
+        )
+        .to(
+          ".box-seal",
+          {
+            scale: 1.08,
+            rotate: 2,
+            filter: "drop-shadow(0 0 18px rgba(190, 137, 58, 0.38))",
+            duration: 0.22,
+            ease: "power2.out",
+          },
+          1.4
+        )
+        .to(
+          ".box-seal",
+          { scale: 0.92, rotate: -3, duration: 0.24, ease: "power2.inOut" },
+          1.62
+        )
+        .to(
+          ".box-seal",
+          { autoAlpha: 0, scale: 0.72, y: 5, duration: 0.34, ease: "power2.in" },
+          1.82
+        )
+        .to(
+          ".box-left-flap",
+          { rotateY: -72, xPercent: -1.5, duration: 1.05, ease: "power3.inOut" },
+          1.92
+        )
+        .to(
+          ".box-right-flap",
+          { rotateY: 72, xPercent: 1.5, duration: 1.05, ease: "power3.inOut" },
+          2.04
+        )
+        .to(
+          ".box-card-slot",
+          { autoAlpha: 1, scale: 1, y: 0, duration: 0.75, ease: "power3.out" },
+          2.52
+        )
+        .fromTo(
+          ".photo-frame",
+          { autoAlpha: 0, y: 7 },
+          { autoAlpha: 1, y: 0, duration: 0.42, ease: "power2.out" },
+          3.02
+        )
+        .fromTo(
+          ".baby-mask",
+          { autoAlpha: 0, scale: 0.98 },
+          { autoAlpha: 1, scale: 1, duration: 0.55, ease: "power2.out" },
+          3.12
+        )
+        .fromTo(
+          ".invitation-type",
+          { autoAlpha: 0, y: 11 },
+          { autoAlpha: 1, y: 0, duration: 0.72, ease: "power2.out" },
+          3.45
+        )
+        .to(
+          ".open-invitation",
+          { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" },
+          4.15
+        );
+
+      gsap.to(".floating-petal", {
+        y: "random(24, 70)",
+        x: "random(-18, 18)",
+        rotate: "random(-28, 28)",
+        duration: "random(5.5, 8)",
+        ease: "sine.inOut",
+        stagger: { each: 0.65, repeat: -1, yoyo: true },
+      });
     }, sceneRef);
 
     return () => ctx.revert();
@@ -67,13 +133,28 @@ export default function OpeningScene() {
       })
       .to(".open-invitation", { scale: 0.97, duration: 0.12 })
       .to(".open-invitation", { scale: 1, duration: 0.12 })
+      .to(".open-invitation", { autoAlpha: 0, y: 8, duration: 0.28 }, 0.18)
+      .to(
+        [".box-left-flap", ".box-right-flap"],
+        { autoAlpha: 0, duration: 0.48, ease: "power2.in" },
+        0.24
+      )
+      .to(
+        [".box-back", ".box-inner-tray"],
+        { autoAlpha: 0, scale: 0.97, duration: 0.7 },
+        0.28
+      )
       .to(
         ".opening-bg",
-        { scale: 1.06, filter: "blur(10px)", autoAlpha: 0.35, duration: 0.85 },
-        0.18
+        { scale: 1.07, filter: "blur(10px)", autoAlpha: 0.36, duration: 0.85 },
+        0.25
       )
-      .to(".card-stage", { scale: 1.45, y: -8, autoAlpha: 0, duration: 0.95 }, 0.25)
-      .to(sceneRef.current, { autoAlpha: 0, duration: 0.3 }, 0.9);
+      .to(
+        ".box-card-slot",
+        { scale: 1.42, y: -8, autoAlpha: 0, duration: 0.95 },
+        0.3
+      )
+      .to(sceneRef.current, { autoAlpha: 0, duration: 0.3 }, 1.02);
   };
 
   return (
@@ -82,18 +163,14 @@ export default function OpeningScene() {
       className="opening-scene"
       aria-label="100th Day Donation invitation opening"
     >
-      <img
-        className="opening-layer opening-bg"
-        src={A + "01_pagoda_backdrop.png"}
-        alt=""
-      />
+      <img className="opening-layer opening-bg" src={A.background} alt="" />
 
       <div className="petal-field" aria-hidden="true">
         {[10, 24, 42, 63, 79, 91].map((left, index) => (
           <img
             key={left}
             className="opening-layer floating-petal"
-            src={A + "12_floating_petal.png"}
+            src={A.floatingPetal}
             alt=""
             style={{
               left: left + "%",
@@ -104,42 +181,60 @@ export default function OpeningScene() {
         ))}
       </div>
 
-      <div className="invitation-stack">
-        <div className="card-stage">
+      <div className="box-composition">
+        <div className="box-stage">
           <img
-            className="opening-layer card-container"
-            src={A + "03_card_container.png"}
+            className="opening-layer box-full-layer box-back"
+            src={A.box.back}
             alt=""
           />
           <img
-            className="opening-layer paper-texture"
-            src={A + "02_ivory_paper_texture.png"}
+            className="opening-layer box-full-layer box-inner-tray"
+            src={A.box.innerTray}
             alt=""
           />
-          <div className="baby-mask">
-            <img
-              src={A + "04_baby_photo_sample.png"}
-              alt="Child portrait"
-            />
+
+          <div className="box-card-slot">
+            <div className="card-stage">
+              <img
+                className="opening-layer card-container"
+                src={A.card}
+                alt=""
+              />
+              <img
+                className="opening-layer paper-texture"
+                src={A.paperTexture}
+                alt=""
+              />
+              <div className="baby-mask">
+                <img src={A.babyPhoto} alt="Child portrait" />
+              </div>
+              <img
+                className="opening-layer photo-frame"
+                src={A.photoFrame}
+                alt=""
+              />
+              <img
+                className="opening-layer invitation-type"
+                src={A.typography}
+                alt="100th Day Donation Ceremony"
+              />
+            </div>
           </div>
+
           <img
-            className="opening-layer photo-frame"
-            src={A + "05_photo_frame.png"}
+            className="opening-layer box-full-layer box-left-flap"
+            src={A.box.leftFlap}
             alt=""
           />
           <img
-            className="opening-layer invitation-type"
-            src={A + "06_invitation_typography.png"}
-            alt="100th Day Donation Ceremony"
-          />
-          <img
-            className="opening-layer ribbon"
-            src={A + "07_satin_ribbon.png"}
+            className="opening-layer box-full-layer box-right-flap"
+            src={A.box.rightFlap}
             alt=""
           />
           <img
-            className="opening-layer seal"
-            src={A + "08_lotus_wax_seal.png"}
+            className="opening-layer box-seal"
+            src={A.waxSeal}
             alt=""
           />
         </div>
@@ -150,10 +245,9 @@ export default function OpeningScene() {
           onClick={openInvitation}
           aria-label="Open invitation"
         >
-          <img src={A + "10_open_invitation_button.png"} alt="" />
+          <img src={A.openButton} alt="" />
         </button>
       </div>
-
     </section>
   );
 }
