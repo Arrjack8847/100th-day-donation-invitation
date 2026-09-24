@@ -70,7 +70,7 @@ button {
   z-index: 12;
   left: 50%;
   top: 48%;
-  width: min(64rem, 84vw);
+  width: min(56rem, 74vw);
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -100,17 +100,12 @@ button {
   filter: drop-shadow(0 26px 34px rgba(62, 44, 24, 0.16));
 }
 
-.box-inner-tray {
-  z-index: 2;
-  filter: drop-shadow(0 14px 22px rgba(62, 44, 24, 0.11));
-}
-
 .box-card-slot {
   position: absolute;
-  z-index: 4;
+  z-index: 5;
   left: 50%;
-  top: 49%;
-  width: 47%;
+  top: 52%;
+  width: 40%;
   transform: translate(-50%, -50%);
   transform-origin: center;
   will-change: transform, opacity;
@@ -136,17 +131,6 @@ button {
   height: 100% !important;
   object-fit: contain !important;
   filter: drop-shadow(0 20px 24px rgba(62, 44, 24, 0.14));
-}
-
-.paper-texture {
-  z-index: 2;
-  left: 12%;
-  top: 8%;
-  width: 76%;
-  height: 84% !important;
-  object-fit: cover !important;
-  opacity: 0.24;
-  mix-blend-mode: multiply;
 }
 
 /* Exact custom photo mask. */
@@ -204,27 +188,21 @@ button {
 /* The two PNG flaps remain independent so they can hinge open in 3D. */
 .box-left-flap,
 .box-right-flap {
-  z-index: 6;
+  z-index: 4;
   transform-style: preserve-3d;
   backface-visibility: visible;
   will-change: transform, opacity;
-  filter: drop-shadow(0 12px 20px rgba(66, 47, 26, 0.13));
+  filter: drop-shadow(0 10px 16px rgba(66, 47, 26, 0.12));
 }
 
-/*
- * The flap artwork is registered on the same large canvas as the box.
- * Only the physical door area should remain visible while it rotates.
- * Clipping the unused canvas prevents the giant cream "walls" that were
- * appearing at the sides of the viewport.
- */
 .box-left-flap {
-  clip-path: inset(8% 50% 8% 30.5%);
-  transform-origin: 30.5% 50%;
+  clip-path: inset(10% 49% 10% 31%);
+  transform-origin: 31% 50%;
 }
 
 .box-right-flap {
-  clip-path: inset(8% 30.5% 8% 50%);
-  transform-origin: 69.5% 50%;
+  clip-path: inset(10% 31% 10% 49%);
+  transform-origin: 69% 50%;
 }
 
 /* Existing lotus seal becomes the presentation-box closure. */
@@ -243,8 +221,8 @@ button {
 .open-invitation {
   position: relative;
   z-index: 30;
-  width: min(20rem, 34%);
-  margin-top: -4.5rem;
+  width: min(18rem, 34%);
+  margin-top: -2.4rem;
   padding: 0;
   border: 0;
   background: transparent;
@@ -306,16 +284,17 @@ button {
 
 @media (max-width: 1100px) {
   .box-composition {
-    width: min(56rem, 92vw);
+    width: min(52rem, 88vw);
   }
 
   .box-card-slot {
-    width: 49%;
+    top: 52%;
+    width: 43%;
   }
 
   .open-invitation {
-    width: min(19rem, 38%);
-    margin-top: -3.8rem;
+    width: min(18rem, 40%);
+    margin-top: -2.2rem;
   }
 }
 
@@ -330,8 +309,8 @@ button {
   }
 
   .box-card-slot {
-    top: 49%;
-    width: 53%;
+    top: 52%;
+    width: 47%;
   }
 
   .invitation-type {
@@ -345,19 +324,19 @@ button {
   }
 
   .open-invitation {
-    width: min(17rem, 66vw);
-    margin-top: -2.7rem;
+    width: min(16rem, 68vw);
+    margin-top: -1.8rem;
   }
 }
 
 @media (max-height: 720px) and (min-width: 768px) {
   .box-composition {
     top: 47%;
-    width: min(56rem, 78vw);
+    width: min(50rem, 72vw);
   }
 
   .open-invitation {
-    margin-top: -4rem;
+    margin-top: -2rem;
   }
 }
 
