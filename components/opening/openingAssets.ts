@@ -8,6 +8,7 @@ export const openingAssets = {
 
   box: {
     back: "/opening/13_box_back.png",
+    innerTray: "/opening/16_box_inner_tray.png",
     leftFlap: "/opening/14_box_left_flap.png",
     rightFlap: "/opening/15_box_right_flap.png",
   },
