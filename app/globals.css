@@ -181,8 +181,9 @@ button {
   object-fit: contain;
 }
 
-/* The flap PNGs are already authored in the same master canvas as the box.
-   Keep that geometry intact: no cropping, manual offsets, or rescaling tricks. */
+/* Flap artwork is a standalone transparent PNG.
+   Keep its natural aspect ratio and pin each piece to the matching outer edge.
+   Do not crop, stretch, clip, or push either flap outside the box. */
 .box-door {
   position: absolute;
   inset: 0;
@@ -193,6 +194,7 @@ button {
   transform-style: preserve-3d;
   backface-visibility: hidden;
   will-change: transform, opacity;
+  pointer-events: none;
   filter: drop-shadow(0 10px 16px rgba(66, 47, 26, 0.12));
 }
 
@@ -207,15 +209,23 @@ button {
 
 .box-door-art {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
   max-width: none;
   object-fit: contain;
-  object-position: center;
   user-select: none;
   pointer-events: none;
+}
+
+.box-left-flap .box-door-art {
+  left: 0;
+}
+
+.box-right-flap .box-door-art {
+  right: 0;
 }
 
 .open-invitation {
