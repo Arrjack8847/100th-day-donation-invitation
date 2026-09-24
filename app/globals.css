@@ -32,7 +32,43 @@ button {
   z-index: 50;
   overflow: hidden;
   isolation: isolate;
-  background: #f3e7d1;
+  background: #efe1c9;
+}
+
+.opening-scene::before,
+.opening-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.opening-scene::before {
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(255, 250, 237, 0.12) 0%,
+      rgba(247, 232, 205, 0.18) 38%,
+      rgba(225, 198, 157, 0.30) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 248, 233, 0.14) 0%,
+      rgba(245, 226, 195, 0.10) 48%,
+      rgba(219, 187, 145, 0.20) 100%
+    );
+}
+
+.opening-scene::after {
+  z-index: 2;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 34%,
+      rgba(91, 65, 38, 0.08) 74%,
+      rgba(69, 46, 27, 0.15) 100%
+    );
 }
 
 .opening-layer {
@@ -44,10 +80,13 @@ button {
 
 .opening-bg {
   z-index: 0;
-  inset: -2%;
-  width: 104%;
-  height: 104%;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
   object-fit: cover;
+  object-position: center center;
+  filter: blur(1.5px) saturate(0.82) contrast(0.90) brightness(1.06) sepia(0.06);
+  transform: scale(1.015);
 }
 
 /* Presentation box is the master coordinate system for the intro. */
@@ -164,8 +203,8 @@ button {
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center 30%;
-  transform: scale(1.05);
+  object-position: center center;
+  transform: scale(1.03);
   user-select: none;
   pointer-events: none;
 }
