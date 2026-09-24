@@ -6,29 +6,27 @@ import { openingAssets as A } from "./openingAssets";
 
 export default function OpeningScene() {
   const sceneRef = useRef<HTMLElement>(null);
+  const openedRef = useRef(false);
 
   useLayoutEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
+      gsap.set([".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type"], {
+        autoAlpha: 0,
+      });
+      gsap.set([".box-left-flap", ".box-right-flap"], { rotateY: 0 });
+      gsap.set(".open-invitation", { autoAlpha: 0, y: 12 });
+
       if (reduced) {
-        gsap.set(".box-left-flap", { rotateY: -90 });
-        gsap.set(".box-right-flap", { rotateY: 90 });
-        gsap.set(
-          [".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type", ".open-invitation"],
-          { autoAlpha: 1 }
-        );
+        gsap.set(".opening-bg", { autoAlpha: 1 });
+        gsap.set(".box-stage", { autoAlpha: 1 });
+        gsap.set(".open-invitation", { autoAlpha: 1, y: 0 });
         return;
       }
 
-      gsap.set(".box-card-slot", { autoAlpha: 0, scale: 0.94, y: 18 });
-      gsap.set([".photo-frame", ".baby-mask", ".invitation-type"], { autoAlpha: 0 });
-      gsap.set(".open-invitation", { autoAlpha: 0, y: 12 });
-      gsap.set([".box-left-flap", ".box-right-flap"], { rotateY: 0 });
-
-      const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      intro
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
         .fromTo(
           ".opening-bg",
           { autoAlpha: 0, scale: 1.035, filter: "blur(7px)" },
@@ -43,54 +41,21 @@ export default function OpeningScene() {
         )
         .fromTo(
           ".box-stage",
-          { autoAlpha: 0, y: 30, scale: 0.96 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 0.95 },
-          0.45
-        )
-        .to(
-          ".box-left-flap",
-          { rotateY: -90, duration: 1.05, ease: "power3.inOut" },
-          1.45
-        )
-        .to(
-          ".box-right-flap",
-          { rotateY: 90, duration: 1.05, ease: "power3.inOut" },
-          1.58
-        )
-        .to(
-          ".box-card-slot",
-          { autoAlpha: 1, scale: 1, y: 0, duration: 0.75, ease: "power3.out" },
-          2.7
-        )
-        .fromTo(
-          ".baby-mask",
-          { autoAlpha: 0, scale: 0.98 },
-          { autoAlpha: 1, scale: 1, duration: 0.55, ease: "power2.out" },
-          3.38
-        )
-        .fromTo(
-          ".photo-frame",
-          { autoAlpha: 0, y: 7 },
-          { autoAlpha: 1, y: 0, duration: 0.42, ease: "power2.out" },
-          3.62
-        )
-        .fromTo(
-          ".invitation-type",
-          { autoAlpha: 0, y: 11 },
-          { autoAlpha: 1, y: 0, duration: 0.72, ease: "power2.out" },
-          3.9
+          { autoAlpha: 0, y: 28, scale: 0.97 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.9 },
+          0.38
         )
         .to(
           ".open-invitation",
-          { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" },
-          4.65
+          { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.95
         );
     }, sceneRef);
 
     return () => ctx.revert();
   }, []);
 
-  const openInvitation = () => {
+  const enterInvitation = () => {
     const content = document.getElementById("invitation-content");
 
     gsap
@@ -103,28 +68,78 @@ export default function OpeningScene() {
       })
       .to(".open-invitation", { scale: 0.97, duration: 0.12 })
       .to(".open-invitation", { scale: 1, duration: 0.12 })
-      .to(".open-invitation", { autoAlpha: 0, y: 8, duration: 0.28 }, 0.18)
+      .to(".open-invitation", { autoAlpha: 0, y: 8, duration: 0.25 }, 0.18)
       .to(
         [".box-left-flap", ".box-right-flap"],
-        { autoAlpha: 0, duration: 0.48, ease: "power2.in" },
+        { autoAlpha: 0, duration: 0.42, ease: "power2.in" },
+        0.22
+      )
+      .to(".box-back", { autoAlpha: 0, scale: 0.97, duration: 0.65 }, 0.26)
+      .to(
+        ".opening-bg",
+        { scale: 1.07, filter: "blur(10px)", autoAlpha: 0.36, duration: 0.8 },
         0.24
       )
       .to(
-        ".box-back",
-        { autoAlpha: 0, scale: 0.97, duration: 0.7 },
-        0.28
-      )
-      .to(
-        ".opening-bg",
-        { scale: 1.07, filter: "blur(10px)", autoAlpha: 0.36, duration: 0.85 },
-        0.25
-      )
-      .to(
         ".box-card-slot",
-        { scale: 1.42, y: -8, autoAlpha: 0, duration: 0.95 },
+        { scale: 1.42, y: -8, autoAlpha: 0, duration: 0.9 },
         0.3
       )
-      .to(sceneRef.current, { autoAlpha: 0, duration: 0.3 }, 1.02);
+      .to(sceneRef.current, { autoAlpha: 0, duration: 0.3 }, 0.98);
+  };
+
+  const openInvitation = () => {
+    if (openedRef.current) {
+      enterInvitation();
+      return;
+    }
+
+    openedRef.current = true;
+
+    gsap
+      .timeline({ defaults: { ease: "power3.inOut" } })
+      .to(".open-invitation", { scale: 0.97, duration: 0.12 })
+      .to(".open-invitation", { scale: 1, duration: 0.12 })
+      .to(".open-invitation", { autoAlpha: 0, y: 8, duration: 0.22 }, 0.16)
+      .to(
+        ".box-left-flap",
+        { rotateY: -90, duration: 1.05, ease: "power3.inOut" },
+        0.34
+      )
+      .to(
+        ".box-right-flap",
+        { rotateY: 90, duration: 1.05, ease: "power3.inOut" },
+        0.46
+      )
+      .fromTo(
+        ".box-card-slot",
+        { autoAlpha: 0, scale: 0.95, y: 16 },
+        { autoAlpha: 1, scale: 1, y: 0, duration: 0.7, ease: "power3.out" },
+        1.05
+      )
+      .fromTo(
+        ".baby-mask",
+        { autoAlpha: 0, scale: 0.98 },
+        { autoAlpha: 1, scale: 1, duration: 0.5, ease: "power2.out" },
+        1.42
+      )
+      .fromTo(
+        ".photo-frame",
+        { autoAlpha: 0, y: 6 },
+        { autoAlpha: 1, y: 0, duration: 0.42, ease: "power2.out" },
+        1.5
+      )
+      .fromTo(
+        ".invitation-type",
+        { autoAlpha: 0, y: 10 },
+        { autoAlpha: 1, y: 0, duration: 0.62, ease: "power2.out" },
+        1.72
+      )
+      .to(
+        ".open-invitation",
+        { autoAlpha: 1, y: 0, duration: 0.48, ease: "power2.out" },
+        2.28
+      );
   };
 
   return (
@@ -142,6 +157,7 @@ export default function OpeningScene() {
             src={A.box.back}
             alt=""
           />
+
           <div className="box-card-slot">
             <div className="card-stage">
               <img
