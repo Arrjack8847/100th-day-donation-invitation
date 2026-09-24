@@ -10,6 +10,59 @@ const isLayoutEditorEnabled = () =>
   typeof window !== "undefined" &&
   new URLSearchParams(window.location.search).get("edit") === "1";
 
+
+const setFlapHingeFromVisibleEdge = (
+  image: HTMLImageElement,
+  side: "left" | "right"
+) => {
+  const width = image.naturalWidth;
+  const height = image.naturalHeight;
+  if (!width || !height) return;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return;
+
+  ctx.drawImage(image, 0, 0);
+  const pixels = ctx.getImageData(0, 0, width, height).data;
+
+  // Measure the straight outside edge through the middle of the flap.
+  // Using the median avoids transparent padding, shadows and isolated ornaments.
+  const rowStart = Math.floor(height * 0.12);
+  const rowEnd = Math.ceil(height * 0.88);
+  const step = Math.max(1, Math.floor((rowEnd - rowStart) / 220));
+  const edges: number[] = [];
+
+  for (let y = rowStart; y < rowEnd; y += step) {
+    if (side === "left") {
+      for (let x = 0; x < width; x += 1) {
+        if (pixels[(y * width + x) * 4 + 3] >= 160) {
+          edges.push(x);
+          break;
+        }
+      }
+    } else {
+      for (let x = width - 1; x >= 0; x -= 1) {
+        if (pixels[(y * width + x) * 4 + 3] >= 160) {
+          edges.push(x);
+          break;
+        }
+      }
+    }
+  }
+
+  if (!edges.length) return;
+
+  edges.sort((a, b) => a - b);
+  const hingeX = edges[Math.floor(edges.length / 2)];
+  const hingePercent = (hingeX / width) * 100;
+
+  image.style.transformOrigin = `${hingePercent}% 50%`;
+};
+
 export default function OpeningScene() {
   const sceneRef = useRef<HTMLElement>(null);
   const openedRef = useRef(false);
@@ -222,10 +275,24 @@ export default function OpeningScene() {
           </div>
 
           <div className="box-door box-left-flap" data-edit-key="leftFlap" aria-hidden="true">
-            <img className="box-door-art" src={A.box.leftFlap} alt="" />
+            <img
+              className="box-door-art"
+              src={A.box.leftFlap}
+              alt=""
+              onLoad={(event) =>
+                setFlapHingeFromVisibleEdge(event.currentTarget, "left")
+              }
+            />
           </div>
           <div className="box-door box-right-flap" data-edit-key="rightFlap" aria-hidden="true">
-            <img className="box-door-art" src={A.box.rightFlap} alt="" />
+            <img
+              className="box-door-art"
+              src={A.box.rightFlap}
+              alt=""
+              onLoad={(event) =>
+                setFlapHingeFromVisibleEdge(event.currentTarget, "right")
+              }
+            />
           </div>
         </div>
 
