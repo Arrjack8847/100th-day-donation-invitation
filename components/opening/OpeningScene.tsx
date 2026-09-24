@@ -31,12 +31,6 @@ export default function OpeningScene() {
           { autoAlpha: 1, y: 0, duration: 0.65, delay: 1.05, ease: "power2.out" }
         );
 
-        gsap.fromTo(
-          ".lotus-foreground",
-          { autoAlpha: 0, y: 18 },
-          { autoAlpha: 1, y: 0, duration: 0.9, delay: 0.5, ease: "power2.out" }
-        );
-
         gsap.to(".seal", {
           rotate: 4,
           duration: 1.8,
@@ -73,7 +67,6 @@ export default function OpeningScene() {
       })
       .to(".open-invitation", { scale: 0.97, duration: 0.12 })
       .to(".open-invitation", { scale: 1, duration: 0.12 })
-      .to(".lotus-foreground", { y: 40, autoAlpha: 0, duration: 0.7 }, 0.18)
       .to(
         ".opening-bg",
         { scale: 1.06, filter: "blur(10px)", autoAlpha: 0.35, duration: 0.85 },
@@ -161,11 +154,6 @@ export default function OpeningScene() {
         </button>
       </div>
 
-      <img
-        className="opening-layer lotus-foreground"
-        src={A + "11_lotus_foreground.png"}
-        alt=""
-      />
     </section>
   );
 }
