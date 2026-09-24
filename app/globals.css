@@ -111,25 +111,35 @@ button {
   mix-blend-mode: multiply;
 }
 
-/* Baby photo is cropped inside the ornate arch instead of showing a rectangle. */
-.baby-window {
+/* Baby photo uses the exact custom arch mask and the frame sits above it. */
+.baby-mask {
   position: absolute;
   z-index: 4;
-  left: 32.2%;
-  top: 13.2%;
-  width: 35.6%;
-  height: 20.5%;
+  left: 26.3%;
+  top: 8.8%;
+  width: 47%;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
-  border-radius: 50% 50% 6% 6% / 42% 42% 6% 6%;
-  background: #efe5d6;
+
+  -webkit-mask-image: url("/opening/05_photo_mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+
+  mask-image: url("/opening/05_photo_mask.svg");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
 }
 
-.baby-window img {
+.baby-mask img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: center 28%;
+  object-position: center 30%;
   transform: scale(1.08);
   user-select: none;
   pointer-events: none;
@@ -257,16 +267,16 @@ button {
     gap: 0.55rem;
   }
 
-  .baby-window {
-    left: 31.5%;
-    top: 12.8%;
-    width: 37%;
-    height: 23%;
+  .baby-mask {
+    left: 26.3%;
+    top: 8.8%;
+    width: 47%;
+    aspect-ratio: 3 / 2;
   }
 
   .photo-frame {
-    left: 26.5%;
-    top: 8.3%;
+    left: 26.3%;
+    top: 8.8%;
     width: 47%;
   }
 
