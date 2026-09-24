@@ -63,8 +63,8 @@ export default function LayoutEditor() {
     const baby = getElement("baby");
     const frame = getElement("frame");
     const typography = getElement("typography");
-    const left = getElement("leftFlap");
-    const right = getElement("rightFlap");
+    const left = document.querySelector<HTMLElement>(".box-left-hinge");
+    const right = document.querySelector<HTMLElement>(".box-right-hinge");
     const button = getElement("button");
 
     if (mode === "closed") {
