@@ -38,6 +38,7 @@ const normalise = (item?: LayoutItem): Required<LayoutItem> => ({
 
 export default function LayoutEditor() {
   const [layout, setLayout] = useState<LayoutState>({});
+  const [ready, setReady] = useState(false);
   const layoutRef = useRef(layout);
   const [selected, setSelected] = useState("leftFlap");
   const [preview, setPreview] = useState<"closed" | "open">("closed");
@@ -109,10 +110,14 @@ export default function LayoutEditor() {
       if (saved) setLayout(JSON.parse(saved));
     } catch {
       // Ignore malformed local editor data.
+    } finally {
+      setReady(true);
     }
   }, []);
 
   useEffect(() => {
+    if (!ready) return;
+
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
     } catch {
@@ -141,7 +146,7 @@ export default function LayoutEditor() {
     }
 
     applyPreview(preview);
-  }, [layout, preview]);
+  }, [layout, preview, ready]);
 
   useEffect(() => {
     refreshRect();
