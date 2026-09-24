@@ -211,16 +211,12 @@ export default function OpeningScene() {
             </div>
           </div>
 
-          <img
-            className="opening-layer box-full-layer box-left-flap"
-            src={A.box.leftFlap}
-            alt=""
-          />
-          <img
-            className="opening-layer box-full-layer box-right-flap"
-            src={A.box.rightFlap}
-            alt=""
-          />
+          <div className="box-door box-left-flap" aria-hidden="true">
+            <img className="box-door-art" src={A.box.leftFlap} alt="" />
+          </div>
+          <div className="box-door box-right-flap" aria-hidden="true">
+            <img className="box-door-art" src={A.box.rightFlap} alt="" />
+          </div>
           <img
             className="opening-layer box-seal"
             src={A.waxSeal}
