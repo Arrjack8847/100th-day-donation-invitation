@@ -181,28 +181,29 @@ button {
   object-fit: contain;
 }
 
-/* Flap artwork is a standalone transparent PNG.
-   Keep its natural aspect ratio and pin each piece to the matching outer edge.
-   Do not crop, stretch, clip, or push either flap outside the box. */
+/* Closed-box flap geometry.
+   The PNGs keep their original aspect ratio. The wrapper only provides the
+   hinge coordinate system; the artwork itself is never cropped or stretched. */
 .box-door {
   position: absolute;
-  inset: 0;
   z-index: 4;
-  width: 100%;
+  top: 0;
+  width: 77.2%;
   height: 100%;
   overflow: visible;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   will-change: transform, opacity;
-  pointer-events: none;
   filter: drop-shadow(0 10px 16px rgba(66, 47, 26, 0.12));
 }
 
 .box-left-flap {
+  left: 9.5%;
   transform-origin: left center;
 }
 
 .box-right-flap {
+  right: 11.4%;
   z-index: 5;
   transform-origin: right center;
 }
@@ -210,7 +211,6 @@ button {
 .box-door-art {
   position: absolute;
   top: 0;
-  bottom: 0;
   display: block;
   width: auto;
   height: 100%;
@@ -220,12 +220,16 @@ button {
   pointer-events: none;
 }
 
+/* The left cover already matches the box frame at this scale. */
 .box-left-flap .box-door-art {
-  left: 0;
+  left: -17.2%;
 }
 
+/* The right artwork has transparent canvas around the visible insert.
+   12.6% aligns its painted gold curve with the left flap curve in the
+   closed state, instead of aligning the transparent PNG edge. */
 .box-right-flap .box-door-art {
-  right: 0;
+  right: 12.6%;
 }
 
 .open-invitation {
