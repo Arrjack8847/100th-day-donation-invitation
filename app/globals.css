@@ -20,6 +20,20 @@ body {
   color: var(--ink);
   background: var(--cream);
   font-family: Georgia, "Times New Roman", serif;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+html,
+body {
+  width: 100%;
 }
 
 button {
@@ -96,6 +110,7 @@ button {
   left: 50%;
   top: 48%;
   width: min(32rem, 85vw, 57svh);
+  max-width: calc(100vw - 1.5rem);
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -724,6 +739,7 @@ body {
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
 }
 
 .section-heading > p:last-child,
@@ -741,7 +757,7 @@ body {
   min-height: 100svh;
   padding: clamp(6rem, 11vh, 9rem) max(1.5rem, 5vw) 5rem;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.75fr);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
   align-items: center;
   gap: clamp(2rem, 7vw, 7rem);
   background:
@@ -790,6 +806,7 @@ body {
   font-weight: 400;
   line-height: 0.86;
   letter-spacing: -0.055em;
+  overflow-wrap: anywhere;
 }
 
 .hero-intro {
@@ -1513,5 +1530,310 @@ body {
 
   .blessing-petal {
     animation: none;
+  }
+}
+
+
+/* ===== Responsive hardening: desktop, tablet, mobile ===== */
+
+@media (max-width: 1200px) {
+  .invitation-hero {
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-right: clamp(1.5rem, 4vw, 3.5rem);
+    padding-left: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(4rem, 8vw, 7rem);
+  }
+
+  .hero-portrait-wrap {
+    width: min(420px, 36vw);
+  }
+
+  .section-shell {
+    width: min(1120px, calc(100% - 2.5rem));
+  }
+}
+
+@media (max-width: 900px) {
+  .opening-scene {
+    min-height: 100svh;
+  }
+
+  .box-composition {
+    top: 48%;
+    width: min(78vw, 54svh, 31rem);
+    max-width: calc(100vw - 1rem);
+  }
+
+  .invitation-hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    align-content: start;
+    justify-items: center;
+    gap: 2.4rem;
+    padding: 5.5rem 1.5rem 4rem;
+    text-align: center;
+  }
+
+  .hero-copy {
+    width: min(720px, 100%);
+    justify-self: center;
+  }
+
+  .hero-copy h1 {
+    max-width: 100%;
+    margin-inline: auto;
+    font-size: clamp(3.7rem, 11vw, 6.4rem);
+    line-height: 0.92;
+  }
+
+  .hero-copy .gold-divider,
+  .hero-intro {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .hero-portrait-wrap {
+    width: min(430px, 82vw);
+    justify-self: center;
+  }
+
+  .section-shell,
+  .section-shell.narrow {
+    width: min(100% - 2rem, 760px);
+  }
+
+  .details-grid,
+  .story-grid,
+  .venue-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .story-grid,
+  .venue-grid {
+    gap: 3rem;
+  }
+
+  .story-photo-wrap,
+  .story-copy,
+  .venue-copy {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .story-copy,
+  .venue-copy {
+    max-width: 680px;
+  }
+
+  .details-grid {
+    gap: 1rem;
+  }
+
+  .detail-card {
+    min-height: 0;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+  }
+
+  .gallery-item-1,
+  .gallery-item-2,
+  .gallery-item-3,
+  .gallery-item-4,
+  .gallery-item-5,
+  .gallery-item-6 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .gallery-item {
+    min-height: 0;
+  }
+
+  .gallery-item img {
+    height: auto;
+    aspect-ratio: auto;
+  }
+
+  .venue-art {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 600px) {
+  .box-composition {
+    top: 46.5%;
+    width: min(92vw, 52svh);
+  }
+
+  .open-invitation {
+    width: min(15rem, 70vw);
+  }
+
+  .invitation-hero {
+    padding: 4.5rem 1rem 3.5rem;
+    gap: 1.8rem;
+  }
+
+  .invitation-hero::before {
+    inset: 0.65rem;
+  }
+
+  .hero-script {
+    font-size: clamp(1.1rem, 5vw, 1.45rem);
+  }
+
+  .section-kicker {
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    line-height: 1.5;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(3rem, 16vw, 4.7rem);
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+  }
+
+  .hero-intro {
+    max-width: 34rem;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .hero-portrait-wrap {
+    width: min(92vw, 360px);
+  }
+
+  .hero-scroll-cue {
+    display: none;
+  }
+
+  .section-shell,
+  .section-shell.narrow {
+    width: min(100% - 1.5rem, 760px);
+  }
+
+  .invitation-section {
+    padding: 4.8rem 0;
+  }
+
+  .section-heading {
+    margin-bottom: 2rem;
+  }
+
+  .section-heading h2,
+  .invitation-section h2,
+  .invitation-closing h2 {
+    font-size: clamp(2.15rem, 11vw, 3.25rem);
+    line-height: 1.06;
+  }
+
+  .detail-card {
+    padding: 1.6rem 1.25rem;
+  }
+
+  .story-photo-wrap {
+    width: 100%;
+    aspect-ratio: auto;
+  }
+
+  .story-photo-wrap::before {
+    inset: 0.8rem -0.55rem -0.8rem 0.55rem;
+  }
+
+  .story-photo-wrap img {
+    height: auto;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .gallery-item {
+    width: 100%;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+  }
+
+  .venue-art {
+    min-height: 280px;
+  }
+
+  .blessing-section {
+    min-height: auto;
+  }
+
+  .blessing-copy {
+    padding: 2rem 0 5rem;
+  }
+
+  .blessing-lotus {
+    bottom: -2rem;
+    width: 125vw;
+  }
+
+  .invitation-closing {
+    min-height: auto;
+    padding: 4.5rem 1rem;
+  }
+
+  .closing-card {
+    padding: 3.2rem 1.1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .box-composition {
+    width: min(94vw, 50svh);
+  }
+
+  .invitation-hero {
+    padding-top: 3.8rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.7rem, 15vw, 4rem);
+  }
+
+  .hero-portrait-wrap {
+    width: min(94vw, 330px);
+  }
+
+  .section-shell,
+  .section-shell.narrow {
+    width: min(100% - 1rem, 760px);
+  }
+
+  .section-kicker {
+    letter-spacing: 0.18em;
+  }
+
+  .detail-card {
+    padding: 1.4rem 1rem;
+  }
+
+  .schedule-note {
+    align-items: flex-start;
+  }
+}
+
+@media (max-height: 700px) and (orientation: landscape) {
+  .box-composition {
+    top: 47%;
+    width: min(31rem, 70svh);
+  }
+
+  .invitation-hero {
+    min-height: auto;
   }
 }
