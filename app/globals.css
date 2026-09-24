@@ -82,6 +82,7 @@ button {
 
 .box-back {
   z-index: 1;
+  translate: -7.2px 33.6px;
   filter: drop-shadow(0 26px 34px rgba(62, 44, 24, 0.16));
 }
 
@@ -90,6 +91,7 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
+  translate: -11.2px 2.4px;
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 12px 18px rgba(62, 44, 24, 0.09));
@@ -199,13 +201,13 @@ button {
 
 .box-left-flap {
   left: 9.5%;
-  translate: -35px 0;
+  translate: 37px -0.8px;
   transform-origin: left center;
 }
 
 .box-right-flap {
   right: 11.4%;
-  translate: 5.6px -1.6px;
+  translate: 35px -3.2px;
   z-index: 5;
   transform-origin: right center;
 }
