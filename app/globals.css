@@ -199,11 +199,13 @@ button {
 
 .box-left-flap {
   left: 9.5%;
+  translate: -35px 0;
   transform-origin: left center;
 }
 
 .box-right-flap {
   right: 11.4%;
+  translate: 5.6px -1.6px;
   z-index: 5;
   transform-origin: right center;
 }
