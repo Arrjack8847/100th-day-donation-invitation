@@ -140,7 +140,7 @@ export default function OpeningScene() {
         0.24
       )
       .to(
-        [".box-back", ".box-inner-tray"],
+        ".box-back",
         { autoAlpha: 0, scale: 0.97, duration: 0.7 },
         0.28
       )
@@ -188,22 +188,11 @@ export default function OpeningScene() {
             src={A.box.back}
             alt=""
           />
-          <img
-            className="opening-layer box-full-layer box-inner-tray"
-            src={A.box.innerTray}
-            alt=""
-          />
-
           <div className="box-card-slot">
             <div className="card-stage">
               <img
                 className="opening-layer card-container"
                 src={A.card}
-                alt=""
-              />
-              <img
-                className="opening-layer paper-texture"
-                src={A.paperTexture}
                 alt=""
               />
               <div className="baby-mask">
