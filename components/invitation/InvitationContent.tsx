@@ -3,14 +3,14 @@
 import { useEffect } from "react";
 
 const galleryImages = [
-  "/child's photo/viber_image_2026-09-23_12-11-12-703.jpg",
-  "/child's photo/viber_image_2026-09-23_12-11-13-499.jpg",
-  "/child's photo/viber_image_2026-09-23_12-11-14-150.jpg",
-  "/child's photo/viber_image_2026-09-23_12-11-14-603.jpg",
-  "/child's photo/viber_image_2026-09-23_12-11-15-042.jpg",
-  "/child's photo/viber_image_2026-09-23_12-11-17-641.jpg",
-  "/child's photo/viber_image_2026-09-23_12-11-18-700.jpg",
-  "/child's photo/viber_image_2026-09-23_12-11-25-047.jpg",
+  "/child's photo/01-100-days-baby-portrait.jpg",
+  "/child's photo/02-newborn-hand-closeup.jpg",
+  "/child's photo/03-parents-with-newborn-portrait.jpg",
+  "/child's photo/04-parents-holding-newborn.jpg",
+  "/child's photo/05-sleeping-newborn-closeup.jpg",
+  "/child's photo/06-baby-smiling-with-parents.jpg",
+  "/child's photo/07-baby-red-hat-portrait.jpg",
+  "/child's photo/08-mother-holding-baby.jpg",
 ];
 
 const detailItems = [
@@ -89,7 +89,7 @@ export default function InvitationContent() {
           <div className="hero-portrait-halo" aria-hidden="true" />
           <img
             className="hero-portrait"
-            src="/child's photo/viber_image_2026-09-23_12-11-12-703.jpg"
+            src="/child's photo/01-100-days-baby-portrait.jpg"
             alt="Portrait for the 100th day celebration"
           />
           <img
@@ -156,7 +156,7 @@ export default function InvitationContent() {
         <div className="section-shell story-grid">
           <figure className="story-photo-wrap" data-reveal>
             <img
-              src="/child's photo/viber_image_2026-09-23_12-11-18-700.jpg"
+              src="/child's photo/07-baby-red-hat-portrait.jpg"
               alt="A family memory from the baby's first 100 days"
               loading="lazy"
             />
