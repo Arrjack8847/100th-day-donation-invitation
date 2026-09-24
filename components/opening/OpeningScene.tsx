@@ -12,8 +12,8 @@ export default function OpeningScene() {
 
     const ctx = gsap.context(() => {
       if (reduced) {
-        gsap.set(".box-left-flap", { rotateY: -72 });
-        gsap.set(".box-right-flap", { rotateY: 72 });
+        gsap.set(".box-left-flap", { rotateY: -74 });
+        gsap.set(".box-right-flap", { rotateY: 74 });
         gsap.set(".box-seal", { autoAlpha: 0 });
         gsap.set(
           [".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type", ".open-invitation"],
@@ -70,12 +70,12 @@ export default function OpeningScene() {
         )
         .to(
           ".box-left-flap",
-          { rotateY: -72, xPercent: -1.5, duration: 1.05, ease: "power3.inOut" },
+          { rotateY: -74, xPercent: 0, duration: 1.05, ease: "power3.inOut" },
           1.92
         )
         .to(
           ".box-right-flap",
-          { rotateY: 72, xPercent: 1.5, duration: 1.05, ease: "power3.inOut" },
+          { rotateY: 74, xPercent: 0, duration: 1.05, ease: "power3.inOut" },
           2.04
         )
         .to(
