@@ -1,17 +1,42 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { openingAssets as A } from "./openingAssets";
+import LayoutEditor from "./LayoutEditor";
+
+const isLayoutEditorEnabled = () =>
+  process.env.NODE_ENV !== "production" &&
+  typeof window !== "undefined" &&
+  new URLSearchParams(window.location.search).get("edit") === "1";
 
 export default function OpeningScene() {
   const sceneRef = useRef<HTMLElement>(null);
   const openedRef = useRef(false);
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    setEditMode(isLayoutEditorEnabled());
+  }, []);
 
   useLayoutEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const editing = isLayoutEditorEnabled();
 
     const ctx = gsap.context(() => {
+      if (editing) {
+        gsap.set(".opening-bg", {
+          autoAlpha: 1,
+          scale: 1,
+          filter: "blur(1.5px)",
+        });
+        gsap.set(".box-stage", { autoAlpha: 1, y: 0, scale: 1 });
+        gsap.set([".box-left-flap", ".box-right-flap"], { rotateY: 0 });
+        gsap.set(".box-card-slot", { autoAlpha: 0, y: 0, scale: 1 });
+        gsap.set([".baby-mask", ".photo-frame", ".invitation-type"], { autoAlpha: 0 });
+        gsap.set(".open-invitation", { autoAlpha: 1, y: 0, scale: 1 });
+        return;
+      }
       gsap.set([".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type"], {
         autoAlpha: 0,
       });
@@ -93,6 +118,8 @@ export default function OpeningScene() {
   };
 
   const openInvitation = () => {
+    if (isLayoutEditorEnabled()) return;
+
     if (openedRef.current) {
       enterInvitation();
       return;
@@ -149,7 +176,7 @@ export default function OpeningScene() {
   return (
     <section
       ref={sceneRef}
-      className="opening-scene"
+      className={`opening-scene${editMode ? " layout-editing" : ""}`}
       aria-label="100th Day Donation invitation opening"
     >
       <img className="opening-layer opening-bg" src={A.background} alt="" />
@@ -158,48 +185,53 @@ export default function OpeningScene() {
         <div className="box-stage">
           <img
             className="opening-layer box-full-layer box-back"
+            data-edit-key="back"
             src={A.box.back}
             alt=""
           />
           <img
             className="opening-layer box-full-layer box-inner-tray"
+            data-edit-key="tray"
             src={A.box.innerTray}
             alt=""
           />
 
-          <div className="box-card-slot">
+          <div className="box-card-slot" data-edit-key="card">
             <div className="card-stage">
               <img
                 className="opening-layer card-container"
                 src={A.card}
                 alt=""
               />
-              <div className="baby-mask">
+              <div className="baby-mask" data-edit-key="baby">
                 <img src={A.babyPhoto} alt="Child portrait" />
               </div>
               <img
                 className="opening-layer photo-frame"
+                data-edit-key="frame"
                 src={A.photoFrame}
                 alt=""
               />
               <img
                 className="opening-layer invitation-type"
+                data-edit-key="typography"
                 src={A.typography}
                 alt="100th Day Donation Ceremony"
               />
             </div>
           </div>
 
-          <div className="box-door box-left-flap" aria-hidden="true">
+          <div className="box-door box-left-flap" data-edit-key="leftFlap" aria-hidden="true">
             <img className="box-door-art" src={A.box.leftFlap} alt="" />
           </div>
-          <div className="box-door box-right-flap" aria-hidden="true">
+          <div className="box-door box-right-flap" data-edit-key="rightFlap" aria-hidden="true">
             <img className="box-door-art" src={A.box.rightFlap} alt="" />
           </div>
         </div>
 
         <button
           className="open-invitation"
+          data-edit-key="button"
           type="button"
           onClick={openInvitation}
           aria-label="Open invitation"
@@ -207,6 +239,8 @@ export default function OpeningScene() {
           <img src={A.openButton} alt="" />
         </button>
       </div>
+
+      {editMode && <LayoutEditor />}
     </section>
   );
 }
