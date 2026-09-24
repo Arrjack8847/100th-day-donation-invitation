@@ -186,18 +186,16 @@ button {
 }
 
 /*
- * Physical flap wrappers.
- * Each wrapper is the real visible door size; the full-size PNG is positioned
- * inside it so only that door's artwork is shown. This makes 3D hinges behave
- * like actual doors instead of rotating a huge transparent canvas.
+ * Closed cover geometry:
+ * the left flap is intentionally much wider than the right flap.
+ * Each PNG is rendered directly at its physical door size — no crop sampling.
  */
 .box-door {
   position: absolute;
   z-index: 6;
   top: 10%;
-  width: 19%;
   height: 80%;
-  overflow: hidden;
+  overflow: visible;
   transform-style: preserve-3d;
   backface-visibility: visible;
   will-change: transform, opacity;
@@ -205,47 +203,27 @@ button {
 }
 
 .box-left-flap {
-  left: 31%;
+  left: 30%;
+  width: 25%;
   transform-origin: left center;
 }
 
 .box-right-flap {
-  left: 50%;
+  left: 55%;
+  width: 15%;
   transform-origin: right center;
 }
 
 .box-door-art {
   position: absolute;
+  inset: 0;
   display: block;
-  width: 526.3158%;
-  height: 125%;
+  width: 100%;
+  height: 100%;
   max-width: none;
   object-fit: fill;
   user-select: none;
   pointer-events: none;
-}
-
-.box-left-flap .box-door-art {
-  left: -163.1579%;
-  top: -12.5%;
-}
-
-.box-right-flap .box-door-art {
-  left: -263.1579%;
-  top: -12.5%;
-}
-
-/* Existing lotus seal becomes the presentation-box closure. */
-.box-seal {
-  z-index: 8;
-  left: 50%;
-  top: 50%;
-  width: 8.5%;
-  height: auto;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-  filter: drop-shadow(0 8px 10px rgba(58, 42, 23, 0.18));
-  will-change: transform, opacity, filter;
 }
 
 .open-invitation {
@@ -347,10 +325,6 @@ button {
     left: 17%;
     top: 40.4%;
     width: 66%;
-  }
-
-  .box-seal {
-    width: 11%;
   }
 
   .open-invitation {
