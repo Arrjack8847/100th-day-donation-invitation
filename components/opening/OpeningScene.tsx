@@ -10,6 +10,8 @@ const isLayoutEditorEnabled = () =>
   typeof window !== "undefined" &&
   new URLSearchParams(window.location.search).get("edit") === "1";
 
+
+
 export default function OpeningScene() {
   const sceneRef = useRef<HTMLElement>(null);
   const openedRef = useRef(false);
@@ -28,9 +30,8 @@ export default function OpeningScene() {
         gsap.set(".opening-bg", {
           autoAlpha: 1,
           scale: 1,
-          filter: "blur(1.5px) saturate(0.72) brightness(1.1) sepia(0.08)",
+          filter: "blur(1.5px) saturate(0.82) contrast(0.90) brightness(1.06) sepia(0.06)",
         });
-        gsap.set(".opening-intro-copy", { autoAlpha: 1, y: 0 });
         gsap.set(".box-stage", { autoAlpha: 1, y: 0, scale: 1 });
         gsap.set(
           [".box-left-flap .box-door-art", ".box-right-flap .box-door-art"],
@@ -41,20 +42,17 @@ export default function OpeningScene() {
         gsap.set(".open-invitation", { autoAlpha: 1, y: 0, scale: 1 });
         return;
       }
-
       gsap.set([".box-card-slot", ".photo-frame", ".baby-mask", ".invitation-type"], {
         autoAlpha: 0,
       });
       gsap.set(
-        [".box-left-flap .box-door-art", ".box-right-flap .box-door-art"],
-        { rotateY: 0 }
-      );
-      gsap.set(".opening-intro-copy", { autoAlpha: 0, y: 10 });
-      gsap.set(".open-invitation", { autoAlpha: 0, y: 10 });
+          [".box-left-flap .box-door-art", ".box-right-flap .box-door-art"],
+          { rotateY: 0 }
+        );
+      gsap.set(".open-invitation", { autoAlpha: 0, y: 12 });
 
       if (reduced) {
         gsap.set(".opening-bg", { autoAlpha: 1 });
-        gsap.set(".opening-intro-copy", { autoAlpha: 1, y: 0 });
         gsap.set(".box-stage", { autoAlpha: 1 });
         gsap.set(".open-invitation", { autoAlpha: 1, y: 0 });
         return;
@@ -64,35 +62,26 @@ export default function OpeningScene() {
         .timeline({ defaults: { ease: "power3.out" } })
         .fromTo(
           ".opening-bg",
-          {
-            autoAlpha: 0,
-            scale: 1.035,
-            filter: "blur(7px) saturate(0.68) brightness(1.12) sepia(0.1)",
-          },
+          { autoAlpha: 0, scale: 1.035, filter: "blur(7px) saturate(0.78) contrast(0.88) brightness(1.08) sepia(0.08)" },
           {
             autoAlpha: 1,
             scale: 1,
-            filter: "blur(1.5px) saturate(0.72) brightness(1.1) sepia(0.08)",
+            filter: "blur(1.5px) saturate(0.82) contrast(0.90) brightness(1.06) sepia(0.06)",
             duration: 0.95,
             ease: "power2.out",
           },
           0
         )
-        .to(
-          ".opening-intro-copy",
-          { autoAlpha: 1, y: 0, duration: 0.65, ease: "power2.out" },
-          0.18
-        )
         .fromTo(
           ".box-stage",
-          { autoAlpha: 0, y: 24, scale: 0.975 },
+          { autoAlpha: 0, y: 28, scale: 0.97 },
           { autoAlpha: 1, y: 0, scale: 1, duration: 0.9 },
-          0.34
+          0.38
         )
         .to(
           ".open-invitation",
           { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out" },
-          0.92
+          0.95
         );
     }, sceneRef);
 
@@ -119,24 +108,18 @@ export default function OpeningScene() {
         0.22
       )
       .to(
-        [".box-back", ".box-inner-tray"],
+        ".box-inner-tray",
         { autoAlpha: 0, duration: 0.65 },
         0.26
       )
-      .to(".opening-intro-copy", { autoAlpha: 0, y: -8, duration: 0.35 }, 0.22)
       .to(
         ".opening-bg",
-        {
-          scale: 1.07,
-          filter: "blur(10px) saturate(0.68) brightness(1.12) sepia(0.1)",
-          autoAlpha: 0.3,
-          duration: 0.8,
-        },
+        { scale: 1.07, filter: "blur(10px) saturate(0.76) contrast(0.88) brightness(1.08) sepia(0.08)", autoAlpha: 0.36, duration: 0.8 },
         0.24
       )
       .to(
         ".box-card-slot",
-        { scale: 1.35, y: -6, autoAlpha: 0, duration: 0.9 },
+        { scale: 1.42, y: -8, autoAlpha: 0, duration: 0.9 },
         0.3
       )
       .to(sceneRef.current, { autoAlpha: 0, duration: 0.3 }, 0.98);
@@ -169,32 +152,32 @@ export default function OpeningScene() {
       )
       .fromTo(
         ".box-card-slot",
-        { autoAlpha: 0, scale: 0.94, y: 12 },
-        { autoAlpha: 1, scale: 1, y: 0, duration: 0.72, ease: "power3.out" },
-        0.98
+        { autoAlpha: 0, scale: 0.95, y: 16 },
+        { autoAlpha: 1, scale: 1, y: 0, duration: 0.7, ease: "power3.out" },
+        1.05
       )
       .fromTo(
         ".baby-mask",
-        { autoAlpha: 0, scale: 0.985 },
+        { autoAlpha: 0, scale: 0.98 },
         { autoAlpha: 1, scale: 1, duration: 0.5, ease: "power2.out" },
-        1.34
+        1.42
       )
       .fromTo(
         ".photo-frame",
-        { autoAlpha: 0, y: 5 },
+        { autoAlpha: 0, y: 6 },
         { autoAlpha: 1, y: 0, duration: 0.42, ease: "power2.out" },
-        1.4
+        1.5
       )
       .fromTo(
         ".invitation-type",
-        { autoAlpha: 0, y: 8 },
-        { autoAlpha: 1, y: 0, duration: 0.58, ease: "power2.out" },
-        1.55
+        { autoAlpha: 0, y: 10 },
+        { autoAlpha: 1, y: 0, duration: 0.62, ease: "power2.out" },
+        1.72
       )
       .to(
         ".open-invitation",
-        { autoAlpha: 1, y: 0, duration: 0.46, ease: "power2.out" },
-        2.12
+        { autoAlpha: 1, y: 0, duration: 0.48, ease: "power2.out" },
+        2.28
       );
   };
 
@@ -206,92 +189,55 @@ export default function OpeningScene() {
     >
       <img className="opening-layer opening-bg" src={A.background} alt="" />
 
-      <img
-        className="opening-layer opening-corner-ornament opening-corner-ornament-left"
-        src={A.ornament}
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className="opening-layer opening-corner-ornament opening-corner-ornament-right"
-        src={A.ornament}
-        alt=""
-        aria-hidden="true"
-      />
+      <div className="box-composition">
+        <div className="box-stage">
+          <img
+            className="opening-layer box-full-layer box-inner-tray"
+            data-edit-key="tray"
+            src={A.box.innerTray}
+            alt=""
+          />
 
-      <div className="opening-shell">
-        <header className="opening-intro-copy">
-          <p className="opening-kicker">WITH LOVE &amp; GRATITUDE</p>
-          <p className="opening-subtitle">Please join us for a special day.</p>
-        </header>
-
-        <div className="box-composition">
-          <div className="box-stage">
-            <img
-              className="opening-layer box-full-layer box-back"
-              src={A.box.back}
-              alt=""
-              aria-hidden="true"
-            />
-
-            <img
-              className="opening-layer box-full-layer box-inner-tray"
-              data-edit-key="tray"
-              src={A.box.innerTray}
-              alt=""
-            />
-
-            <div className="box-card-slot" data-edit-key="card">
-              <div className="card-stage">
-                <img
-                  className="opening-layer card-container"
-                  src={A.card}
-                  alt=""
-                />
-                <div className="baby-mask">
-                  <img src={A.babyPhoto} alt="Child portrait for the 100th day ceremony" />
-                </div>
-                <img
-                  className="opening-layer photo-frame"
-                  src={A.photoFrame}
-                  alt=""
-                  aria-hidden="true"
-                />
-                <img
-                  className="opening-layer invitation-type"
-                  src={A.typography}
-                  alt="100th Day Donation Ceremony"
-                />
+          <div className="box-card-slot" data-edit-key="card">
+            <div className="card-stage">
+              <img
+                className="opening-layer card-container"
+                src={A.card}
+                alt=""
+              />
+              <div className="baby-mask">
+                <img src={A.babyPhoto} alt="Child portrait" />
               </div>
-            </div>
-
-            <div
-              className="box-door box-left-flap"
-              data-edit-key="leftFlap"
-              aria-hidden="true"
-            >
-              <img className="box-door-art" src={A.box.leftFlap} alt="" />
-            </div>
-            <div
-              className="box-door box-right-flap"
-              data-edit-key="rightFlap"
-              aria-hidden="true"
-            >
-              <img className="box-door-art" src={A.box.rightFlap} alt="" />
+              <img
+                className="opening-layer photo-frame"
+                src={A.photoFrame}
+                alt=""
+              />
+              <img
+                className="opening-layer invitation-type"
+                src={A.typography}
+                alt="100th Day Donation Ceremony"
+              />
             </div>
           </div>
 
-          <button
-            className="open-invitation"
-            data-edit-key="button"
-            type="button"
-            onClick={openInvitation}
-            aria-label="Open invitation"
-          >
-            <span>OPEN INVITATION</span>
-            <span className="open-invitation-arrow" aria-hidden="true">→</span>
-          </button>
+          <div className="box-door box-left-flap" data-edit-key="leftFlap" aria-hidden="true">
+            <img className="box-door-art" src={A.box.leftFlap} alt="" />
+          </div>
+          <div className="box-door box-right-flap" data-edit-key="rightFlap" aria-hidden="true">
+            <img className="box-door-art" src={A.box.rightFlap} alt="" />
+          </div>
         </div>
+
+        <button
+          className="open-invitation"
+          data-edit-key="button"
+          type="button"
+          onClick={openInvitation}
+          aria-label="Open invitation"
+        >
+          <img src={A.openButton} alt="" />
+        </button>
       </div>
 
       {editMode && <LayoutEditor />}

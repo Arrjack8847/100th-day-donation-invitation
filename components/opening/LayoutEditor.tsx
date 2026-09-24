@@ -25,11 +25,35 @@ const DEFAULT_HINGES: HingeState = {
 };
 
 const DEFAULT_LAYOUT: LayoutState = {
-  tray: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
+  tray: {
+    x: 3.40008544921875,
+    y: 40.2000732421875,
+    scale: 0.900711171738388,
+    rotate: 0,
+    visible: true,
+  },
   card: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
-  leftFlap: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
-  rightFlap: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
-  button: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
+  leftFlap: {
+    x: 51.00022888183594,
+    y: 37.800018310546875,
+    scale: 0.895499233814601,
+    rotate: 0,
+    visible: true,
+  },
+  rightFlap: {
+    x: 129.79998779296875,
+    y: 26.60015869140625,
+    scale: 0.9383710960391091,
+    rotate: 0,
+    visible: true,
+  },
+  button: {
+    x: -0.79998779296875,
+    y: 35.20001220703125,
+    scale: 1,
+    rotate: 0,
+    visible: true,
+  },
 };
 
 const LOCKED_POSITION_KEYS = new Set(["tray", "leftFlap", "rightFlap", "button"]);
