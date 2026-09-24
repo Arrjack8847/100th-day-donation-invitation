@@ -185,10 +185,19 @@ button {
   object-fit: contain;
 }
 
-/* The two PNG flaps remain independent so they can hinge open in 3D. */
-.box-left-flap,
-.box-right-flap {
-  z-index: 4;
+/*
+ * Physical flap wrappers.
+ * Each wrapper is the real visible door size; the full-size PNG is positioned
+ * inside it so only that door's artwork is shown. This makes 3D hinges behave
+ * like actual doors instead of rotating a huge transparent canvas.
+ */
+.box-door {
+  position: absolute;
+  z-index: 6;
+  top: 10%;
+  width: 19%;
+  height: 80%;
+  overflow: hidden;
   transform-style: preserve-3d;
   backface-visibility: visible;
   will-change: transform, opacity;
@@ -196,13 +205,34 @@ button {
 }
 
 .box-left-flap {
-  clip-path: inset(10% 49% 10% 31%);
-  transform-origin: 31% 50%;
+  left: 31%;
+  transform-origin: left center;
 }
 
 .box-right-flap {
-  clip-path: inset(10% 31% 10% 49%);
-  transform-origin: 69% 50%;
+  left: 50%;
+  transform-origin: right center;
+}
+
+.box-door-art {
+  position: absolute;
+  display: block;
+  width: 526.3158%;
+  height: 125%;
+  max-width: none;
+  object-fit: fill;
+  user-select: none;
+  pointer-events: none;
+}
+
+.box-left-flap .box-door-art {
+  left: -163.1579%;
+  top: -12.5%;
+}
+
+.box-right-flap .box-door-art {
+  left: -263.1579%;
+  top: -12.5%;
 }
 
 /* Existing lotus seal becomes the presentation-box closure. */
