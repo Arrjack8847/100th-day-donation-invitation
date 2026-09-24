@@ -225,12 +225,10 @@ button {
 /* These offsets are part of the approved closed layout. Never move them. */
 .box-left-flap .box-door-art {
   left: -17.2%;
-  transform-origin: left center;
 }
 
 .box-right-flap .box-door-art {
   right: 12.6%;
-  transform-origin: right center;
 }
 
 .open-invitation {
