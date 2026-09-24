@@ -25,7 +25,6 @@ const DEFAULT_HINGES: HingeState = {
 };
 
 const DEFAULT_LAYOUT: LayoutState = {
-  back: { x: 0, y: 0, scale: 1, rotate: 0, visible: true },
   tray: {
     x: 3.40008544921875,
     y: 40.2000732421875,
@@ -60,7 +59,6 @@ const DEFAULT_LAYOUT: LayoutState = {
 const LOCKED_POSITION_KEYS = new Set(["tray", "leftFlap", "rightFlap", "button"]);
 
 const labels: Record<string, string> = {
-  back: "13 Box Back",
   tray: "16 Inner Tray",
   card: "Invitation Card Group",
   leftFlap: "14 Left Flap",
@@ -182,7 +180,6 @@ export default function LayoutEditor() {
         const parsed = JSON.parse(saved) as LayoutState;
         setLayout({
           ...DEFAULT_LAYOUT,
-          back: { ...DEFAULT_LAYOUT.back, ...parsed.back },
           card: { ...DEFAULT_LAYOUT.card, ...parsed.card },
         });
       } else {
