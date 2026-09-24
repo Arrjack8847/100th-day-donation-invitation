@@ -12,7 +12,17 @@ type LayoutItem = {
 
 type LayoutState = Record<string, LayoutItem>;
 
+type HingeState = {
+  left: number;
+  right: number;
+};
+
 const STORAGE_KEY = "opening-layout-editor-v1";
+const HINGE_STORAGE_KEY = "opening-hinge-editor-v1";
+const DEFAULT_HINGES: HingeState = {
+  left: 0,
+  right: 100,
+};
 
 const labels: Record<string, string> = {
   tray: "16 Inner Tray",
@@ -43,8 +53,16 @@ export default function LayoutEditor() {
   const [preview, setPreview] = useState<"closed" | "open">("closed");
   const [rect, setRect] = useState<DOMRect | null>(null);
   const [copied, setCopied] = useState(false);
+  const [hinges, setHinges] = useState<HingeState>(DEFAULT_HINGES);
+  const [hingeGuide, setHingeGuide] = useState<DOMRect | null>(null);
 
   const current = useMemo(() => normalise(layout[selected]), [layout, selected]);
+  const selectedHinge =
+    selected === "leftFlap"
+      ? hinges.left
+      : selected === "rightFlap"
+        ? hinges.right
+        : null;
 
   useEffect(() => {
     layoutRef.current = layout;
@@ -56,6 +74,20 @@ export default function LayoutEditor() {
   const refreshRect = () => {
     const el = getElement(selected);
     setRect(el?.getBoundingClientRect() ?? null);
+
+    if (selected === "leftFlap" || selected === "rightFlap") {
+      const image = el?.querySelector<HTMLElement>(".box-door-art");
+      setHingeGuide(image?.getBoundingClientRect() ?? null);
+    } else {
+      setHingeGuide(null);
+    }
+  };
+
+  const applyHinges = (next: HingeState) => {
+    const stage = document.querySelector<HTMLElement>(".box-stage");
+    if (!stage) return;
+    stage.style.setProperty("--left-flap-hinge-x", `${next.left}%`);
+    stage.style.setProperty("--right-flap-hinge-x", `${next.right}%`);
   };
 
   const applyPreview = (mode: "closed" | "open") => {
@@ -107,8 +139,21 @@ export default function LayoutEditor() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) setLayout(JSON.parse(saved));
+
+      const savedHinges = localStorage.getItem(HINGE_STORAGE_KEY);
+      if (savedHinges) {
+        const parsed = JSON.parse(savedHinges) as Partial<HingeState>;
+        const next = {
+          left: Number.isFinite(parsed.left) ? Number(parsed.left) : DEFAULT_HINGES.left,
+          right: Number.isFinite(parsed.right) ? Number(parsed.right) : DEFAULT_HINGES.right,
+        };
+        setHinges(next);
+        requestAnimationFrame(() => applyHinges(next));
+      } else {
+        requestAnimationFrame(() => applyHinges(DEFAULT_HINGES));
+      }
     } catch {
-      // Ignore malformed local editor data.
+      requestAnimationFrame(() => applyHinges(DEFAULT_HINGES));
     } finally {
       setReady(true);
     }
@@ -119,9 +164,12 @@ export default function LayoutEditor() {
 
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
+      localStorage.setItem(HINGE_STORAGE_KEY, JSON.stringify(hinges));
     } catch {
       // localStorage may be unavailable in a locked-down browser.
     }
+
+    applyHinges(hinges);
 
     for (const key of keys) {
       const el = getElement(key);
@@ -145,7 +193,7 @@ export default function LayoutEditor() {
     }
 
     applyPreview(preview);
-  }, [layout, preview, ready]);
+  }, [layout, hinges, preview, ready]);
 
   useEffect(() => {
     refreshRect();
@@ -226,7 +274,7 @@ export default function LayoutEditor() {
 
   useEffect(() => {
     requestAnimationFrame(refreshRect);
-  }, [layout, preview]);
+  }, [layout, hinges, preview, selected]);
 
   const patch = (values: Partial<LayoutItem>) => {
     setLayout((previous) => ({
@@ -263,8 +311,13 @@ export default function LayoutEditor() {
       }
     }
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(HINGE_STORAGE_KEY);
     setLayout({});
-    requestAnimationFrame(() => applyPreview(preview));
+    setHinges(DEFAULT_HINGES);
+    requestAnimationFrame(() => {
+      applyHinges(DEFAULT_HINGES);
+      applyPreview(preview);
+    });
   };
 
   const copyLayout = async () => {
@@ -273,7 +326,15 @@ export default function LayoutEditor() {
       return acc;
     }, {});
 
-    await navigator.clipboard.writeText(JSON.stringify(output, null, 2));
+    const payload = {
+      ...output,
+      hinges: {
+        left: hinges.left,
+        right: hinges.right,
+      },
+    };
+
+    await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1400);
   };
@@ -302,6 +363,21 @@ export default function LayoutEditor() {
 
   return (
     <>
+      {preview === "closed" &&
+        hingeGuide &&
+        selectedHinge !== null && (
+          <div
+            className="layout-editor-hinge-guide"
+            style={{
+              left: hingeGuide.left + (hingeGuide.width * selectedHinge) / 100,
+              top: hingeGuide.top,
+              height: hingeGuide.height,
+            }}
+          >
+            <span>{selected === "leftFlap" ? "Left hinge" : "Right hinge"}</span>
+          </div>
+        )}
+
       {rect && current.visible && (
         <div
           className="layout-editor-selection"
@@ -406,6 +482,52 @@ export default function LayoutEditor() {
             onChange={(event) => patch({ scale: Number(event.target.value) })}
           />
         </label>
+
+        {(selected === "leftFlap" || selected === "rightFlap") && (
+          <div className="layout-editor-hinge-controls">
+            <label>
+              {selected === "leftFlap" ? "Left Hinge X (%)" : "Right Hinge X (%)"}
+              <input
+                type="number"
+                min="-100"
+                max="200"
+                step="0.1"
+                value={Number((selectedHinge ?? 0).toFixed(1))}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  setHinges((previous) =>
+                    selected === "leftFlap"
+                      ? { ...previous, left: value }
+                      : { ...previous, right: value }
+                  );
+                }}
+              />
+            </label>
+
+            <label className="layout-editor-range">
+              Hinge X
+              <input
+                type="range"
+                min="-100"
+                max="200"
+                step="0.1"
+                value={selectedHinge ?? 0}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  setHinges((previous) =>
+                    selected === "leftFlap"
+                      ? { ...previous, left: value }
+                      : { ...previous, right: value }
+                  );
+                }}
+              />
+            </label>
+
+            <p className="layout-editor-hinge-hint">
+              Move only the hinge line. Flap X, Y and scale stay exactly where you positioned them.
+            </p>
+          </div>
+        )}
 
         <label className="layout-editor-visible">
           <input
