@@ -64,8 +64,8 @@ button {
 }
 
 .box-stage {
-  --left-flap-hinge-x: 0%;
-  --right-flap-hinge-x: 100%;
+  --left-flap-hinge-x: 1.1%;
+  --right-flap-hinge-x: 72.6%;
 
   position: relative;
   width: 100%;
@@ -88,7 +88,7 @@ button {
   inset: 0;
   width: 100%;
   height: 100%;
-  translate: 0.00006103515625px 34.00004577636719px;
+  translate: 3.40008544921875px 40.2000732421875px;
   scale: 0.900711171738388;
   rotate: 0deg;
   object-fit: contain;
@@ -212,14 +212,14 @@ button {
 
 .box-left-flap {
   left: 9.5%;
-  translate: 62.00022888183594px 30.800018310546875px;
+  translate: 51.00022888183594px 37.800018310546875px;
   scale: 0.895499233814601;
   rotate: 0deg;
 }
 
 .box-right-flap {
   right: 11.4%;
-  translate: 116.2000732421875px 19.400146484375px;
+  translate: 129.79998779296875px 26.60015869140625px;
   scale: 0.9383710960391091;
   rotate: 0deg;
   z-index: 5;
