@@ -60,21 +60,60 @@ button {
 .floating-petal {
   position: absolute;
   height: auto;
-  opacity: 0.35;
+  opacity: 0.3;
   filter: drop-shadow(0 3px 4px rgba(76, 57, 31, 0.06));
 }
 
-.invitation-stack {
+/* Presentation box is the master coordinate system for the intro. */
+.box-composition {
   position: absolute;
   z-index: 12;
   left: 50%;
   top: 48%;
-  width: min(33rem, 36vw);
+  width: min(64rem, 84vw);
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.9rem;
+}
+
+.box-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  perspective: 1500px;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.box-full-layer {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.box-back {
+  z-index: 1;
+  filter: drop-shadow(0 26px 34px rgba(62, 44, 24, 0.16));
+}
+
+.box-inner-tray {
+  z-index: 2;
+  filter: drop-shadow(0 14px 22px rgba(62, 44, 24, 0.11));
+}
+
+.box-card-slot {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 49%;
+  width: 41.5%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  will-change: transform, opacity;
 }
 
 .card-stage {
@@ -90,14 +129,13 @@ button {
   object-fit: contain;
 }
 
-/* Master card: everything else is positioned relative to this box. */
 .card-container {
   z-index: 1;
   inset: 0;
   width: 100%;
   height: 100% !important;
   object-fit: contain !important;
-  filter: drop-shadow(0 26px 30px rgba(62, 44, 24, 0.18));
+  filter: drop-shadow(0 20px 24px rgba(62, 44, 24, 0.14));
 }
 
 .paper-texture {
@@ -111,7 +149,7 @@ button {
   mix-blend-mode: multiply;
 }
 
-/* Baby photo uses the exact custom arch mask and the frame sits above it. */
+/* Exact custom photo mask. */
 .baby-mask {
   position: absolute;
   z-index: 4;
@@ -154,7 +192,6 @@ button {
   object-fit: contain;
 }
 
-/* Typography is the visual center of the card. */
 .invitation-type {
   z-index: 6;
   left: 18%;
@@ -164,37 +201,49 @@ button {
   object-fit: contain;
 }
 
-/* Ribbon overlaps only the right edge; the seal sits on its knot. */
-.ribbon {
-  z-index: 7;
-  right: -8.5%;
-  top: 42.2%;
-  width: 34%;
-  transform-origin: 52% 50%;
-  filter: drop-shadow(0 8px 7px rgba(58, 42, 23, 0.15));
+/* The two PNG flaps remain independent so they can hinge open in 3D. */
+.box-left-flap,
+.box-right-flap {
+  z-index: 6;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 12px 20px rgba(66, 47, 26, 0.13));
 }
 
-.seal {
+.box-left-flap {
+  transform-origin: left center;
+}
+
+.box-right-flap {
+  transform-origin: right center;
+}
+
+/* Existing lotus seal becomes the presentation-box closure. */
+.box-seal {
   z-index: 8;
-  right: 1.2%;
-  top: 49%;
-  width: 13.1%;
+  left: 50%;
+  top: 50%;
+  width: 8.5%;
+  height: auto;
+  transform: translate(-50%, -50%);
   transform-origin: center;
-  filter: drop-shadow(0 7px 8px rgba(58, 42, 23, 0.16));
+  filter: drop-shadow(0 8px 10px rgba(58, 42, 23, 0.18));
+  will-change: transform, opacity, filter;
 }
 
-/* Button is outside the card so it never overlaps the invitation artwork. */
 .open-invitation {
   position: relative;
   z-index: 30;
-  width: min(20rem, 70%);
-  margin-top: -5.1rem;
+  width: min(20rem, 34%);
+  margin-top: -4.5rem;
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
   flex: 0 0 auto;
   filter: drop-shadow(0 10px 18px rgba(70, 51, 28, 0.14));
+  will-change: transform, opacity;
 }
 
 .open-invitation img {
@@ -204,7 +253,14 @@ button {
 }
 
 .open-invitation:hover {
+  transform: translateY(-2px);
   filter: brightness(1.035) drop-shadow(0 13px 21px rgba(70, 51, 28, 0.18));
+}
+
+.open-invitation:focus-visible {
+  outline: 2px solid rgba(180, 138, 67, 0.72);
+  outline-offset: 4px;
+  border-radius: 999px;
 }
 
 .content-section {
@@ -241,29 +297,33 @@ button {
 }
 
 @media (max-width: 1100px) {
-  .invitation-stack {
-    width: min(29rem, 46vw);
+  .box-composition {
+    width: min(56rem, 92vw);
+  }
+
+  .box-card-slot {
+    width: 44%;
+  }
+
+  .open-invitation {
+    width: min(19rem, 38%);
+    margin-top: -3.8rem;
   }
 }
 
 @media (max-width: 767px) {
-  .invitation-stack {
-    top: 47.5%;
-    width: min(26rem, 90vw);
-    gap: 0.55rem;
+  .box-composition {
+    top: 47%;
+    width: 96vw;
   }
 
-  .baby-mask {
-    left: 26.3%;
-    top: 8.8%;
-    width: 47%;
-    aspect-ratio: 3 / 2;
+  .box-stage {
+    perspective: 1100px;
   }
 
-  .photo-frame {
-    left: 26.3%;
-    top: 8.8%;
-    width: 47%;
+  .box-card-slot {
+    top: 49%;
+    width: 50%;
   }
 
   .invitation-type {
@@ -272,28 +332,24 @@ button {
     width: 66%;
   }
 
-  .ribbon {
-    right: -7%;
-    top: 42.5%;
-    width: 33.5%;
-  }
-
-  .seal {
-    right: 1.5%;
-    top: 49%;
-    width: 12.9%;
+  .box-seal {
+    width: 11%;
   }
 
   .open-invitation {
-    width: min(18rem, 72%);
-    margin-top: -3.3rem;
+    width: min(17rem, 66vw);
+    margin-top: -2.7rem;
   }
-
 }
 
-@media (min-width: 1400px) {
-  .invitation-stack {
-    width: min(33rem, 31vw);
+@media (max-height: 720px) and (min-width: 768px) {
+  .box-composition {
+    top: 47%;
+    width: min(56rem, 78vw);
+  }
+
+  .open-invitation {
+    margin-top: -4rem;
   }
 }
 
