@@ -2083,7 +2083,7 @@ body {
   z-index: 3;
   left: 50%;
   top: 51.5%;
-  width: 64%;
+  width: 58%;
   translate: none;
   scale: none;
   rotate: none;
@@ -2346,7 +2346,7 @@ body {
   }
 
   .box-card-slot {
-    width: 65%;
+    width: 58%;
   }
 
   .open-invitation {
