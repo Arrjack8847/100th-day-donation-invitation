@@ -198,7 +198,6 @@ button {
   left: 9.5%;
   translate: 62.00022888183594px 30.800018310546875px;
   scale: 0.895499233814601;
-  transform-origin: left center;
 }
 
 .box-right-flap {
@@ -206,12 +205,32 @@ button {
   translate: 116.2000732421875px 19.400146484375px;
   scale: 0.9383710960391091;
   z-index: 5;
+}
+
+/* Keep manual X/Y/scale on the outer wrappers completely untouched.
+   Only these inner shrink-wrapped layers perform the 3D door rotation. */
+.box-door-hinge {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: auto;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.box-left-hinge {
+  left: -17.2%;
+  transform-origin: left center;
+}
+
+.box-right-hinge {
+  right: 12.6%;
   transform-origin: right center;
 }
 
 .box-door-art {
-  position: absolute;
-  top: 0;
+  position: relative;
   display: block;
   width: auto;
   height: 100%;
@@ -219,18 +238,6 @@ button {
   object-fit: contain;
   user-select: none;
   pointer-events: none;
-}
-
-/* The left cover already matches the box frame at this scale. */
-.box-left-flap .box-door-art {
-  left: -17.2%;
-}
-
-/* The right artwork has transparent canvas around the visible insert.
-   12.6% aligns its painted gold curve with the left flap curve in the
-   closed state, instead of aligning the transparent PNG edge. */
-.box-right-flap .box-door-art {
-  right: 12.6%;
 }
 
 .open-invitation {
