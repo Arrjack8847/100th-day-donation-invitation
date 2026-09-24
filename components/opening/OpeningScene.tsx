@@ -205,18 +205,16 @@ export default function OpeningScene() {
                 src={A.card}
                 alt=""
               />
-              <div className="baby-mask" data-edit-key="baby">
+              <div className="baby-mask">
                 <img src={A.babyPhoto} alt="Child portrait" />
               </div>
               <img
                 className="opening-layer photo-frame"
-                data-edit-key="frame"
                 src={A.photoFrame}
                 alt=""
               />
               <img
                 className="opening-layer invitation-type"
-                data-edit-key="typography"
                 src={A.typography}
                 alt="100th Day Donation Ceremony"
               />
