@@ -24,6 +24,7 @@ export default function OpeningScene() {
       document.body.classList.remove("intro-active");
       document.getElementById("invitation-content")?.scrollIntoView({
         block: "start",
+        behavior: "smooth",
       });
     }, 620);
   };
@@ -35,24 +36,39 @@ export default function OpeningScene() {
       className={`${styles.opening} ${leaving ? styles.leaving : ""}`}
       aria-label="100 Days of Love opening"
     >
-      <div className={styles.content}>
-        <p className={styles.eyebrow}>WITH LOVE &amp; GRATITUDE</p>
+      <div className={styles.atmosphere} aria-hidden="true">
+        <span className={`${styles.bubble} ${styles.bubbleOne}`} />
+        <span className={`${styles.bubble} ${styles.bubbleTwo}`} />
+        <span className={`${styles.bubble} ${styles.bubbleThree}`} />
+        <span className={`${styles.bubble} ${styles.bubbleFour}`} />
+      </div>
 
-        <div className={styles.hero}>
-          <div className={styles.photoMask} aria-hidden="true">
-            <div className={`${styles.photoSlice} ${styles.photoOne}`} />
-            <div className={`${styles.photoSlice} ${styles.photoTwo}`} />
-            <div className={`${styles.photoSlice} ${styles.photoThree}`} />
+      <div className={styles.content}>
+        <header className={styles.intro}>
+          <p className={styles.eyebrow}>WITH LOVE &amp; GRATITUDE</p>
+          <div className={styles.ornament} aria-hidden="true">
+            <span />
+            <b>♥</b>
+            <span />
           </div>
 
-          <h1 className={styles.scriptTitle}>
-            <span className={styles.srOnly}>100 </span>
-            Days of Love
+          <h1 className={styles.title}>
+            <span className={styles.number}>100</span>
+            <span className={styles.days}>Days of Love</span>
           </h1>
-        </div>
+        </header>
+
+        <figure className={styles.photoFrame}>
+          <img
+            src="/child's photo/01-100-days-baby-portrait.jpg"
+            alt="Our little one at 100 days"
+          />
+        </figure>
 
         <p className={styles.subtitle}>
-          A little life. A hundred beautiful days.
+          Join us for our little one&rsquo;s 100th-day
+          <br className={styles.subtitleBreak} />
+          donation ceremony.
         </p>
 
         <a
@@ -67,16 +83,21 @@ export default function OpeningScene() {
             event.preventDefault();
             openInvitation();
           }}
-          aria-label="Open the invitation"
+          aria-label="View the invitation"
         >
-          <span>Open Invitation</span>
-          <span className={styles.arrow} aria-hidden="true">→</span>
+          <span>View invitation</span>
+          <svg
+            className={styles.arrow}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M12 4v15m0 0-6-6m6 6 6-6" />
+          </svg>
         </a>
 
-        <div className={styles.divider} aria-hidden="true">
+        <div className={styles.continuationMark} aria-hidden="true">
           <span />
-          <b>♥</b>
-          <span />
+          <b />
         </div>
       </div>
     </section>
