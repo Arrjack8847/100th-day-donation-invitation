@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./OpeningScene.module.css";
 
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const openingStartedRef = useRef(false);
 
   useEffect(() => {
     document.body.classList.add("intro-active");
@@ -13,7 +14,8 @@ export default function OpeningScene() {
   }, []);
 
   const openInvitation = () => {
-    if (leaving) return;
+    if (openingStartedRef.current) return;
+    openingStartedRef.current = true;
 
     setLeaving(true);
 
@@ -53,15 +55,23 @@ export default function OpeningScene() {
           A little life. A hundred beautiful days.
         </p>
 
-        <button
+        <a
           className={styles.openButton}
-          type="button"
-          onClick={openInvitation}
+          href="#invitation-content"
+          onClick={(event) => {
+            event.preventDefault();
+            openInvitation();
+          }}
+          onPointerUp={(event) => {
+            if (event.pointerType !== "touch") return;
+            event.preventDefault();
+            openInvitation();
+          }}
           aria-label="Open the invitation"
         >
           <span>Open Invitation</span>
           <span className={styles.arrow} aria-hidden="true">→</span>
-        </button>
+        </a>
 
         <div className={styles.divider} aria-hidden="true">
           <span />
