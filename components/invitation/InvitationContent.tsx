@@ -2,36 +2,63 @@
 
 import { useEffect } from "react";
 
-const galleryImages = [
+const photos = [
   "/child's photo/01-100-days-baby-portrait.jpg",
-  "/child's photo/03-parents-with-newborn-portrait.jpg",
   "/child's photo/05-sleeping-newborn-closeup.jpg",
-  "/child's photo/02-newborn-hand-closeup.jpg",
+  "/child's photo/03-parents-with-newborn-portrait.jpg",
   "/child's photo/06-baby-smiling-with-parents.jpg",
-  "/child's photo/08-mother-holding-baby.jpg",
 ];
 
-const detailItems = [
+function CalendarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 3v3M17 3v3M4.5 9h15M6 5h12a2 2 0 0 1 2 2v12H4V7a2 2 0 0 1 2-2Z" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" />
+      <circle cx="12" cy="10" r="2" />
+    </svg>
+  );
+}
+
+const details = [
   {
+    icon: <CalendarIcon />,
     label: "Date",
     value: "To be confirmed",
-    note: "The family will share the confirmed ceremony date here.",
+    note: "The family will share the ceremony date here.",
   },
   {
+    icon: <ClockIcon />,
     label: "Time",
     value: "To be confirmed",
-    note: "Ceremony time will be added once the schedule is final.",
+    note: "The final ceremony time will be added here.",
   },
   {
+    icon: <PinIcon />,
     label: "Venue",
     value: "To be confirmed",
-    note: "The full venue name and address will appear here.",
+    note: "The complete venue and address will appear here.",
   },
 ];
 
 export default function InvitationContent() {
   useEffect(() => {
-    const revealItems = Array.from(
+    const items = Array.from(
       document.querySelectorAll<HTMLElement>("[data-reveal]")
     );
 
@@ -39,7 +66,7 @@ export default function InvitationContent() {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       !("IntersectionObserver" in window)
     ) {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
+      items.forEach((item) => item.classList.add("is-visible"));
       return;
     }
 
@@ -51,151 +78,94 @@ export default function InvitationContent() {
           observer.unobserve(entry.target);
         });
       },
-      {
-        threshold: 0.14,
-        rootMargin: "0px 0px -7% 0px",
-      }
+      { threshold: 0.12, rootMargin: "0px 0px -5% 0px" }
     );
 
-    revealItems.forEach((item) => observer.observe(item));
+    items.forEach((item) => observer.observe(item));
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div className="invitation-site">
-      <section id="invitation-content" className="invitation-hero">
-        <div className="paper-texture" aria-hidden="true" />
-        <img
-          className="hero-ornament hero-ornament-top"
-          src="/opening/09_gold_ornaments.png"
-          alt=""
-          aria-hidden="true"
-        />
-
-        <div className="hero-copy" data-reveal>
-          <p className="section-kicker">100TH DAY DONATION CEREMONY</p>
-          <p className="hero-script">With love &amp; gratitude</p>
-          <h1>100 Days of Love</h1>
-          <span className="gold-divider" aria-hidden="true" />
-          <p className="hero-intro">
-            With grateful hearts, we celebrate one hundred precious days filled
-            with love, joy and blessings.
-          </p>
-        </div>
-
-        <div className="hero-portrait-wrap" data-reveal>
-          <div className="hero-portrait-halo" aria-hidden="true" />
-          <img
-            className="hero-portrait"
-            src="/child's photo/07-baby-red-hat-portrait.jpg"
-            alt="Portrait for the 100th day celebration"
-          />
-          <img
-            className="hero-portrait-frame"
-            src="/opening/05_photo_frame.png"
-            alt=""
-            aria-hidden="true"
-          />
-        </div>
-
-        <div className="hero-scroll-cue" aria-hidden="true">
+    <div id="invitation-content" className="love-site">
+      <section className="love-hero">
+        <div className="page-bubbles page-bubbles-hero" aria-hidden="true">
           <span />
-          <small>Scroll to continue</small>
+          <span />
+          <span />
+          <span />
         </div>
-      </section>
 
-      <section className="invitation-section welcome-section">
-        <div className="section-shell narrow" data-reveal>
-          <p className="section-kicker">A DAY OF GRATITUDE</p>
-          <h2>A little life, a hundred beautiful days</h2>
-          <span className="gold-divider" aria-hidden="true" />
-          <p className="ceremony-copy">
-            Today is a quiet celebration of the love, care and blessings that
-            have surrounded our little one through the first one hundred days.
-            We are grateful to share this meaningful moment with the people who
-            are dear to our family.
-          </p>
-        </div>
-      </section>
+        <div className="hero-inner">
+          <p className="mini-label" data-reveal>WITH LOVE AND GRATITUDE</p>
 
-      <section className="invitation-section details-section">
-        <div className="section-shell">
-          <div className="section-heading" data-reveal>
-            <p className="section-kicker">CEREMONY DETAILS</p>
-            <h2>Join us for this special day</h2>
+          <div className="hero-photo-shell" data-reveal>
+            <div className="hero-photo-blob">
+              <img
+                src="/child's photo/01-100-days-baby-portrait.jpg"
+                alt="Our little one celebrating 100 days"
+              />
+            </div>
+            <span className="hero-photo-bubble hero-photo-bubble-one" aria-hidden="true" />
+            <span className="hero-photo-bubble hero-photo-bubble-two" aria-hidden="true" />
+          </div>
+
+          <div className="hero-copy-new" data-reveal>
+            <span className="hero-number">100</span>
+            <h1>Days of Love</h1>
+            <span className="small-heart" aria-hidden="true">♡</span>
             <p>
-              Confirmed date, time and venue information can be placed here as
-              soon as the family finalizes the ceremony arrangements.
+              Please join us for a special day of gratitude, love and blessings
+              as we celebrate our little one&apos;s first one hundred days.
             </p>
-          </div>
-
-          <div className="details-grid">
-            {detailItems.map((item) => (
-              <article className="detail-card" key={item.label} data-reveal>
-                <span className="detail-label">{item.label}</span>
-                <strong>{item.value}</strong>
-                <span className="detail-rule" aria-hidden="true" />
-                <p>{item.note}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="schedule-note" data-reveal>
-            <span className="schedule-mark" aria-hidden="true">✦</span>
-            <p>
-              A short ceremony schedule can be added here once the final
-              sequence is confirmed.
-            </p>
+            <a className="sage-button" href="#event-details">
+              View invitation <span aria-hidden="true">↓</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <section className="invitation-section story-section">
-        <div className="section-shell story-grid">
-          <figure className="story-photo-wrap" data-reveal>
+      <section className="love-section meaning-section">
+        <div className="mobile-shell meaning-layout">
+          <div className="section-copy" data-reveal>
+            <p className="mini-label">ABOUT THIS DAY</p>
+            <h2>A Meaningful<br />100 Days</h2>
+            <p>
+              These first one hundred days have been filled with tiny moments,
+              warm embraces and so much love. We are grateful to mark this
+              milestone by sharing our joy and making a donation in our
+              child&apos;s name.
+            </p>
+            <p className="script-note">A little one, a big blessing ♡</p>
+          </div>
+
+          <figure className="soft-photo large-soft-photo" data-reveal>
             <img
-              src="/child's photo/04-parents-holding-newborn.jpg"
-              alt="A family memory from the baby's first 100 days"
+              src="/child's photo/05-sleeping-newborn-closeup.jpg"
+              alt="A peaceful newborn memory"
               loading="lazy"
             />
-            <span className="story-photo-border" aria-hidden="true" />
           </figure>
-
-          <div className="story-copy" data-reveal>
-            <p className="section-kicker">OUR FIRST 100 DAYS</p>
-            <h2>Small moments that became precious memories</h2>
-            <span className="gold-divider" aria-hidden="true" />
-            <p>
-              The first one hundred days have been made of tiny changes,
-              sleepy mornings, warm embraces and countless moments our family
-              will remember for years to come.
-            </p>
-            <p>
-              This celebration is our way of pausing for a moment, giving
-              thanks, and sharing that joy with everyone who has cared for us.
-            </p>
-          </div>
         </div>
       </section>
 
-      <section className="invitation-section gallery-section">
-        <div className="section-shell">
-          <div className="section-heading centered" data-reveal>
-            <p className="section-kicker">LITTLE MOMENTS</p>
-            <h2>A few memories from the journey</h2>
-            <span className="gold-divider" aria-hidden="true" />
+      <section className="love-section moments-section">
+        <div className="mobile-shell">
+          <div className="section-heading-new" data-reveal>
+            <p className="mini-label">OUR LITTLE ONE</p>
+            <h2>Moments of Joy</h2>
+            <p>A few pieces of our first 100 days that we will always keep close.</p>
           </div>
 
-          <div className="gallery-grid">
-            {galleryImages.map((src, index) => (
+          <div className="moments-grid">
+            {photos.map((src, index) => (
               <figure
-                className={`gallery-item gallery-item-${index + 1}`}
+                className={`moment-card moment-${index + 1}`}
                 key={src}
                 data-reveal
               >
                 <img
                   src={src}
-                  alt={`Family memory ${index + 1}`}
+                  alt={`A family memory from the first 100 days, photo ${index + 1}`}
                   loading="lazy"
                 />
               </figure>
@@ -204,87 +174,64 @@ export default function InvitationContent() {
         </div>
       </section>
 
-      <section className="invitation-section venue-section">
-        <div className="section-shell venue-grid">
-          <div className="venue-copy" data-reveal>
-            <p className="section-kicker">VENUE &amp; DIRECTIONS</p>
-            <h2>We look forward to welcoming you</h2>
-            <span className="gold-divider" aria-hidden="true" />
-            <p className="venue-name">Venue to be confirmed</p>
-            <p className="venue-address">
-              The full venue name, address and map directions will be added
-              here when the family confirms the location.
-            </p>
-            <span className="venue-button is-disabled">
-              Directions available after confirmation
-            </span>
+      <section id="event-details" className="love-section event-section">
+        <div className="page-bubbles page-bubbles-details" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <div className="mobile-shell">
+          <div className="section-heading-new" data-reveal>
+            <p className="mini-label">YOU&apos;RE INVITED</p>
+            <h2>Ceremony Information</h2>
+            <p>Everything you need for the special day, kept simple and easy to read.</p>
           </div>
 
-          <div className="venue-art" data-reveal aria-hidden="true">
-            <img
-              className="venue-pagoda"
-              src="/opening/01_pagoda_backdrop.png"
-              alt=""
-            />
-            <div className="venue-art-overlay" />
-            <span className="venue-gold-ring" />
+          <div className="event-card" data-reveal>
+            {details.map((detail) => (
+              <div className="event-row" key={detail.label}>
+                <span className="event-icon">{detail.icon}</span>
+                <div>
+                  <span className="event-label">{detail.label}</span>
+                  <strong>{detail.value}</strong>
+                  <p>{detail.note}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="invitation-section blessing-section">
-        <img
-          className="blessing-lotus"
-          src="/opening/11_lotus_foreground.png"
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-        />
-        <img
-          className="blessing-petal blessing-petal-one"
-          src="/opening/12_floating_petal.png"
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-        />
-        <img
-          className="blessing-petal blessing-petal-two"
-          src="/opening/12_floating_petal.png"
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-        />
-
-        <div className="section-shell narrow blessing-copy" data-reveal>
-          <p className="section-kicker">A BLESSING</p>
-          <h2>May every day ahead be filled with warmth and grace</h2>
-          <span className="gold-divider" aria-hidden="true" />
+      <section className="love-section donation-section">
+        <div className="mobile-shell donation-card" data-reveal>
+          <div className="donation-decoration" aria-hidden="true">♡</div>
+          <p className="mini-label">DONATION</p>
+          <h2>Sharing Love</h2>
           <p>
-            May our little one grow surrounded by kindness, good health,
-            wisdom and people who offer love with generous hearts.
+            In celebration of our child&apos;s 100th day, we will be making a
+            donation as a gesture of gratitude and kindness. Your presence and
+            blessings are the most meaningful gifts to us.
           </p>
-          <p className="blessing-thanks">
-            Thank you for being part of this beautiful beginning.
-          </p>
+          <span className="script-note">Love grows when it is shared.</span>
         </div>
       </section>
 
-      <section className="invitation-closing">
-        <div className="closing-card" data-reveal>
+      <section className="love-closing">
+        <div className="closing-photo" data-reveal>
           <img
-            className="closing-ornament"
-            src="/opening/09_gold_ornaments.png"
-            alt=""
-            aria-hidden="true"
+            src="/child's photo/06-baby-smiling-with-parents.jpg"
+            alt="A joyful family memory"
             loading="lazy"
           />
-          <p className="section-kicker">WITH LOVE</p>
-          <h2>Thank you for celebrating with us</h2>
+        </div>
+
+        <div className="closing-copy-new" data-reveal>
+          <p className="mini-label">WITH LOVE</p>
+          <h2>See You<br />There ♡</h2>
           <p>
-            Your presence, blessings and good wishes make this milestone even
-            more meaningful to our family.
+            Thank you for being part of this beautiful beginning with us.
           </p>
-          <span className="closing-signoff">From our family</span>
         </div>
       </section>
     </div>
