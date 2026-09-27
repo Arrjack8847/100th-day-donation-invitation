@@ -48,6 +48,8 @@ body.intro-active {
 button,
 a {
   font: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 img,
@@ -214,6 +216,7 @@ a {
 .page-bubbles span,
 .hero-photo-bubble {
   position: absolute;
+  pointer-events: none;
   display: block;
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,.72);
@@ -431,6 +434,8 @@ a {
 }
 
 .sage-button {
+  position: relative;
+  z-index: 5;
   min-height: 52px;
   padding: .8rem 1.4rem;
   display: inline-flex;
@@ -438,6 +443,10 @@ a {
   justify-content: center;
   gap: .75rem;
   font-size: .9rem;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   transition: .2s ease;
 }
 
