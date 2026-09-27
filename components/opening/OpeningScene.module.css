@@ -6,122 +6,49 @@
   place-items: center;
   min-height: 100svh;
   overflow: hidden;
-  isolation: isolate;
-  color: #31332f;
-  background: #faf7f0;
+  background: #f7f4ee;
+  color: #30312e;
   transition:
-    opacity .58s ease,
-    visibility .58s ease,
-    transform .72s cubic-bezier(.2,.8,.2,1);
-}
-
-.paperTexture {
-  position: absolute;
-  inset: 0;
-  z-index: -3;
-  pointer-events: none;
-  opacity: .12;
-  background:
-    url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
-  mix-blend-mode: multiply;
-}
-
-.ambient {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-}
-
-.ambient span {
-  position: absolute;
-  display: block;
-  border: 1px solid rgba(255,255,255,.78);
-  border-radius: 999px;
-  background: rgba(255,255,255,.24);
-  box-shadow:
-    inset 10px 10px 20px rgba(255,255,255,.42),
-    inset -10px -12px 24px rgba(105,124,111,.055),
-    0 12px 34px rgba(72,66,56,.045);
-  backdrop-filter: blur(2px);
-  animation: floatBubble 7s ease-in-out infinite alternate;
-}
-
-.bubbleOne {
-  width: 104px;
-  height: 104px;
-  left: -42px;
-  top: 14%;
-}
-
-.bubbleTwo {
-  width: 58px;
-  height: 58px;
-  right: 7%;
-  top: 9%;
-  animation-delay: -2.4s !important;
-}
-
-.bubbleThree {
-  width: 82px;
-  height: 82px;
-  right: -24px;
-  bottom: 20%;
-  animation-delay: -4.6s !important;
-}
-
-.bubbleFour {
-  width: 34px;
-  height: 34px;
-  left: 12%;
-  bottom: 13%;
-  animation-delay: -1.4s !important;
+    opacity .5s ease,
+    visibility .5s ease,
+    transform .62s cubic-bezier(.2,.8,.2,1);
 }
 
 .content {
-  width: min(94vw, 760px);
+  width: min(100%, 560px);
+  min-height: 100svh;
   padding:
-    max(1.7rem, env(safe-area-inset-top))
-    .75rem
-    max(1.7rem, env(safe-area-inset-bottom));
+    max(2.4rem, env(safe-area-inset-top))
+    1rem
+    max(2.2rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  animation: introIn .9s cubic-bezier(.2,.8,.2,1) both;
+  animation: introIn .85s cubic-bezier(.2,.8,.2,1) both;
 }
 
 .eyebrow {
-  margin: 0 0 clamp(.6rem, 1.8vh, 1.1rem);
-  color: #8d7865;
+  margin: 0 0 clamp(2rem, 5.5vh, 3.25rem);
+  color: #343431;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(.68rem, 2vw, .88rem);
+  font-size: clamp(.72rem, 2.6vw, .92rem);
   font-weight: 400;
   letter-spacing: .34em;
   line-height: 1.4;
   text-transform: uppercase;
 }
 
-.maskStage {
+.hero {
   position: relative;
-  width: min(88vw, 640px);
-  margin: 0 auto;
-  aspect-ratio: 1;
-}
-
-.maskStage::before {
-  content: "";
-  position: absolute;
-  width: 64%;
-  height: 64%;
-  left: 18%;
-  top: 19%;
-  z-index: -1;
-  border-radius: 50%;
-  background: rgba(232, 222, 207, .42);
-  filter: blur(38px);
+  width: min(94vw, 540px);
 }
 
 .photoMask {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   -webkit-mask-image: url("/100%20mask.png");
   mask-image: url("/100%20mask.png");
@@ -131,168 +58,151 @@
   mask-position: center;
   -webkit-mask-size: contain;
   mask-size: contain;
-  filter: saturate(.88) contrast(.97) brightness(1.035);
-  animation: maskIn 1s cubic-bezier(.18,.82,.22,1) .08s both;
-}
-
-.photoMask::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: rgba(255, 246, 235, .035);
+  filter: saturate(.9) contrast(.98) brightness(1.02);
+  animation: maskIn .9s cubic-bezier(.18,.82,.22,1) .04s both;
 }
 
 .photoSlice {
   position: absolute;
   top: 0;
   bottom: 0;
-  overflow: hidden;
-}
-
-.photoSlice img {
-  object-fit: cover;
-  transform: scale(1.035);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .photoOne {
   left: 0;
-  width: 29.5%;
-}
-
-.photoOne img {
-  object-position: 53% 48%;
+  width: 28.5%;
+  background-image: url("/child's photo/05-sleeping-newborn-closeup.jpg");
+  background-position: 48% 50%;
 }
 
 .photoTwo {
-  left: 29.5%;
-  width: 34.5%;
-}
-
-.photoTwo img {
-  object-position: 51% 43%;
+  left: 28.5%;
+  width: 35%;
+  background-image: url("/child's photo/01-100-days-baby-portrait.jpg");
+  background-position: 52% 43%;
 }
 
 .photoThree {
-  left: 64%;
-  width: 36%;
+  left: 63.5%;
+  width: 36.5%;
+  background-image: url("/child's photo/07-baby-red-hat-portrait.jpg");
+  background-position: 50% 39%;
 }
 
-.photoThree img {
-  object-position: 50% 40%;
-}
-
-.copyBlock {
+.scriptTitle {
   position: relative;
   z-index: 3;
-  margin-top: clamp(-3rem, -5.4vw, -1.9rem);
+  width: fit-content;
+  margin: clamp(-3.65rem, -8vw, -2.2rem) auto 0;
+  color: #687f65;
+  font-family: "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive;
+  font-size: clamp(3.25rem, 12vw, 5.65rem);
+  font-weight: 400;
+  line-height: .9;
+  letter-spacing: -.055em;
+  transform: rotate(-2.2deg);
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
 
-.copyBlock h1 {
-  margin: 0;
-  color: #5f735d;
-  font-family: "Segoe Script", "Bradley Hand", "Brush Script MT", cursive;
-  font-size: clamp(3rem, 9.5vw, 5.6rem);
-  font-weight: 400;
-  line-height: .96;
-  letter-spacing: -.055em;
-  transform: rotate(-2deg);
-  text-shadow: 0 1px 0 rgba(255,255,255,.55);
+.scriptTitle::after {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: -7%;
+  bottom: -.35rem;
+  height: .9rem;
+  border-top: 2px solid rgba(104,127,101,.58);
+  border-radius: 50%;
+  transform: rotate(-4deg);
 }
 
 .subtitle {
-  margin: clamp(1.1rem, 2.7vh, 1.65rem) auto 0;
-  color: #4c4a45;
+  max-width: 340px;
+  margin: clamp(2.6rem, 6vh, 3.5rem) auto 0;
+  color: #3f3e3a;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(.96rem, 2.7vw, 1.18rem);
+  font-size: clamp(1rem, 3.8vw, 1.2rem);
   font-weight: 400;
   line-height: 1.55;
 }
 
 .openButton {
-  width: min(78vw, 290px);
-  min-height: 56px;
-  margin-top: clamp(1.45rem, 3.5vh, 2rem);
-  padding: .85rem 1.35rem;
-  border: 1px solid rgba(91,112,88,.08);
+  width: min(72vw, 300px);
+  min-height: 60px;
+  margin-top: clamp(2rem, 4.6vh, 2.6rem);
+  padding: .9rem 1.5rem;
+  border: 0;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: .8rem;
+  gap: .85rem;
   color: #fffdf8;
-  background: #6b8067;
-  box-shadow: 0 13px 28px rgba(78,96,75,.14);
+  background: #73896e;
+  box-shadow: 0 13px 26px rgba(79,95,75,.13);
   cursor: pointer;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(.95rem, 2.8vw, 1.08rem);
-  letter-spacing: .015em;
+  font-size: clamp(1rem, 3.5vw, 1.13rem);
+  letter-spacing: .01em;
   transition:
-    transform .22s ease,
-    box-shadow .22s ease,
-    background .22s ease;
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
 }
 
 .openButton:hover,
 .openButton:focus-visible {
   transform: translateY(-2px);
-  background: #5f755c;
-  box-shadow: 0 17px 32px rgba(78,96,75,.2);
+  background: #667d62;
+  box-shadow: 0 16px 30px rgba(79,95,75,.18);
 }
 
 .openButton:focus-visible {
-  outline: 3px solid rgba(102,125,98,.2);
+  outline: 3px solid rgba(115,137,110,.2);
   outline-offset: 5px;
 }
 
 .arrow {
-  font-size: 1.35em;
+  font-size: 1.4em;
   line-height: 1;
   transform: translateY(-1px);
 }
 
 .divider {
-  width: min(54vw, 205px);
-  margin: clamp(1.35rem, 3vh, 1.9rem) auto 0;
+  width: min(56vw, 220px);
+  margin: clamp(2.2rem, 5vh, 3rem) auto 0;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: .8rem;
-  color: rgba(124,105,87,.58);
+  gap: .9rem;
+  color: #6c8268;
 }
 
 .divider span {
   height: 1px;
-  background: rgba(139,119,99,.23);
+  background: rgba(108,130,104,.42);
 }
 
 .divider b {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: .66rem;
+  font-size: .9rem;
   font-weight: 400;
-  letter-spacing: .16em;
+  line-height: 1;
 }
 
 .leaving {
   opacity: 0;
   visibility: hidden;
-  transform: scale(1.018);
+  transform: scale(1.012);
 }
 
 .leaving .content {
+  opacity: 0;
   transform: translateY(-8px);
-  opacity: 0;
   transition:
-    opacity .38s ease,
-    transform .55s ease;
-}
-
-.leaving .ambient span {
-  transform: translateY(-34px) scale(1.12);
-  opacity: 0;
-  transition:
-    opacity .4s ease,
-    transform .62s cubic-bezier(.2,.8,.2,1);
+    opacity .34s ease,
+    transform .45s ease;
 }
 
 .srOnly {
@@ -312,6 +222,7 @@
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -321,114 +232,104 @@
 @keyframes maskIn {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(.975);
+    transform: translateY(10px) scale(.985);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-@keyframes floatBubble {
-  from {
-    transform: translate3d(-3px, -5px, 0) scale(.98);
-  }
-  to {
-    transform: translate3d(5px, 8px, 0) scale(1.035);
-  }
-}
-
 @media (max-width: 560px) {
   .content {
-    width: min(100%, 440px);
-    padding-inline: .45rem;
+    width: 100%;
+    padding:
+      max(2rem, env(safe-area-inset-top))
+      .7rem
+      max(1.7rem, env(safe-area-inset-bottom));
   }
 
   .eyebrow {
-    margin-bottom: .25rem;
-    font-size: clamp(.64rem, 2.7vw, .76rem);
+    margin-bottom: clamp(1.5rem, 4.2vh, 2rem);
+    font-size: clamp(.66rem, 2.8vw, .77rem);
     letter-spacing: .29em;
   }
 
-  .maskStage {
-    width: min(94vw, 46svh, 430px);
+  .hero {
+    width: min(95vw, 430px);
   }
 
-  .copyBlock {
-    margin-top: clamp(-2rem, -5vw, -1.15rem);
-  }
-
-  .copyBlock h1 {
-    font-size: clamp(2.75rem, 12.5vw, 4rem);
+  .scriptTitle {
+    margin-top: clamp(-2.65rem, -7vw, -1.7rem);
+    font-size: clamp(2.9rem, 13vw, 4rem);
   }
 
   .subtitle {
     max-width: 320px;
-    margin-top: 1rem;
-    font-size: clamp(.92rem, 3.8vw, 1.03rem);
+    margin-top: clamp(2.25rem, 5vh, 2.8rem);
+    font-size: clamp(.96rem, 4vw, 1.06rem);
   }
 
   .openButton {
-    min-height: 54px;
-    margin-top: 1.35rem;
+    width: min(74vw, 290px);
+    min-height: 58px;
+    margin-top: clamp(1.7rem, 4vh, 2.1rem);
   }
 
   .divider {
-    margin-top: 1.35rem;
-  }
-
-  .bubbleOne {
-    width: 78px;
-    height: 78px;
-  }
-
-  .bubbleThree {
-    width: 64px;
-    height: 64px;
+    margin-top: clamp(1.9rem, 4.5vh, 2.5rem);
   }
 }
 
 @media (max-width: 390px) {
   .content {
-    padding-top: max(1.25rem, env(safe-area-inset-top));
+    padding-top: max(1.45rem, env(safe-area-inset-top));
     padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
   }
 
-  .maskStage {
-    width: min(94vw, 43svh, 370px);
+  .eyebrow {
+    margin-bottom: 1rem;
   }
 
-  .copyBlock {
-    margin-top: -1.1rem;
+  .hero {
+    width: min(96vw, 375px);
   }
 
-  .copyBlock h1 {
-    font-size: 2.75rem;
+  .scriptTitle {
+    margin-top: -1.7rem;
+    font-size: 2.8rem;
+  }
+
+  .scriptTitle::after {
+    bottom: -.25rem;
   }
 
   .subtitle {
-    margin-top: .8rem;
-    font-size: .91rem;
+    max-width: 300px;
+    margin-top: 1.9rem;
+    font-size: .94rem;
   }
 
   .openButton {
-    width: 80vw;
-    min-height: 52px;
-    margin-top: 1.15rem;
+    width: 76vw;
+    min-height: 55px;
+    margin-top: 1.45rem;
   }
 
   .divider {
-    margin-top: 1.1rem;
+    width: 54vw;
+    margin-top: 1.7rem;
   }
 }
 
 @media (min-width: 821px) {
-  .maskStage {
-    width: min(60vw, 650px, 62svh);
+  .content {
+    width: min(100%, 700px);
   }
 
-  .copyBlock {
-    margin-top: -2.65rem;
+  .hero {
+    width: min(64vw, 620px, 63svh);
   }
 }
 
@@ -436,7 +337,6 @@
   .opening,
   .content,
   .photoMask,
-  .ambient span,
   .openButton {
     animation: none !important;
     transition: none !important;
