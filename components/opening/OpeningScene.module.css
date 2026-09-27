@@ -47,6 +47,7 @@
 
 .photoMask {
   position: relative;
+  pointer-events: none;
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
@@ -93,6 +94,7 @@
 
 .scriptTitle {
   position: relative;
+  pointer-events: none;
   z-index: 3;
   width: fit-content;
   margin: clamp(-3.65rem, -8vw, -2.2rem) auto 0;
@@ -129,6 +131,8 @@
 }
 
 .openButton {
+  position: relative;
+  z-index: 20;
   width: min(72vw, 300px);
   min-height: 60px;
   margin-top: clamp(2rem, 4.6vh, 2.6rem);
@@ -143,6 +147,11 @@
   background: #73896e;
   box-shadow: 0 13px 26px rgba(79,95,75,.13);
   cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1rem, 3.5vw, 1.13rem);
   letter-spacing: .01em;
@@ -172,6 +181,7 @@
 
 .divider {
   width: min(56vw, 220px);
+  pointer-events: none;
   margin: clamp(2.2rem, 5vh, 3rem) auto 0;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
