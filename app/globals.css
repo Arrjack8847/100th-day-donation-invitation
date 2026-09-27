@@ -275,6 +275,16 @@ a {
   animation: bubble-release .72s cubic-bezier(.2,.7,.2,1) both;
 }
 
+
+/* Mobile/no-hydration fallback: a native hash tap must still reveal the invitation. */
+main:has(#invitation-content:target) > section[aria-label="100 Days of Love opening"] {
+  display: none;
+}
+
+body:has(#invitation-content:target) {
+  overflow: auto;
+}
+
 /* Shared site */
 .love-site {
   position: relative;
