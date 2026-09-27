@@ -208,6 +208,7 @@
 }
 
 .leaving {
+  pointer-events: none;
   opacity: 0;
   visibility: hidden;
   transform: scale(1.012);
