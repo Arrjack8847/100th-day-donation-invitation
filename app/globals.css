@@ -22,7 +22,10 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: max(1rem, env(safe-area-inset-top));
   background: var(--ivory);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html,
@@ -53,9 +56,21 @@ a {
 }
 
 img,
-svg {
+svg,
+video,
+canvas {
   display: block;
   max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+button,
+a {
+  min-width: 0;
 }
 
 a {
@@ -71,6 +86,7 @@ a {
   display: grid;
   place-items: center;
   min-height: 100svh;
+  min-height: 100dvh;
   overflow: hidden;
   isolation: isolate;
   color: var(--sage-dark);
@@ -320,6 +336,7 @@ a {
 .love-hero {
   position: relative;
   min-height: 100svh;
+  min-height: 100dvh;
   display: grid;
   place-items: center;
   padding: max(3.5rem, env(safe-area-inset-top)) 1.25rem 4rem;
@@ -527,6 +544,7 @@ a {
 
 /* Details */
 .event-section {
+  scroll-margin-top: max(1rem, env(safe-area-inset-top));
   overflow: hidden;
   background: linear-gradient(180deg, #faf6ee, #f2eadf);
 }
@@ -659,6 +677,7 @@ a {
 .love-closing {
   position: relative;
   min-height: 100svh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: #f1e8dc;
@@ -666,6 +685,7 @@ a {
 
 .closing-photo {
   min-height: 100svh;
+  min-height: 100dvh;
   overflow: hidden;
   background: #ece2d5;
 }
@@ -722,6 +742,30 @@ a {
 
 @keyframes bubble-release {
   to { transform: translate3d(0, -42px, 0) scale(1.18); opacity: 0; }
+}
+
+/* Large tablets / small laptops */
+@media (max-width: 1100px) and (min-width: 821px) {
+  .hero-inner {
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .hero-photo-shell {
+    width: min(400px, 100%);
+  }
+
+  .hero-copy-new h1 {
+    font-size: clamp(2.6rem, 5vw, 4rem);
+  }
+
+  .meaning-layout {
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .closing-copy-new {
+    padding: clamp(3rem, 6vw, 5rem);
+  }
 }
 
 /* Tablet */
@@ -981,6 +1025,138 @@ a {
   .event-icon svg {
     width: 21px;
     height: 21px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 340px) {
+  .mobile-shell {
+    width: calc(100% - 1rem);
+  }
+
+  .love-section {
+    padding: 3.8rem 0;
+  }
+
+  .hero-photo-shell {
+    width: min(86vw, 285px);
+  }
+
+  .hero-number {
+    font-size: clamp(5rem, 25vw, 6.7rem);
+  }
+
+  .hero-copy-new h1 {
+    font-size: clamp(1.9rem, 9.5vw, 2.65rem);
+  }
+
+  .section-heading-new h2,
+  .section-copy h2,
+  .donation-card h2 {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
+
+  .event-card {
+    padding-inline: .35rem;
+  }
+
+  .event-row {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: .7rem;
+    padding-inline: .45rem;
+  }
+
+  .event-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .event-row strong,
+  .event-row p {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Short phones and landscape devices */
+@media (max-height: 680px) and (orientation: landscape) {
+  .love-hero {
+    min-height: 100dvh;
+    padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  }
+
+  .hero-inner {
+    width: min(980px, 100%);
+    grid-template-columns: minmax(240px, .9fr) minmax(280px, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    text-align: left;
+  }
+
+  .hero-inner > .mini-label {
+    grid-column: 1 / -1;
+    margin-bottom: -1.2rem;
+  }
+
+  .hero-photo-shell {
+    width: min(52svh, 330px);
+    justify-self: end;
+  }
+
+  .hero-copy-new {
+    margin-inline: 0;
+  }
+
+  .hero-number {
+    font-size: clamp(4.8rem, 18svh, 7rem);
+  }
+
+  .hero-copy-new h1 {
+    font-size: clamp(2rem, 8svh, 3.2rem);
+  }
+
+  .small-heart {
+    margin-top: .5rem;
+  }
+
+  .hero-copy-new p {
+    margin: 0 0 1rem;
+    font-size: .92rem;
+    line-height: 1.5;
+  }
+
+  .sage-button {
+    min-height: 48px;
+    padding-block: .65rem;
+  }
+
+  .love-section {
+    padding: 3.5rem 0;
+  }
+
+  .love-closing,
+  .closing-photo {
+    min-height: auto;
+  }
+}
+
+/* Wide desktop / 4K: prevent content from becoming oversized. */
+@media (min-width: 1600px) {
+  .mobile-shell {
+    width: min(1240px, calc(100% - 5rem));
+  }
+
+  .hero-inner {
+    width: min(1180px, 100%);
+  }
+
+  .hero-photo-shell {
+    width: min(500px, 100%);
+  }
+}
+
+@media (pointer: coarse) {
+  .opening-button,
+  .sage-button {
+    min-height: 48px;
   }
 }
 
