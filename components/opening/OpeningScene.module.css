@@ -122,6 +122,7 @@
   object-fit: cover;
   object-position: center;
   background: transparent;
+  opacity: 1;
   mix-blend-mode: lighten;
 }
 
