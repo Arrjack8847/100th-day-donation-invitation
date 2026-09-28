@@ -12,6 +12,8 @@ const TRANSITION_VIDEO =
 const INVITATION_BACKGROUND_VIDEO =
   "/opening/invitation-background.mp4";
 
+const MAIN_REVEAL_PROGRESS = 0.46;
+
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -20,10 +22,12 @@ export default function OpeningScene() {
   const [invitationVisible, setInvitationVisible] = useState(false);
   const [transitionActive, setTransitionActive] = useState(false);
   const [transitionFading, setTransitionFading] = useState(false);
+  const [mainRevealed, setMainRevealed] = useState(false);
 
   const openingStartedRef = useRef(false);
   const introFadeStartedRef = useRef(false);
   const transitionDoneRef = useRef(false);
+  const mainRevealRef = useRef(false);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
   const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -72,9 +76,17 @@ export default function OpeningScene() {
     }
   };
 
-  const revealMainWebsite = () => {
+  const revealMainUnderlay = () => {
+    if (mainRevealRef.current) return;
+    mainRevealRef.current = true;
+    setMainRevealed(true);
+  };
+
+  const finishTransition = () => {
     if (transitionDoneRef.current) return;
     transitionDoneRef.current = true;
+
+    revealMainUnderlay();
 
     if (fallbackTimerRef.current) {
       clearTimeout(fallbackTimerRef.current);
@@ -90,7 +102,7 @@ export default function OpeningScene() {
         block: "start",
         behavior: "auto",
       });
-    }, 340);
+    }, 320);
   };
 
   const handleTransitionProgress = (
@@ -100,7 +112,13 @@ export default function OpeningScene() {
 
     if (!Number.isFinite(video.duration) || video.duration <= 0) return;
 
-    const fadeWindow = Math.min(0.42, video.duration * 0.22);
+    const progress = video.currentTime / video.duration;
+
+    if (progress >= MAIN_REVEAL_PROGRESS) {
+      revealMainUnderlay();
+    }
+
+    const fadeWindow = Math.min(0.36, video.duration * 0.18);
     if (video.duration - video.currentTime <= fadeWindow) {
       setTransitionFading(true);
     }
@@ -108,6 +126,7 @@ export default function OpeningScene() {
 
   const fallbackToSimpleExit = () => {
     setTransitionActive(false);
+    setMainRevealed(false);
     setLeaving(true);
 
     exitTimerRef.current = setTimeout(() => {
@@ -138,6 +157,10 @@ export default function OpeningScene() {
       behavior: "auto",
     });
 
+    transitionDoneRef.current = false;
+    mainRevealRef.current = false;
+    setMainRevealed(false);
+    setTransitionFading(false);
     setTransitionActive(true);
 
     const video = transitionVideoRef.current;
@@ -153,7 +176,7 @@ export default function OpeningScene() {
     });
 
     fallbackTimerRef.current = setTimeout(() => {
-      revealMainWebsite();
+      finishTransition();
     }, 5000);
   };
 
@@ -163,12 +186,12 @@ export default function OpeningScene() {
     <section
       className={`${styles.opening} ${leaving ? styles.leaving : ""} ${
         transitionActive ? styles.transitioning : ""
-      }`}
+      } ${mainRevealed ? styles.mainRevealed : ""}`}
       aria-label="100 Days of Love opening"
     >
       <div
         className={`${styles.invitationBackground} ${
-          invitationVisible && !transitionActive
+          invitationVisible && !mainRevealed
             ? styles.invitationBackgroundVisible
             : ""
         }`}
@@ -271,7 +294,7 @@ export default function OpeningScene() {
           playsInline
           preload="auto"
           onTimeUpdate={handleTransitionProgress}
-          onEnded={revealMainWebsite}
+          onEnded={finishTransition}
           onError={fallbackToSimpleExit}
         />
       </div>

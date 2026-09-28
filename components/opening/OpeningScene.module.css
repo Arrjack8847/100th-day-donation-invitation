@@ -15,7 +15,8 @@
   transition:
     opacity .5s ease,
     visibility .5s ease,
-    transform .62s cubic-bezier(.2,.8,.2,1);
+    transform .62s cubic-bezier(.2,.8,.2,1),
+    background-color .18s ease;
 }
 
 .invitationBackground {
@@ -96,17 +97,18 @@
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-  background: #f7f4ee;
+  background: transparent;
 }
 
 .transitionVideoLayerActive {
   visibility: visible;
   opacity: 1;
+  transition: opacity .14s ease;
 }
 
 .transitionVideoLayerFading {
   opacity: 0;
-  transition: opacity .34s cubic-bezier(.22,1,.36,1);
+  transition: opacity .32s cubic-bezier(.22,1,.36,1);
 }
 
 .transitionVideo {
@@ -117,23 +119,37 @@
   display: block;
   object-fit: cover;
   object-position: center;
-  background: #f7f4ee;
+  background: transparent;
+  opacity: .9;
+  mix-blend-mode: multiply;
+  filter: saturate(1.05) contrast(1.04) brightness(1.02);
 }
 
 .transitioning {
-  background: transparent;
   pointer-events: none;
 }
 
 .transitioning .content {
-  opacity: 0;
-  transform: translateY(-8px) scale(.99);
   pointer-events: none;
-  transition:
-    opacity .24s ease,
-    transform .34s cubic-bezier(.22,1,.36,1);
 }
 
+.mainRevealed {
+  background: transparent;
+}
+
+.mainRevealed .content {
+  opacity: 0;
+  transform: translateY(-6px) scale(.995);
+  pointer-events: none;
+  transition:
+    opacity .18s ease,
+    transform .28s cubic-bezier(.22,1,.36,1);
+}
+
+.mainRevealed .invitationBackground {
+  opacity: 0;
+  transition: opacity .18s ease;
+}
 
 .content {
   position: relative;
