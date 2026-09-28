@@ -21,7 +21,7 @@
   z-index: -3;
   pointer-events: none;
   opacity: .08;
-  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  background: url("/components/paper-grain.png") center / 760px auto repeat;
   mix-blend-mode: multiply;
 }
 
