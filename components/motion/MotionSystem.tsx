@@ -34,6 +34,14 @@ export default function MotionSystem() {
         element.style.transition = "";
         element.style.visibility = "";
       });
+
+      asElements<HTMLElement>(
+        root,
+        ".hero-photo-shell, .hero-intro, .hero-title-main, .hero-title-script, .hero-invite-copy, .hero-scroll-cue",
+      ).forEach((element) => {
+        element.style.opacity = "";
+        element.style.visibility = "";
+      });
     };
 
     const runReducedMotion = () => {
@@ -102,6 +110,16 @@ export default function MotionSystem() {
       };
     }
 
+    // Hide the hero synchronously while the GSAP chunk is loading. The main
+    // page is mounted behind the opening, so this prevents a one-frame flash
+    // of the final hero pose on slower mobile devices.
+    asElements<HTMLElement>(
+      root,
+      ".hero-photo-shell, .hero-intro, .hero-title-main, .hero-title-script, .hero-invite-copy, .hero-scroll-cue",
+    ).forEach((element) => {
+      element.style.opacity = "0";
+    });
+
     void Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
       .then(([gsapModule, scrollTriggerModule]) => {
         if (disposed) return;
@@ -115,6 +133,8 @@ export default function MotionSystem() {
         let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
         const context = gsap.context(() => {
+          const compactMotion = window.innerWidth <= 768;
+          const distanceScale = compactMotion ? 0.52 : 1;
           const allReveal = asElements<HTMLElement>(root, "[data-reveal]");
 
           // GSAP owns reveal transforms once the motion system is active.
@@ -401,10 +421,10 @@ export default function MotionSystem() {
             );
 
             const directions = [
-              { x: -25, y: 15, extraRotation: -3.2 },
-              { x: 24, y: 13, extraRotation: 2.6 },
-              { x: -16, y: 20, extraRotation: -2.2 },
-              { x: 18, y: 18, extraRotation: 2.1 },
+              { x: -25 * distanceScale, y: 15 * distanceScale, extraRotation: -3.2 * distanceScale },
+              { x: 24 * distanceScale, y: 13 * distanceScale, extraRotation: 2.6 * distanceScale },
+              { x: -16 * distanceScale, y: 20 * distanceScale, extraRotation: -2.2 * distanceScale },
+              { x: 18 * distanceScale, y: 18 * distanceScale, extraRotation: 2.1 * distanceScale },
             ];
 
             momentPhotos.forEach((photo, index) => {
@@ -673,7 +693,7 @@ export default function MotionSystem() {
 
             decor.forEach((asset, index) => {
               gsap.to(asset, {
-                y: index === 0 ? -7 : 10,
+                y: (index === 0 ? -7 : 10) * distanceScale,
                 ease: "none",
                 scrollTrigger: {
                   trigger: section,
@@ -747,7 +767,7 @@ export default function MotionSystem() {
             trailTimeline
               .to(memoryTrail, {
                 y: () => root.scrollHeight * 0.17,
-                x: "-7vw",
+                x: compactMotion ? "-3vw" : "-7vw",
                 duration: 1,
                 ease: "none",
               })
@@ -763,13 +783,13 @@ export default function MotionSystem() {
               )
               .to(memoryTrail, {
                 y: () => root.scrollHeight * 0.34,
-                x: "5vw",
+                x: compactMotion ? "2vw" : "5vw",
                 duration: 1,
                 ease: "none",
               })
               .to(memoryTrail, {
                 y: () => root.scrollHeight * 0.51,
-                x: "-3vw",
+                x: compactMotion ? "-1.5vw" : "-3vw",
                 duration: 1,
                 ease: "none",
               })
@@ -785,13 +805,13 @@ export default function MotionSystem() {
               )
               .to(memoryTrail, {
                 y: () => root.scrollHeight * 0.69,
-                x: "4vw",
+                x: compactMotion ? "1.5vw" : "4vw",
                 duration: 1,
                 ease: "none",
               })
               .to(memoryTrail, {
                 y: () => root.scrollHeight * 0.87,
-                x: "-5vw",
+                x: compactMotion ? "-2vw" : "-5vw",
                 duration: 1,
                 ease: "none",
               })
