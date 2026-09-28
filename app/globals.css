@@ -1160,6 +1160,7 @@ body:has(#invitation-content:target) {
 
 .donation-wrap {
   position: relative;
+  z-index: 2;
   width: min(760px, 100%);
   margin-inline: auto;
 }
@@ -1527,6 +1528,8 @@ body:has(#invitation-content:target) {
 }
 
 .closing-photo {
+  position: relative;
+  z-index: 2;
   min-height: 100svh;
   min-height: 100dvh;
   overflow: hidden;
@@ -1542,6 +1545,8 @@ body:has(#invitation-content:target) {
 }
 
 .closing-copy-new {
+  position: relative;
+  z-index: 2;
   display: grid;
   align-content: center;
   justify-items: start;
