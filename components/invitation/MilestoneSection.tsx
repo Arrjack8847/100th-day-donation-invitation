@@ -70,6 +70,43 @@ export default function MilestoneSection() {
             </span>
           </button>
 
+          <div
+            className={`${styles.assetDoodles} ${isShaking ? styles.assetDoodlesReacting : ""}`}
+            aria-hidden="true"
+          >
+            <img
+              className={`${styles.doodleAsset} ${styles.sparkleLeft}`}
+              src="/sparkle-doodle.png"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+            <img
+              className={`${styles.doodleAsset} ${styles.sparkleRight}`}
+              src="/sparkle-doodle.png"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+            <img
+              className={`${styles.doodleAsset} ${styles.heartLeft}`}
+              src="/components/heart-doodle.png"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+            <img
+              className={`${styles.doodleAsset} ${styles.heartRight}`}
+              src="/components/heart-doodle.png"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+          </div>
         </div>
 
         <p
