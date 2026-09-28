@@ -136,6 +136,12 @@
 }
 
 @media (max-width: 768px) {
+  /* Mobile uses one-time section reveals only. The full-page floating layer
+     is intentionally desktop-only so touch scrolling stays on the compositor. */
+  .layer {
+    display: none;
+  }
+
   .memoryTrail {
     left: calc(100% - 32px);
     width: 22px;
