@@ -41,13 +41,14 @@ export default function MilestoneSection() {
       className={styles.section}
       data-reveal
       aria-label="Celebrating one hundred days"
+      data-motion-section="milestone"
     >
       <audio ref={audioRef} src={SOUND_SRC} preload="auto" />
       <div className={styles.paperGlow} aria-hidden="true" />
       <SectionDecor variant="milestone" />
 
       <div className={styles.inner}>
-        <div className={styles.portraitStage}>
+        <div className={styles.portraitStage} data-motion-role="milestone-portrait">
           <button
             type="button"
             className={`${styles.portraitButton} ${isShaking ? styles.isShaking : ""}`}
@@ -116,7 +117,7 @@ export default function MilestoneSection() {
           tap for a little surprise ♡
         </p>
 
-        <div className={styles.message}>
+        <div className={styles.message} data-motion-role="milestone-message">
           <img
             className={styles.textArtwork}
             src="/text.png"
@@ -126,9 +127,9 @@ export default function MilestoneSection() {
           />
         </div>
 
-        <SectionDivider variant="simple" />
+        <div data-motion-role="milestone-divider"><SectionDivider variant="simple" /></div>
 
-        <div className={styles.bannerWrap} aria-hidden="true">
+        <div className={styles.bannerWrap} data-motion-role="milestone-banner" aria-hidden="true">
           <img
             className={styles.banner}
             src="/banner.png"
