@@ -574,3 +574,151 @@
   0%, 100% { opacity: 0; }
   45% { opacity: .8; }
 }
+
+
+/* Doodle visibility pass */
+.assetDoodles {
+  inset: -1rem -1rem -.6rem;
+  z-index: 6;
+}
+
+.doodleAsset {
+  opacity: 0;
+  filter:
+    drop-shadow(0 8px 12px rgba(112, 82, 58, .08))
+    saturate(1.08)
+    contrast(1.04);
+}
+
+.sparkleLeft {
+  width: clamp(96px, 17vw, 150px);
+  left: -1%;
+  top: 7%;
+}
+
+.sparkleRight {
+  width: clamp(78px, 14vw, 124px);
+  right: -1%;
+  top: 21%;
+}
+
+.heartDoodleLeft {
+  width: clamp(88px, 15vw, 138px);
+  left: 0;
+  top: 43%;
+}
+
+.heartDoodleRight {
+  width: clamp(80px, 14vw, 124px);
+  right: 0;
+  top: 49%;
+}
+
+.swirlDoodle {
+  width: clamp(190px, 34vw, 270px);
+  right: 4%;
+  bottom: 15%;
+}
+
+.message {
+  margin-top: clamp(.4rem, 1.2vw, .75rem);
+}
+
+.bannerWrap {
+  margin-top: clamp(.45rem, 1.4vw, .9rem);
+}
+
+@keyframes assetDoodleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.8) rotate(var(--doodle-rotation));
+  }
+  to {
+    opacity: .98;
+    transform: translateY(0) scale(1) rotate(var(--doodle-rotation));
+  }
+}
+
+@media (max-width: 560px) {
+  .section {
+    min-height: 68svh;
+    padding:
+      clamp(2.7rem, 7vw, 3.25rem)
+      .65rem
+      clamp(1.9rem, 5vw, 2.4rem);
+  }
+
+  .bow {
+    width: min(54%, 136px);
+    margin-top: -.5rem;
+  }
+
+  .message {
+    margin-top: .35rem;
+  }
+
+  .bannerWrap {
+    margin-top: .35rem;
+  }
+
+  .assetDoodles {
+    inset: -.6rem -.25rem -.25rem;
+  }
+
+  .sparkleLeft {
+    width: 122px;
+    left: -7%;
+    top: 6%;
+  }
+
+  .sparkleRight {
+    width: 102px;
+    right: -6%;
+    top: 20%;
+  }
+
+  .heartDoodleLeft {
+    width: 112px;
+    left: -7%;
+    top: 41%;
+  }
+
+  .heartDoodleRight {
+    width: 102px;
+    right: -7%;
+    top: 47%;
+  }
+
+  .swirlDoodle {
+    width: 215px;
+    right: -6%;
+    bottom: 14%;
+  }
+}
+
+@media (max-width: 390px) {
+  .sparkleLeft {
+    width: 112px;
+    left: -8%;
+  }
+
+  .sparkleRight {
+    width: 94px;
+    right: -7%;
+  }
+
+  .heartDoodleLeft {
+    width: 104px;
+    left: -8%;
+  }
+
+  .heartDoodleRight {
+    width: 94px;
+    right: -8%;
+  }
+
+  .swirlDoodle {
+    width: 200px;
+    right: -7%;
+  }
+}
