@@ -53,6 +53,53 @@
     linear-gradient(180deg, rgba(247,244,238,.015), rgba(247,244,238,.04));
 }
 
+.transitionVideoLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background: #f7f4ee;
+}
+
+.transitionVideoLayerActive {
+  visibility: visible;
+  opacity: 1;
+}
+
+.transitionVideoLayerFading {
+  opacity: 0;
+  transition: opacity .34s cubic-bezier(.22,1,.36,1);
+}
+
+.transitionVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  background: #f7f4ee;
+}
+
+.transitioning {
+  background: transparent;
+  pointer-events: none;
+}
+
+.transitioning .content {
+  opacity: 0;
+  transform: translateY(-8px) scale(.99);
+  pointer-events: none;
+  transition:
+    opacity .24s ease,
+    transform .34s cubic-bezier(.22,1,.36,1);
+}
+
+
 .content {
   width: min(100%, 560px);
   min-height: 100svh;
@@ -520,7 +567,8 @@
   .content,
   .photoMask,
   .openButton,
-  .videoIntro {
+  .videoIntro,
+  .transitionVideoLayer {
     animation: none !important;
     transition: none !important;
   }
