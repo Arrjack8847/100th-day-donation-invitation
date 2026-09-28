@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import MilestoneSection from "./MilestoneSection";
 
 const photos = [
   "/child's photo/01-100-days-baby-portrait.jpg",
@@ -135,6 +136,8 @@ export default function InvitationContent() {
           </div>
         </div>
       </section>
+
+      <MilestoneSection />
 
       <section className="love-section meaning-section">
         <div className="mobile-shell meaning-layout">
