@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./MilestoneSection.module.css";
-import { SectionDecor } from "../decor/SiteDecor";
+import { SectionDecor, SectionDivider } from "../decor/SiteDecor";
 
 const SOUND_SRC = "/mu-hehehehe-cat-memes-hehe-shorts_v8KezVEr.mp3";
 
@@ -125,6 +125,8 @@ export default function MilestoneSection() {
             decoding="async"
           />
         </div>
+
+        <SectionDivider variant="simple" />
 
         <div className={styles.bannerWrap} aria-hidden="true">
           <img
