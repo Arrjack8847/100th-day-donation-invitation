@@ -380,7 +380,7 @@
 @keyframes sparkleBreathe {
   0%,
   100% {
-    opacity: calc(var(--decor-opacity) * .72);
+    opacity: calc(var(--decor-opacity) - .14);
     transform: scale(.92) rotate(var(--decor-rotation));
   }
   50% {
