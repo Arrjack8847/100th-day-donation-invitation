@@ -112,43 +112,44 @@
   object-fit: contain;
   opacity: 0;
   filter: drop-shadow(0 7px 12px rgba(112, 82, 58, .04));
-  transform: translateY(8px) scale(.86);
+  --doodle-rotation: 0deg;
+  transform: translateY(8px) scale(.86) rotate(var(--doodle-rotation));
 }
 
 .sparkleLeft {
+  --doodle-rotation: -12deg;
   width: clamp(42px, 8vw, 66px);
   left: 4%;
   top: 10%;
-  transform: translateY(8px) scale(.86) rotate(-12deg);
 }
 
 .sparkleRight {
+  --doodle-rotation: 18deg;
   width: clamp(34px, 6vw, 52px);
   right: 5%;
   top: 27%;
-  transform: translateY(8px) scale(.82) rotate(18deg);
 }
 
 .heartDoodleLeft {
+  --doodle-rotation: -8deg;
   width: clamp(38px, 7vw, 58px);
   left: 7%;
   top: 47%;
-  transform: translateY(8px) scale(.84) rotate(-8deg);
 }
 
 .heartDoodleRight {
+  --doodle-rotation: 10deg;
   width: clamp(34px, 6vw, 50px);
   right: 8%;
   top: 53%;
-  transform: translateY(8px) scale(.8) rotate(10deg);
 }
 
 .swirlDoodle {
+  --doodle-rotation: -3deg;
   width: clamp(112px, 25vw, 170px);
   right: 1%;
   bottom: 16%;
   opacity: 0;
-  transform: translateY(8px) scale(.92) rotate(-3deg);
 }
 
 .section:global(.is-visible) .portraitGroup {
@@ -257,11 +258,11 @@
 @keyframes assetDoodleReveal {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(.86);
+    transform: translateY(8px) scale(.86) rotate(var(--doodle-rotation));
   }
   to {
     opacity: .82;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotate(var(--doodle-rotation));
   }
 }
 
