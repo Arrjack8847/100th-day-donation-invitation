@@ -318,9 +318,11 @@ export default function InvitationContent() {
               ))}
             </div>
 
-            <p className="ceremony-pending-note">
-              We&apos;ll share the confirmed ceremony details here soon. <span aria-hidden="true">♡</span>
-            </p>
+            {details.some((detail) => detail.value === "To be confirmed") && (
+              <p className="ceremony-pending-note">
+                We&apos;ll share the confirmed ceremony details here soon. <span aria-hidden="true">♡</span>
+              </p>
+            )}
 
             <div className="ceremony-finial" aria-hidden="true">♡</div>
           </article>
