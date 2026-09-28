@@ -235,6 +235,16 @@ export default function OpeningScene() {
     }
   };
 
+  const unlockMainPage = () => {
+    document.documentElement.classList.remove("intro-active");
+    document.body.classList.remove("intro-active");
+
+    document.getElementById("invitation-content")?.scrollIntoView({
+      block: "start",
+      behavior: "auto",
+    });
+  };
+
   const revealMainUnderlay = () => {
     if (mainRevealRef.current) return;
 
@@ -245,6 +255,10 @@ export default function OpeningScene() {
     flushSync(() => {
       setMainRevealed(true);
     });
+
+    // The main page is now the active experience, so release the intro scroll
+    // lock immediately instead of waiting for the bubble MP4 to finish.
+    unlockMainPage();
   };
 
   const finishTransition = () => {
@@ -263,12 +277,6 @@ export default function OpeningScene() {
 
     exitTimerRef.current = setTimeout(() => {
       setHidden(true);
-      document.documentElement.classList.remove("intro-active");
-      document.body.classList.remove("intro-active");
-      document.getElementById("invitation-content")?.scrollIntoView({
-        block: "start",
-        behavior: "auto",
-      });
     }, TRANSITION_CLEANUP_MS);
   };
 
@@ -341,14 +349,12 @@ export default function OpeningScene() {
     setMainRevealed(false);
     setLeaving(true);
 
+    // The fallback overlay is already leaving and no longer intercepts input,
+    // so restore scrolling immediately rather than after the fade delay.
+    unlockMainPage();
+
     exitTimerRef.current = setTimeout(() => {
       setHidden(true);
-      document.documentElement.classList.remove("intro-active");
-      document.body.classList.remove("intro-active");
-      document.getElementById("invitation-content")?.scrollIntoView({
-        block: "start",
-        behavior: "auto",
-      });
     }, 520);
   };
 
