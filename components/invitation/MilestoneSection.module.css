@@ -722,3 +722,176 @@
     right: -7%;
   }
 }
+
+
+/* One-screen mobile composition pass */
+@media (max-width: 560px) and (orientation: portrait) {
+  .section {
+    min-height: 100svh;
+    height: 100svh;
+    padding:
+      max(.9rem, env(safe-area-inset-top))
+      .45rem
+      max(.75rem, env(safe-area-inset-bottom));
+    display: grid;
+    place-items: center;
+  }
+
+  .inner {
+    width: min(100%, 410px);
+    max-height: calc(100svh - 1.7rem);
+    justify-content: center;
+  }
+
+  .portraitGroup {
+    width: min(53vw, 29svh, 210px);
+  }
+
+  .bow {
+    width: min(50%, 122px);
+    margin-top: -.62rem;
+  }
+
+  .tapHint {
+    margin-top: .05rem;
+    font-size: .66rem;
+  }
+
+  .message {
+    width: min(80vw, 300px);
+    margin-top: .1rem;
+  }
+
+  .bannerWrap {
+    width: min(94vw, 390px);
+    margin-top: .15rem;
+  }
+
+  .assetDoodles {
+    inset: -.2rem -.15rem -.1rem;
+    z-index: 7;
+  }
+
+  .sparkleLeft {
+    width: 138px;
+    left: -10%;
+    top: 3%;
+  }
+
+  .sparkleRight {
+    width: 116px;
+    right: -9%;
+    top: 18%;
+  }
+
+  .heartDoodleLeft {
+    width: 126px;
+    left: -10%;
+    top: 39%;
+  }
+
+  .heartDoodleRight {
+    width: 116px;
+    right: -9%;
+    top: 44%;
+  }
+
+  .swirlDoodle {
+    width: 230px;
+    right: -7%;
+    bottom: 12%;
+  }
+}
+
+@media (max-width: 390px) and (orientation: portrait) {
+  .section {
+    padding-top: max(.6rem, env(safe-area-inset-top));
+    padding-bottom: max(.55rem, env(safe-area-inset-bottom));
+  }
+
+  .inner {
+    max-height: calc(100svh - 1.15rem);
+  }
+
+  .portraitGroup {
+    width: min(51vw, 27svh, 195px);
+  }
+
+  .bow {
+    width: min(48%, 112px);
+    margin-top: -.56rem;
+  }
+
+  .message {
+    width: min(78vw, 282px);
+    margin-top: .02rem;
+  }
+
+  .bannerWrap {
+    width: 92vw;
+    margin-top: .05rem;
+  }
+
+  .sparkleLeft {
+    width: 128px;
+    left: -12%;
+    top: 2%;
+  }
+
+  .sparkleRight {
+    width: 108px;
+    right: -10%;
+    top: 17%;
+  }
+
+  .heartDoodleLeft {
+    width: 118px;
+    left: -11%;
+    top: 38%;
+  }
+
+  .heartDoodleRight {
+    width: 108px;
+    right: -10%;
+    top: 43%;
+  }
+
+  .swirlDoodle {
+    width: 214px;
+    right: -8%;
+    bottom: 11%;
+  }
+}
+
+/* On very short phones, size the artwork from available height rather than width. */
+@media (max-width: 560px) and (max-height: 700px) and (orientation: portrait) {
+  .portraitGroup {
+    width: min(48vw, 25svh, 176px);
+  }
+
+  .bow {
+    width: min(46%, 100px);
+  }
+
+  .message {
+    width: min(72vw, 255px);
+  }
+
+  .bannerWrap {
+    width: min(88vw, 345px);
+  }
+
+  .tapHint {
+    font-size: .62rem;
+  }
+
+  .sparkleLeft,
+  .heartDoodleLeft {
+    left: -8%;
+  }
+
+  .sparkleRight,
+  .heartDoodleRight {
+    right: -7%;
+  }
+}
