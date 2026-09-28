@@ -9,6 +9,9 @@ const INTRO_VIDEO =
 const TRANSITION_VIDEO =
   "/opening/Bubbles_transition_for_baby_invitation_20260928174820.mp4";
 
+const INVITATION_BACKGROUND_VIDEO =
+  "/opening/invitation-background.mp4";
+
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -163,6 +166,26 @@ export default function OpeningScene() {
       }`}
       aria-label="100 Days of Love opening"
     >
+      <div
+        className={`${styles.invitationBackground} ${
+          invitationVisible && !transitionActive
+            ? styles.invitationBackgroundVisible
+            : ""
+        }`}
+        aria-hidden="true"
+      >
+        <video
+          className={styles.invitationBackgroundVideo}
+          src={INVITATION_BACKGROUND_VIDEO}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+        <div className={styles.invitationBackgroundVeil} />
+      </div>
+
       {!introHidden && (
         <div
           className={`${styles.videoIntro} ${
