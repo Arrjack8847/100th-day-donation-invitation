@@ -110,42 +110,48 @@ export default function InvitationContent() {
         </div>
 
         <div className="hero-inner">
-          <div className="hero-copy-new" data-reveal>
-            <p className="mini-label hero-kicker">WITH LOVE &amp; GRATITUDE</p>
+          <header className="hero-intro" data-reveal>
+            <p className="mini-label hero-kicker">OUR LITTLE ONE</p>
 
             <div className="hero-ornament" aria-hidden="true">
               <span />
-              <b>♥</b>
+              <b>♡</b>
               <span />
             </div>
-
-            <h1 className="hero-title">
-              <span className="hero-number">100</span>
-              <span className="hero-days">Days of Love</span>
-            </h1>
-
-            <p className="hero-invite-copy">
-              Join us for our little one&apos;s
-              <br />
-              100th-day donation ceremony.
-            </p>
-
-            <a className="sage-button hero-cta" href="#event-details">
-              <span>View invitation</span>
-              <span className="hero-cta-arrow" aria-hidden="true">↓</span>
-            </a>
-          </div>
+          </header>
 
           <div className="hero-photo-shell" data-reveal>
             <div className="hero-photo-glow" aria-hidden="true" />
+
             <div className="hero-photo-blob">
               <img
                 src="/child's photo/01-100-days-baby-portrait.jpg"
                 alt="Our little one celebrating 100 days"
               />
             </div>
+
             <span className="hero-photo-bubble hero-photo-bubble-one" aria-hidden="true" />
             <span className="hero-photo-bubble hero-photo-bubble-two" aria-hidden="true" />
+            <span className="hero-heart hero-heart-one" aria-hidden="true">♡</span>
+            <span className="hero-heart hero-heart-two" aria-hidden="true">♡</span>
+          </div>
+
+          <div className="hero-copy-new" data-reveal>
+            <h1 className="hero-title">
+              <span className="hero-title-main">100 tiny days,</span>
+              <span className="hero-title-script">
+                a lifetime of love ahead. <i aria-hidden="true">♡</i>
+              </span>
+            </h1>
+
+            <p className="hero-invite-copy">
+              Thank you for celebrating this beautiful beginning with us.
+            </p>
+
+            <div className="hero-scroll-cue" aria-hidden="true">
+              <span>our little story</span>
+              <b>↓</b>
+            </div>
           </div>
         </div>
       </section>
