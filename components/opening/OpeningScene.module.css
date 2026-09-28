@@ -65,7 +65,7 @@
   overflow: hidden;
   background: #f7f4ee;
   opacity: 1;
-  transition: opacity .36s cubic-bezier(.22,1,.36,1);
+  transition: opacity .68s cubic-bezier(.22,1,.36,1);
   will-change: opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
