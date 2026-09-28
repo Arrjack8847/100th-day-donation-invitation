@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal, flushSync } from "react-dom";
 import styles from "./OpeningScene.module.css";
+import { SectionDecor } from "../decor/SiteDecor";
 
 const INTRO_VIDEO =
   "/opening/Soap_bubbles_floating_upward_1080p_20260928174125.mp4";
@@ -494,6 +495,8 @@ export default function OpeningScene() {
           <div className={styles.videoVeil} />
         </div>
       )}
+
+      <SectionDecor variant="opening" />
 
       <div
         className={`${styles.content} ${

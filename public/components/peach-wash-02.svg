@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="625" viewBox="0 0 500 625">
+<defs>
+<filter id="soft2"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="3" seed="13"/>
+<feDisplacementMap in="SourceGraphic" scale="14"/></filter>
+<radialGradient id="g2" cx="48%" cy="45%" r="62%">
+<stop offset="0" stop-color="#F2C0AE" stop-opacity=".42"/>
+<stop offset=".65" stop-color="#F6D3C8" stop-opacity=".28"/>
+<stop offset="1" stop-color="#F6D3C8" stop-opacity="0"/>
+</radialGradient>
+</defs>
+
+<path d="M190 55 C275 15, 355 74, 392 155 C448 240, 416 360, 345 430 C270 495, 166 468, 112 389 C55 305, 68 212, 95 135 C114 88, 147 66, 190 55Z"
+ fill="url(#g2)" filter="url(#soft2)"/>
+<ellipse cx="210" cy="220" rx="145" ry="180" fill="#EFAE90" opacity=".07"/>
+<ellipse cx="300" cy="330" rx="80" ry="110" fill="#E7A17F" opacity=".05"/>
+
+</svg>

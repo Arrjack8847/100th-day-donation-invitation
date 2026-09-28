@@ -1,0 +1,440 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.asset {
+  --decor-size: 48px;
+  --decor-opacity: .6;
+  --decor-rotation: 0deg;
+  --decor-delay: 0s;
+  --decor-duration: 12s;
+  position: absolute;
+  width: var(--decor-size);
+  height: auto;
+  display: block;
+  opacity: var(--decor-opacity);
+  object-fit: contain;
+  transform: rotate(var(--decor-rotation));
+  transform-origin: center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.paperTexture {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  opacity: .038;
+  pointer-events: none;
+  user-select: none;
+}
+
+.paperTexture img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.inlineDivider {
+  width: min(132px, 42vw);
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  opacity: .6;
+  pointer-events: none;
+  user-select: none;
+}
+
+.scrapbookTape {
+  position: absolute;
+  z-index: 7;
+  width: clamp(46px, 17vw, 84px) !important;
+  height: auto !important;
+  max-height: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  pointer-events: none;
+  user-select: none;
+}
+
+.topLeft {
+  top: -12px;
+  left: 8%;
+  transform: rotate(-5deg);
+}
+
+.topCenter {
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+}
+
+.topRight {
+  top: -12px;
+  right: 8%;
+  transform: rotate(5deg);
+}
+
+.corner {
+  top: -10px;
+  right: -10px;
+  width: clamp(38px, 13vw, 66px) !important;
+  transform: rotate(4deg);
+}
+
+.bubble {
+  animation: bubbleDrift var(--decor-duration) ease-in-out var(--decor-delay) infinite alternate;
+}
+
+.sparkle {
+  animation: sparkleBreathe var(--decor-duration) ease-in-out var(--decor-delay) infinite;
+}
+
+.petal {
+  animation: petalDrift var(--decor-duration) ease-in-out var(--decor-delay) infinite alternate;
+}
+
+.openingLayer {
+  z-index: 8;
+}
+
+.openingWash {
+  --decor-size: clamp(250px, 78vw, 520px);
+  top: 11%;
+  left: 50%;
+  transform: translateX(-50%) rotate(var(--decor-rotation));
+}
+
+.openingBubbleLeft {
+  --decor-size: clamp(80px, 24vw, 136px);
+  top: 9%;
+  left: -8%;
+}
+
+.openingBubbleRight {
+  --decor-size: clamp(96px, 28vw, 154px);
+  top: 32%;
+  right: -11%;
+}
+
+.openingBubbleBottom {
+  --decor-size: clamp(72px, 21vw, 118px);
+  bottom: 8%;
+  left: -5%;
+}
+
+.openingSparkleOne {
+  --decor-size: clamp(24px, 7vw, 36px);
+  top: 24%;
+  left: 10%;
+}
+
+.openingSparkleTwo {
+  --decor-size: clamp(20px, 6vw, 32px);
+  right: 13%;
+  bottom: 24%;
+}
+
+.heroLayer {
+  z-index: 1;
+}
+
+.heroWash {
+  --decor-size: clamp(330px, 84vw, 680px);
+  top: 12%;
+  left: -8%;
+}
+
+.heroHeart {
+  --decor-size: clamp(28px, 8vw, 46px);
+  left: 7%;
+  bottom: 18%;
+}
+
+.heroSparkle {
+  --decor-size: clamp(24px, 7vw, 38px);
+  right: 8%;
+  top: 20%;
+}
+
+.heroBow {
+  --decor-size: clamp(62px, 17vw, 94px);
+  left: 42%;
+  bottom: 8%;
+}
+
+.milestoneLayer {
+  z-index: 1;
+}
+
+.milestoneWash {
+  --decor-size: clamp(310px, 86vw, 590px);
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%) rotate(var(--decor-rotation));
+}
+
+.milestoneHeart {
+  --decor-size: clamp(26px, 7vw, 38px);
+  left: 10%;
+  top: 28%;
+}
+
+.milestoneSparkle {
+  --decor-size: clamp(24px, 6vw, 34px);
+  right: 12%;
+  top: 25%;
+}
+
+.milestoneBow {
+  --decor-size: clamp(70px, 19vw, 104px);
+  left: 50%;
+  top: 48%;
+  transform: translateX(-50%) rotate(var(--decor-rotation));
+}
+
+.meaningLayer {
+  z-index: 1;
+}
+
+.meaningWash {
+  --decor-size: clamp(330px, 92vw, 660px);
+  top: 4%;
+  left: -20%;
+}
+
+.meaningSwirl {
+  --decor-size: clamp(150px, 43vw, 260px);
+  top: 28%;
+  right: -15%;
+}
+
+.meaningSprig {
+  --decor-size: clamp(105px, 28vw, 170px);
+  top: 8%;
+  left: -8%;
+}
+
+.meaningHeart {
+  --decor-size: clamp(25px, 7vw, 38px);
+  right: 7%;
+  bottom: 12%;
+}
+
+.momentsLayer {
+  z-index: 1;
+}
+
+.momentsWashOne {
+  --decor-size: clamp(360px, 94vw, 720px);
+  left: -22%;
+  top: 12%;
+}
+
+.momentsWashTwo {
+  --decor-size: clamp(320px, 82vw, 630px);
+  right: -22%;
+  bottom: 7%;
+}
+
+.momentsStitch {
+  --decor-size: clamp(180px, 50vw, 350px);
+  left: 4%;
+  top: 48%;
+}
+
+.momentsHeart {
+  --decor-size: clamp(27px, 7vw, 40px);
+  right: 8%;
+  top: 24%;
+}
+
+.momentsBow {
+  --decor-size: clamp(60px, 16vw, 90px);
+  left: 12%;
+  bottom: 12%;
+}
+
+.momentsSparkleOne {
+  --decor-size: clamp(24px, 6vw, 35px);
+  left: 8%;
+  top: 15%;
+}
+
+.momentsSparkleTwo {
+  --decor-size: clamp(20px, 5.5vw, 31px);
+  right: 12%;
+  bottom: 19%;
+}
+
+.eventLayer {
+  z-index: 1;
+}
+
+.eventSprigTop {
+  --decor-size: clamp(100px, 27vw, 155px);
+  top: 2%;
+  left: -6%;
+}
+
+.eventSprigBottom {
+  --decor-size: clamp(90px, 24vw, 142px);
+  right: -6%;
+  bottom: 2%;
+}
+
+.eventSparkle {
+  --decor-size: clamp(20px, 5vw, 28px);
+  top: 18%;
+  right: 8%;
+}
+
+.donationLayer {
+  z-index: 1;
+}
+
+.donationLotus {
+  --decor-size: clamp(300px, 76vw, 560px);
+  left: 50%;
+  top: 9%;
+  transform: translateX(-50%) rotate(var(--decor-rotation));
+}
+
+.donationPetalOne {
+  --decor-size: clamp(28px, 7vw, 42px);
+  top: 18%;
+  right: 9%;
+}
+
+.donationPetalTwo {
+  --decor-size: clamp(24px, 6vw, 38px);
+  left: 8%;
+  bottom: 15%;
+}
+
+.donationSprig {
+  --decor-size: clamp(95px, 24vw, 145px);
+  right: -6%;
+  bottom: 1%;
+}
+
+.closingLayer {
+  z-index: 3;
+}
+
+.closingBubbles {
+  --decor-size: clamp(92px, 25vw, 150px);
+  top: 7%;
+  right: -6%;
+}
+
+.closingHeart {
+  --decor-size: clamp(28px, 7vw, 40px);
+  right: 13%;
+  top: 44%;
+}
+
+.closingSparkle {
+  --decor-size: clamp(22px, 5.5vw, 32px);
+  right: 8%;
+  top: 32%;
+}
+
+.closingPetalOne {
+  --decor-size: clamp(27px, 6.5vw, 40px);
+  right: 18%;
+  bottom: 10%;
+}
+
+.closingPetalTwo {
+  --decor-size: clamp(22px, 5.5vw, 34px);
+  left: 46%;
+  bottom: 5%;
+}
+
+@keyframes bubbleDrift {
+  0% {
+    transform: translate3d(0, 8px, 0) rotate(var(--decor-rotation));
+  }
+  50% {
+    transform: translate3d(5px, -8px, 0) rotate(calc(var(--decor-rotation) + 2deg));
+  }
+  100% {
+    transform: translate3d(-4px, -18px, 0) rotate(calc(var(--decor-rotation) - 2deg));
+  }
+}
+
+@keyframes sparkleBreathe {
+  0%,
+  100% {
+    opacity: calc(var(--decor-opacity) - .14);
+    transform: scale(.92) rotate(var(--decor-rotation));
+  }
+  50% {
+    opacity: var(--decor-opacity);
+    transform: scale(1) rotate(var(--decor-rotation));
+  }
+}
+
+@keyframes petalDrift {
+  0% {
+    transform: translate3d(0, -5px, 0) rotate(var(--decor-rotation));
+  }
+  100% {
+    transform: translate3d(7px, 14px, 0) rotate(calc(var(--decor-rotation) + 8deg));
+  }
+}
+
+@media (min-width: 768px) {
+  .openingBubbleLeft,
+  .heroHeart,
+  .meaningSprig,
+  .eventSprigTop {
+    left: 2%;
+  }
+
+  .openingBubbleRight,
+  .meaningSwirl,
+  .eventSprigBottom,
+  .donationSprig {
+    right: 2%;
+  }
+
+  .heroWash {
+    left: 4%;
+  }
+
+  .heroBow {
+    left: 27%;
+    bottom: 11%;
+  }
+
+  .momentsStitch {
+    left: 14%;
+  }
+
+  .closingBubbles {
+    right: 3%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble,
+  .sparkle,
+  .petal {
+    animation: none !important;
+  }
+}

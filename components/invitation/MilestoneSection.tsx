@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./MilestoneSection.module.css";
+import { SectionDecor } from "../decor/SiteDecor";
 
 const SOUND_SRC = "/mu-hehehehe-cat-memes-hehe-shorts_v8KezVEr.mp3";
 
@@ -43,45 +44,10 @@ export default function MilestoneSection() {
     >
       <audio ref={audioRef} src={SOUND_SRC} preload="auto" />
       <div className={styles.paperGlow} aria-hidden="true" />
+      <SectionDecor variant="milestone" />
 
       <div className={styles.inner}>
         <div className={styles.portraitStage}>
-          <div
-            className={`${styles.assetDoodles} ${isShaking ? styles.assetDoodlesReacting : ""}`}
-            aria-hidden="true"
-          >
-            <img
-              className={`${styles.doodleAsset} ${styles.sparkleLeft}`}
-              src="/decor/sparkle-doodle.png"
-              alt=""
-              draggable={false}
-            />
-            <img
-              className={`${styles.doodleAsset} ${styles.sparkleRight}`}
-              src="/decor/sparkle-doodle.png"
-              alt=""
-              draggable={false}
-            />
-            <img
-              className={`${styles.doodleAsset} ${styles.heartLeft}`}
-              src="/decor/heart-doodle.png"
-              alt=""
-              draggable={false}
-            />
-            <img
-              className={`${styles.doodleAsset} ${styles.heartRight}`}
-              src="/decor/heart-doodle.png"
-              alt=""
-              draggable={false}
-            />
-            <img
-              className={`${styles.doodleAsset} ${styles.swirl}`}
-              src="/decor/swirl-line.svg"
-              alt=""
-              draggable={false}
-            />
-          </div>
-
           <button
             type="button"
             className={`${styles.portraitButton} ${isShaking ? styles.isShaking : ""}`}
@@ -104,17 +70,6 @@ export default function MilestoneSection() {
             </span>
           </button>
 
-          <svg
-            className={styles.lineBow}
-            viewBox="0 0 150 54"
-            aria-hidden="true"
-          >
-            <path d="M75 17C60 1 35 2 30 14c-5 12 18 17 45 7" />
-            <path d="M75 17c15-16 40-15 45-3 5 12-18 17-45 7" />
-            <path d="M75 21c-7 11-14 19-24 27" />
-            <path d="M75 21c7 11 14 19 24 27" />
-            <circle cx="75" cy="19" r="3.5" />
-          </svg>
         </div>
 
         <p

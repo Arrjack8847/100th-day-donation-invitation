@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./MeaningSection.module.css";
+import { ScrapbookTape, SectionDecor } from "../decor/SiteDecor";
 
 function SunriseIcon() {
   return (
@@ -30,6 +31,7 @@ export default function MeaningSection() {
   return (
     <section className={styles.section} aria-labelledby="meaning-title">
       <div className={styles.paperTexture} aria-hidden="true" />
+      <SectionDecor variant="meaning" />
       <span className={styles.watermark} aria-hidden="true">100</span>
 
       <div className={styles.inner}>
@@ -58,17 +60,9 @@ export default function MeaningSection() {
         </header>
 
         <div className={styles.photoStage}>
-          <img
-            className={[styles.doodle, styles.sparkles].join(" ")}
-            src="/decor/sparkle-doodle.png"
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            draggable={false}
-          />
+          <ScrapbookTape kind="paper" placement="topCenter" />
 
           <div className={styles.photoPaper} data-reveal>
-            <span className={styles.tape} aria-hidden="true">♡</span>
             <img
               className={styles.babyPhoto}
               src="/child's photo/05-sleeping-newborn-closeup.jpg"
@@ -88,16 +82,6 @@ export default function MeaningSection() {
             <b>♡</b>
           </aside>
 
-          <span className={styles.smallHeart} aria-hidden="true">♡</span>
-
-          <img
-            className={[styles.doodle, styles.swirl].join(" ")}
-            src="/decor/swirl-line.svg"
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            draggable={false}
-          />
         </div>
 
         <div className={styles.feelings} data-reveal aria-label="What these 100 days mean to us">
