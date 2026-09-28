@@ -5,7 +5,6 @@ import MilestoneSection from "./MilestoneSection";
 import MeaningSection from "./MeaningSection";
 import SectionBridge from "../decor/SectionBridge";
 import {
-  PaperTexture,
   ScrapbookTape,
   SectionDecor,
   SectionDivider,
@@ -108,8 +107,6 @@ export default function InvitationContent() {
 
   return (
     <div id="invitation-content" className="love-site">
-      <PaperTexture />
-
       <section className="love-hero">
         <SectionDecor variant="hero" />
 
@@ -240,7 +237,6 @@ export default function InvitationContent() {
         <div className="mobile-shell event-shell">
           <article className="ceremony-paper" data-reveal>
             <div className="ceremony-paper-grain" aria-hidden="true" />
-            <ScrapbookTape kind="paper" placement="topCenter" />
 
             <header className="ceremony-heading">
               <p className="ceremony-kicker">THE CEREMONY</p>
