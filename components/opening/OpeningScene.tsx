@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { createPortal, flushSync } from "react-dom";
 import styles from "./OpeningScene.module.css";
 
 const INTRO_VIDEO =
@@ -15,6 +15,8 @@ const INVITATION_BACKGROUND_VIDEO =
 
 // Peak center coverage in the transition storyboard is 0.8–1.1s.
 const PEAK_COVERAGE_SWAP_SECONDS = 0.95;
+const TRANSITION_FADE_SECONDS = 0.18;
+const TRANSITION_CLEANUP_MS = 220;
 const INTRO_HANDOFF_SECONDS = 0.36;
 const INTRO_FADE_MS = 360;
 const CONTENT_REVEAL_DELAY_MS = 430;
@@ -31,6 +33,7 @@ export default function OpeningScene() {
     useState(false);
   const [transitionActive, setTransitionActive] = useState(false);
   const [transitionFading, setTransitionFading] = useState(false);
+  const [transitionFrameReady, setTransitionFrameReady] = useState(false);
   const [mainRevealed, setMainRevealed] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
 
@@ -39,6 +42,8 @@ export default function OpeningScene() {
   const visualHandoffStartedRef = useRef(false);
   const transitionDoneRef = useRef(false);
   const mainRevealRef = useRef(false);
+  const transitionFrameReadyRef = useRef(false);
+  const transitionMediaReadyRef = useRef(false);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
   const invitationBackgroundVideoRef = useRef<HTMLVideoElement | null>(null);
   const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -47,6 +52,7 @@ export default function OpeningScene() {
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const frameCallbackRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
 
   const cancelTransitionFrameTracking = () => {
     const video = transitionVideoRef.current;
@@ -60,6 +66,11 @@ export default function OpeningScene() {
     }
 
     frameCallbackRef.current = null;
+
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
   };
 
   useEffect(() => {
@@ -83,6 +94,70 @@ export default function OpeningScene() {
       cancelTransitionFrameTracking();
     };
   }, []);
+
+  useEffect(() => {
+    if (!portalReady) return;
+
+    const video = transitionVideoRef.current;
+
+    if (video) {
+      if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        transitionMediaReadyRef.current = true;
+        video.pause();
+
+        try {
+          video.currentTime = 0;
+        } catch {
+          // Safari can briefly reject a seek while metadata settles.
+        }
+      } else {
+        // Ask mobile Safari to start fetching/decoding before the user taps.
+        video.load();
+      }
+    }
+
+    // The destination is already mounted behind the opening. Decode its hero
+    // image now so the hidden page swap never reveals a late image paint.
+    const heroImage = document.querySelector<HTMLImageElement>(
+      "#invitation-content .hero-photo-blob img",
+    );
+
+    if (heroImage && typeof heroImage.decode === "function") {
+      void heroImage.decode().catch(() => {});
+    }
+
+    if (document.fonts?.ready) {
+      void document.fonts.ready.then(() => {
+        document
+          .getElementById("invitation-content")
+          ?.getBoundingClientRect();
+      });
+    }
+  }, [portalReady]);
+
+  const primeTransitionMedia = (video: HTMLVideoElement) => {
+    if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) return;
+
+    transitionMediaReadyRef.current = true;
+
+    if (openingStartedRef.current) return;
+
+    video.pause();
+    try {
+      video.currentTime = 0;
+    } catch {
+      // The default first frame is still safe if an early Safari seek fails.
+    }
+  };
+
+  const markTransitionFrameReady = () => {
+    if (transitionFrameReadyRef.current) return;
+
+    transitionFrameReadyRef.current = true;
+    flushSync(() => {
+      setTransitionFrameReady(true);
+    });
+  };
 
   const completeIntroHandoff = () => {
     if (visualHandoffStartedRef.current) return;
@@ -159,8 +234,14 @@ export default function OpeningScene() {
 
   const revealMainUnderlay = () => {
     if (mainRevealRef.current) return;
+
     mainRevealRef.current = true;
-    setMainRevealed(true);
+
+    // Commit the page switch in the same rendered-video-frame callback.
+    // There is no crossfade between pages; the bubbles hide this atomic swap.
+    flushSync(() => {
+      setMainRevealed(true);
+    });
   };
 
   const finishTransition = () => {
@@ -184,7 +265,7 @@ export default function OpeningScene() {
         block: "start",
         behavior: "auto",
       });
-    }, 320);
+    }, TRANSITION_CLEANUP_MS);
   };
 
   const syncTransitionToVideoTime = (
@@ -200,8 +281,7 @@ export default function OpeningScene() {
       revealMainUnderlay();
     }
 
-    const fadeWindow = Math.min(0.28, duration * 0.12);
-    if (duration - currentTime <= fadeWindow) {
+    if (duration - currentTime <= TRANSITION_FADE_SECONDS) {
       setTransitionFading(true);
     }
   };
@@ -214,28 +294,45 @@ export default function OpeningScene() {
   };
 
   const startTransitionFrameTracking = (video: HTMLVideoElement) => {
-    if (typeof video.requestVideoFrameCallback !== "function") return;
-
     cancelTransitionFrameTracking();
 
-    const onVideoFrame = (
-      _now: number,
-      metadata: VideoFrameCallbackMetadata,
-    ) => {
-      syncTransitionToVideoTime(metadata.mediaTime, video.duration);
+    if (typeof video.requestVideoFrameCallback === "function") {
+      const onVideoFrame = (
+        _now: number,
+        metadata: VideoFrameCallbackMetadata,
+      ) => {
+        markTransitionFrameReady();
+        syncTransitionToVideoTime(metadata.mediaTime, video.duration);
+
+        if (!transitionDoneRef.current && !video.ended) {
+          frameCallbackRef.current =
+            video.requestVideoFrameCallback(onVideoFrame);
+        }
+      };
+
+      frameCallbackRef.current =
+        video.requestVideoFrameCallback(onVideoFrame);
+      return;
+    }
+
+    // Older browsers get a display-rate fallback rather than coarse timeupdate
+    // timing, keeping the swap close to the intended peak-coverage frame.
+    const onAnimationFrame = () => {
+      markTransitionFrameReady();
+      syncTransitionToVideoTime(video.currentTime, video.duration);
 
       if (!transitionDoneRef.current && !video.ended) {
-        frameCallbackRef.current =
-          video.requestVideoFrameCallback(onVideoFrame);
+        animationFrameRef.current = requestAnimationFrame(onAnimationFrame);
       }
     };
 
-    frameCallbackRef.current =
-      video.requestVideoFrameCallback(onVideoFrame);
+    animationFrameRef.current = requestAnimationFrame(onAnimationFrame);
   };
 
   const fallbackToSimpleExit = () => {
     cancelTransitionFrameTracking();
+    transitionFrameReadyRef.current = false;
+    setTransitionFrameReady(false);
     setTransitionActive(false);
     setMainRevealed(false);
     setLeaving(true);
@@ -263,16 +360,19 @@ export default function OpeningScene() {
       return;
     }
 
-    document.getElementById("invitation-content")?.scrollIntoView({
+    const destination = document.getElementById("invitation-content");
+    destination?.scrollIntoView({
       block: "start",
       behavior: "auto",
     });
 
+    // Force the already-mounted destination to finish layout while the fixed
+    // invitation is still covering it.
+    destination?.getBoundingClientRect();
+
     transitionDoneRef.current = false;
     mainRevealRef.current = false;
-    setMainRevealed(false);
-    setTransitionFading(false);
-    setTransitionActive(true);
+    transitionFrameReadyRef.current = false;
 
     const video = transitionVideoRef.current;
     if (!video) {
@@ -280,7 +380,31 @@ export default function OpeningScene() {
       return;
     }
 
-    video.currentTime = 0;
+    if (
+      !transitionMediaReadyRef.current &&
+      video.readyState === HTMLMediaElement.HAVE_NOTHING
+    ) {
+      video.load();
+    }
+
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      try {
+        video.currentTime = 0;
+      } catch {
+        // Playback still begins from the media's natural first frame.
+      }
+    }
+
+    // Commit the transparent compositor layer before playback. The video stays
+    // hidden until the browser has a playable/rendered frame, so slow iPhone
+    // decoding cannot expose an empty or intermediate frame.
+    flushSync(() => {
+      setMainRevealed(false);
+      setTransitionFading(false);
+      setTransitionFrameReady(false);
+      setTransitionActive(true);
+    });
+
     startTransitionFrameTracking(video);
 
     void video.play().catch(() => {
@@ -432,11 +556,16 @@ export default function OpeningScene() {
           >
             <video
               ref={transitionVideoRef}
-              className={styles.transitionVideo}
+              className={`${styles.transitionVideo} ${
+                transitionFrameReady ? styles.transitionVideoReady : ""
+              }`}
               src={TRANSITION_VIDEO}
               muted
               playsInline
               preload="auto"
+              onLoadedData={(event) => primeTransitionMedia(event.currentTarget)}
+              onCanPlay={(event) => primeTransitionMedia(event.currentTarget)}
+              onPlaying={markTransitionFrameReady}
               onTimeUpdate={handleTransitionProgress}
               onEnded={finishTransition}
               onError={fallbackToSimpleExit}
