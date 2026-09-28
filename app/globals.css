@@ -399,7 +399,7 @@ body:has(#invitation-content:target) {
   position: absolute;
   inset: 0;
   opacity: .14;
-  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  background: url("/components/paper-grain.png") center / 760px auto repeat;
   mix-blend-mode: multiply;
   pointer-events: none;
 }
@@ -609,7 +609,7 @@ body:has(#invitation-content:target) {
   z-index: -2;
   pointer-events: none;
   opacity: .065;
-  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  background: url("/components/paper-grain.png") center / 760px auto repeat;
   mix-blend-mode: multiply;
 }
 
@@ -655,7 +655,7 @@ body:has(#invitation-content:target) {
   z-index: 0;
   pointer-events: none;
   opacity: .045;
-  background: url("/opening/02_ivory_paper_texture.png") center / 680px auto repeat;
+  background: url("/components/paper-grain.png") center / 680px auto repeat;
   mix-blend-mode: multiply;
 }
 
@@ -1165,7 +1165,7 @@ body:has(#invitation-content:target) {
   z-index: -3;
   pointer-events: none;
   opacity: .065;
-  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  background: url("/components/paper-grain.png") center / 760px auto repeat;
   mix-blend-mode: multiply;
 }
 
@@ -1251,7 +1251,7 @@ body:has(#invitation-content:target) {
   z-index: -2;
   pointer-events: none;
   opacity: .045;
-  background: url("/opening/02_ivory_paper_texture.png") center / 680px auto repeat;
+  background: url("/components/paper-grain.png") center / 680px auto repeat;
   mix-blend-mode: multiply;
 }
 
@@ -2072,7 +2072,7 @@ body:has(#invitation-content:target) {
   z-index: -3;
   pointer-events: none;
   opacity: .075;
-  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  background: url("/components/paper-grain.png") center / 760px auto repeat;
   mix-blend-mode: multiply;
 }
 
@@ -2674,7 +2674,7 @@ body:has(#invitation-content:target) {
   z-index: -3;
   pointer-events: none;
   opacity: .075;
-  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  background: url("/components/paper-grain.png") center / 760px auto repeat;
   mix-blend-mode: multiply;
 }
 
@@ -3290,7 +3290,7 @@ body:has(#invitation-content:target) {
   z-index: -3;
   pointer-events: none;
   opacity: .065;
-  background: url("/opening/02_ivory_paper_texture.png") center / 760px auto repeat;
+  background: url("/components/paper-grain.png") center / 760px auto repeat;
   mix-blend-mode: multiply;
 }
 
