@@ -3,6 +3,12 @@
 import { useEffect, type CSSProperties } from "react";
 import MilestoneSection from "./MilestoneSection";
 import MeaningSection from "./MeaningSection";
+import {
+  PaperTexture,
+  ScrapbookTape,
+  SectionDecor,
+  SectionDivider,
+} from "../decor/SiteDecor";
 
 const photos = [
   "/child's photo/01-100-days-baby-portrait.jpg",
@@ -101,13 +107,10 @@ export default function InvitationContent() {
 
   return (
     <div id="invitation-content" className="love-site">
+      <PaperTexture />
+
       <section className="love-hero">
-        <div className="page-bubbles page-bubbles-hero" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
-        </div>
+        <SectionDecor variant="hero" />
 
         <div className="hero-inner">
           <header className="hero-intro" data-reveal>
@@ -133,10 +136,6 @@ export default function InvitationContent() {
               />
             </div>
 
-            <span className="hero-photo-bubble hero-photo-bubble-one" aria-hidden="true" />
-            <span className="hero-photo-bubble hero-photo-bubble-two" aria-hidden="true" />
-            <span className="hero-heart hero-heart-one" aria-hidden="true">♡</span>
-            <span className="hero-heart hero-heart-two" aria-hidden="true">♡</span>
           </div>
 
           <div className="hero-copy-new">
@@ -165,6 +164,7 @@ export default function InvitationContent() {
 
       <section className="love-section moments-section">
         <div className="moments-paper" aria-hidden="true" />
+        <SectionDecor variant="moments" />
 
         <div className="mobile-shell moments-shell">
           <header className="moments-heading" data-reveal>
@@ -175,31 +175,12 @@ export default function InvitationContent() {
             </h2>
             <p className="moments-subtitle">A hundred days of little memories.</p>
 
-            <svg
-              className="moments-divider"
-              viewBox="0 0 210 24"
-              role="presentation"
-              aria-hidden="true"
-            >
-              <path d="M3 12C35 5 69 18 101 12C133 6 168 18 207 12" />
-              <path d="M105 11C97 2 90 5 94 11C97 16 102 14 105 11C113 2 120 5 116 11C113 16 108 14 105 11M105 12V21" />
-            </svg>
+            <SectionDivider />
           </header>
 
           <div className="moments-collage">
-            <span className="moments-wash moments-wash-peach" aria-hidden="true" />
-            <span className="moments-wash moments-wash-sage" aria-hidden="true" />
-
-            <div className="moments-accents" data-reveal aria-hidden="true">
-              <span className="moments-heart moments-heart-one">♡</span>
-              <span className="moments-heart moments-heart-two">♡</span>
-              <span className="moments-sparkle moments-sparkle-one">✦</span>
-              <span className="moments-sparkle moments-sparkle-two">✧</span>
-              <span className="moments-dots">···</span>
-            </div>
-
             <figure className="moment-photo moment-photo-hero" data-reveal>
-              <span className="moment-tape moment-tape-left" aria-hidden="true" />
+              <ScrapbookTape kind="gingham" placement="topLeft" />
               <img
                 src={photos[0]}
                 alt="Our little one celebrating 100 days"
@@ -208,7 +189,7 @@ export default function InvitationContent() {
             </figure>
 
             <figure className="moment-photo moment-photo-newborn" data-reveal>
-              <span className="moment-tape moment-tape-center" aria-hidden="true" />
+              <ScrapbookTape kind="paper" placement="topCenter" />
               <img
                 src={photos[1]}
                 alt="A peaceful newborn memory"
@@ -217,7 +198,6 @@ export default function InvitationContent() {
             </figure>
 
             <figure className="moment-photo moment-photo-family" data-reveal>
-              <span className="moment-tape moment-tape-center" aria-hidden="true" />
               <img
                 src={photos[2]}
                 alt="A family memory from the first 100 days"
@@ -226,7 +206,7 @@ export default function InvitationContent() {
             </figure>
 
             <figure className="moment-photo moment-photo-smile" data-reveal>
-              <span className="moment-tape moment-tape-right" aria-hidden="true" />
+              <ScrapbookTape kind="paper" placement="corner" />
               <img
                 src={photos[3]}
                 alt="A joyful memory with our little one"
@@ -248,35 +228,12 @@ export default function InvitationContent() {
 
       <section id="event-details" className="love-section event-section">
         <div className="event-paper-texture" aria-hidden="true" />
+        <SectionDecor variant="event" />
 
         <div className="mobile-shell event-shell">
           <article className="ceremony-paper" data-reveal>
             <div className="ceremony-paper-grain" aria-hidden="true" />
-            <span className="ceremony-tape" aria-hidden="true" />
-            <span className="ceremony-ribbon" aria-hidden="true">
-              <i />
-              <b />
-            </span>
-
-            <svg
-              className="ceremony-botanical ceremony-botanical-top"
-              viewBox="0 0 120 150"
-              aria-hidden="true"
-            >
-              <path d="M83 142C78 108 80 71 99 20" />
-              <path d="M88 99c-17-7-27-20-26-32 15 2 25 12 26 32ZM91 79c16-8 24-20 22-31-14 2-22 12-22 31ZM80 119c-13-4-23-13-26-24 13-1 23 7 26 24Z" />
-              <circle cx="100" cy="18" r="7" />
-              <path d="M100 10c-5-9-13-5-11 2M107 13c8-7 12 1 8 5M96 23c-7 7 1 12 6 8" />
-            </svg>
-
-            <svg
-              className="ceremony-botanical ceremony-botanical-bottom"
-              viewBox="0 0 120 150"
-              aria-hidden="true"
-            >
-              <path d="M35 145C37 108 34 74 17 25" />
-              <path d="M31 113c15-7 24-18 23-29-14 2-23 11-23 29ZM28 91c-14-6-22-17-21-27 13 1 21 10 21 27ZM38 130c12-3 21-11 24-21-12-1-21 6-24 21Z" />
-            </svg>
+            <ScrapbookTape kind="paper" placement="topCenter" />
 
             <header className="ceremony-heading">
               <p className="ceremony-kicker">THE CEREMONY</p>
@@ -290,11 +247,7 @@ export default function InvitationContent() {
                 celebrating 100 beautiful days <span aria-hidden="true">♡</span>
               </p>
 
-              <div className="ceremony-divider" aria-hidden="true">
-                <span />
-                <b>♡</b>
-                <span />
-              </div>
+              <SectionDivider />
             </header>
 
             <div className="ceremony-details">
@@ -331,6 +284,7 @@ export default function InvitationContent() {
 
       <section className="love-section donation-section">
         <div className="donation-paper" aria-hidden="true" />
+        <SectionDecor variant="donation" />
 
         <div className="mobile-shell donation-wrap">
           <header className="donation-heading" data-reveal>
@@ -346,41 +300,12 @@ export default function InvitationContent() {
           </header>
 
           <article className="donation-card" data-reveal>
-            <span className="donation-wash donation-wash-peach" aria-hidden="true" />
-            <span className="donation-wash donation-wash-sage" aria-hidden="true" />
-
-            <svg
-              className="donation-botanical donation-botanical-left"
-              viewBox="0 0 120 170"
-              aria-hidden="true"
-            >
-              <path d="M84 164C76 129 72 89 91 24" />
-              <path d="M80 125c-17-8-26-21-24-33 15 2 24 13 24 33ZM84 101c16-9 24-22 21-34-14 3-22 14-21 34ZM75 145c-13-4-23-13-26-24 13-1 23 7 26 24Z" />
-              <circle cx="93" cy="22" r="6" />
-            </svg>
-
-            <svg
-              className="donation-botanical donation-botanical-right"
-              viewBox="0 0 120 170"
-              aria-hidden="true"
-            >
-              <path d="M36 164C44 129 48 89 29 24" />
-              <path d="M40 125c17-8 26-21 24-33-15 2-24 13-24 33ZM36 101c-16-9-24-22-21-34 14 3 22 14 21 34ZM45 145c13-4 23-13 26-24-13-1-23 7-26 24Z" />
-              <circle cx="27" cy="22" r="6" />
-            </svg>
-
-            <div className="donation-heart-seal" aria-hidden="true">♡</div>
-
             <p className="donation-lead">
               In celebration of our little one&apos;s first 100 days, we&apos;re
               sharing this joy through a donation made with gratitude and love.
             </p>
 
-            <div className="donation-divider" aria-hidden="true">
-              <span />
-              <b>♡</b>
-              <span />
-            </div>
+            <SectionDivider />
 
             <p className="donation-presence">
               Your presence, warm wishes, and blessings are already the most
@@ -399,6 +324,8 @@ export default function InvitationContent() {
       </section>
 
       <section className="love-closing">
+        <SectionDecor variant="closing" />
+
         <div className="closing-photo" data-reveal>
           <img
             src="/child's photo/06-baby-smiling-with-parents.jpg"
