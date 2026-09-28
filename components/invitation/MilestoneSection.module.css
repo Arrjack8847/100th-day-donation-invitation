@@ -261,7 +261,7 @@
     transform: translateY(8px) scale(.86) rotate(var(--doodle-rotation));
   }
   to {
-    opacity: .82;
+    opacity: 1;
     transform: translateY(0) scale(1) rotate(var(--doodle-rotation));
   }
 }
@@ -350,7 +350,7 @@
     right: 0;
     bottom: 13%;
     width: 118px;
-    opacity: .72;
+    opacity: 1;
   }
 }
 
@@ -634,7 +634,7 @@
     transform: translateY(8px) scale(.8) rotate(var(--doodle-rotation));
   }
   to {
-    opacity: .98;
+    opacity: 1;
     transform: translateY(0) scale(1) rotate(var(--doodle-rotation));
   }
 }
