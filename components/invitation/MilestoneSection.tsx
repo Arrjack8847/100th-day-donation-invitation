@@ -55,14 +55,42 @@ export default function MilestoneSection() {
 
       <div className={styles.paperGlow} aria-hidden="true" />
 
-      <div className={styles.doodles} aria-hidden="true">
-        <span className={styles.heartOne}>♡</span>
-        <span className={styles.heartTwo}>♡</span>
-        <span className={styles.sparkOne}>✦</span>
-        <span className={styles.sparkTwo}>✦</span>
-      </div>
-
       <div className={styles.inner}>
+        <div
+          className={`${styles.assetDoodles} ${isShaking ? styles.assetDoodlesReacting : ""}`}
+          aria-hidden="true"
+        >
+          <img
+            className={`${styles.doodleAsset} ${styles.sparkleLeft}`}
+            src="/decor/sparkle-doodle.png"
+            alt=""
+            draggable={false}
+          />
+          <img
+            className={`${styles.doodleAsset} ${styles.sparkleRight}`}
+            src="/decor/sparkle-doodle.png"
+            alt=""
+            draggable={false}
+          />
+          <img
+            className={`${styles.doodleAsset} ${styles.heartDoodleLeft}`}
+            src="/decor/heart-doodle.png"
+            alt=""
+            draggable={false}
+          />
+          <img
+            className={`${styles.doodleAsset} ${styles.heartDoodleRight}`}
+            src="/decor/heart-doodle.png"
+            alt=""
+            draggable={false}
+          />
+          <img
+            className={`${styles.doodleAsset} ${styles.swirlDoodle}`}
+            src="/decor/swirl-line.svg"
+            alt=""
+            draggable={false}
+          />
+        </div>
         <div className={styles.portraitGroup}>
           <button
             type="button"
