@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./OpeningScene.module.css";
 
 const INTRO_VIDEO =
@@ -12,7 +13,8 @@ const TRANSITION_VIDEO =
 const INVITATION_BACKGROUND_VIDEO =
   "/opening/invitation-background.mp4";
 
-const PAGE_SWAP_TIME_SECONDS = 0.95;
+// Peak center coverage in the transition storyboard is 0.8–1.1s.
+const PEAK_COVERAGE_SWAP_SECONDS = 0.95;
 const INTRO_HANDOFF_SECONDS = 0.36;
 const INTRO_FADE_MS = 360;
 const CONTENT_REVEAL_DELAY_MS = 430;
@@ -29,6 +31,7 @@ export default function OpeningScene() {
   const [transitionActive, setTransitionActive] = useState(false);
   const [transitionFading, setTransitionFading] = useState(false);
   const [mainRevealed, setMainRevealed] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
 
   const openingStartedRef = useRef(false);
   const introFadeStartedRef = useRef(false);
@@ -40,8 +43,24 @@ export default function OpeningScene() {
   const contentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const frameCallbackRef = useRef<number | null>(null);
+
+  const cancelTransitionFrameTracking = () => {
+    const video = transitionVideoRef.current;
+
+    if (
+      video &&
+      frameCallbackRef.current !== null &&
+      typeof video.cancelVideoFrameCallback === "function"
+    ) {
+      video.cancelVideoFrameCallback(frameCallbackRef.current);
+    }
+
+    frameCallbackRef.current = null;
+  };
 
   useEffect(() => {
+    setPortalReady(true);
     document.body.classList.add("intro-active");
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -57,6 +76,7 @@ export default function OpeningScene() {
       if (contentTimerRef.current) clearTimeout(contentTimerRef.current);
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
       if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
+      cancelTransitionFrameTracking();
     };
   }, []);
 
@@ -121,6 +141,7 @@ export default function OpeningScene() {
   const finishTransition = () => {
     if (transitionDoneRef.current) return;
     transitionDoneRef.current = true;
+    cancelTransitionFrameTracking();
 
     revealMainUnderlay();
 
@@ -141,27 +162,55 @@ export default function OpeningScene() {
     }, 320);
   };
 
-  const handleTransitionProgress = (
-    event: React.SyntheticEvent<HTMLVideoElement>,
+  const syncTransitionToVideoTime = (
+    currentTime: number,
+    duration: number,
   ) => {
-    const video = event.currentTarget;
-
-    if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+    if (!Number.isFinite(duration) || duration <= 0) return;
 
     if (
       !mainRevealRef.current &&
-      video.currentTime >= PAGE_SWAP_TIME_SECONDS
+      currentTime >= PEAK_COVERAGE_SWAP_SECONDS
     ) {
       revealMainUnderlay();
     }
 
-    const fadeWindow = Math.min(0.28, video.duration * 0.12);
-    if (video.duration - video.currentTime <= fadeWindow) {
+    const fadeWindow = Math.min(0.28, duration * 0.12);
+    if (duration - currentTime <= fadeWindow) {
       setTransitionFading(true);
     }
   };
 
+  const handleTransitionProgress = (
+    event: React.SyntheticEvent<HTMLVideoElement>,
+  ) => {
+    const video = event.currentTarget;
+    syncTransitionToVideoTime(video.currentTime, video.duration);
+  };
+
+  const startTransitionFrameTracking = (video: HTMLVideoElement) => {
+    if (typeof video.requestVideoFrameCallback !== "function") return;
+
+    cancelTransitionFrameTracking();
+
+    const onVideoFrame = (
+      _now: number,
+      metadata: VideoFrameCallbackMetadata,
+    ) => {
+      syncTransitionToVideoTime(metadata.mediaTime, video.duration);
+
+      if (!transitionDoneRef.current && !video.ended) {
+        frameCallbackRef.current =
+          video.requestVideoFrameCallback(onVideoFrame);
+      }
+    };
+
+    frameCallbackRef.current =
+      video.requestVideoFrameCallback(onVideoFrame);
+  };
+
   const fallbackToSimpleExit = () => {
+    cancelTransitionFrameTracking();
     setTransitionActive(false);
     setMainRevealed(false);
     setLeaving(true);
@@ -207,6 +256,7 @@ export default function OpeningScene() {
     }
 
     video.currentTime = 0;
+    startTransitionFrameTracking(video);
 
     void video.play().catch(() => {
       fallbackToSimpleExit();
@@ -339,24 +389,30 @@ export default function OpeningScene() {
         </div>
       </div>
 
-      <div
-        className={`${styles.transitionVideoLayer} ${
-          transitionActive ? styles.transitionVideoLayerActive : ""
-        } ${transitionFading ? styles.transitionVideoLayerFading : ""}`}
-        aria-hidden="true"
-      >
-        <video
-          ref={transitionVideoRef}
-          className={styles.transitionVideo}
-          src={TRANSITION_VIDEO}
-          muted
-          playsInline
-          preload="auto"
-          onTimeUpdate={handleTransitionProgress}
-          onEnded={finishTransition}
-          onError={fallbackToSimpleExit}
-        />
-      </div>
+      {portalReady &&
+        createPortal(
+          <div
+            className={`${styles.transitionVideoLayer} ${
+              transitionActive ? styles.transitionVideoLayerActive : ""
+            } ${
+              transitionFading ? styles.transitionVideoLayerFading : ""
+            }`}
+            aria-hidden="true"
+          >
+            <video
+              ref={transitionVideoRef}
+              className={styles.transitionVideo}
+              src={TRANSITION_VIDEO}
+              muted
+              playsInline
+              preload="auto"
+              onTimeUpdate={handleTransitionProgress}
+              onEnded={finishTransition}
+              onError={fallbackToSimpleExit}
+            />
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }
