@@ -120,10 +120,16 @@
   object-fit: cover;
   object-position: center;
   background: transparent;
-  opacity: .9;
-  mix-blend-mode: multiply;
-  filter: saturate(1.05) contrast(1.04) brightness(1.02);
+  opacity: 1;
+  mix-blend-mode: screen;
+  filter: saturate(1.08) contrast(1.08) brightness(1.02);
 }
+@supports not (mix-blend-mode: screen) {
+  .transitionVideo {
+    mix-blend-mode: lighten;
+  }
+}
+
 
 .transitioning {
   pointer-events: none;
