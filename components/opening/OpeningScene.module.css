@@ -18,6 +18,41 @@
     transform .62s cubic-bezier(.2,.8,.2,1);
 }
 
+.videoIntro {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  background: #f7f4ee;
+  opacity: 1;
+  transition: opacity .72s cubic-bezier(.22,1,.36,1);
+}
+
+.videoIntroFading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.introVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  background: #f7f4ee;
+}
+
+.videoVeil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,.02), transparent 52%),
+    linear-gradient(180deg, rgba(247,244,238,.015), rgba(247,244,238,.04));
+}
+
 .content {
   width: min(100%, 560px);
   min-height: 100svh;
@@ -31,7 +66,18 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  animation: introIn .85s cubic-bezier(.2,.8,.2,1) both;
+  opacity: 0;
+  transform: translateY(12px) scale(.995);
+  pointer-events: none;
+  transition:
+    opacity .72s cubic-bezier(.22,1,.36,1),
+    transform .78s cubic-bezier(.22,1,.36,1);
+}
+
+.contentReady {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 
 .eyebrow {
@@ -473,8 +519,15 @@
   .opening,
   .content,
   .photoMask,
-  .openButton {
+  .openButton,
+  .videoIntro {
     animation: none !important;
     transition: none !important;
+  }
+
+  .content {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
   }
 }
