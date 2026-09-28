@@ -112,7 +112,7 @@ export default function OpeningScene() {
 
   const measureCentralBubbleCoverage = (video: HTMLVideoElement) => {
     if (
-      video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA ||
+      video.readyState < 2 ||
       video.videoWidth === 0 ||
       video.videoHeight === 0
     ) {
