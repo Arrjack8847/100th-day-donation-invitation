@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import MilestoneSection from "./MilestoneSection";
 
 const photos = [
   "/child's photo/01-100-days-baby-portrait.jpg",
@@ -96,9 +97,34 @@ export default function InvitationContent() {
         </div>
 
         <div className="hero-inner">
-          <p className="mini-label" data-reveal>WITH LOVE AND GRATITUDE</p>
+          <div className="hero-copy-new" data-reveal>
+            <p className="mini-label hero-kicker">WITH LOVE &amp; GRATITUDE</p>
+
+            <div className="hero-ornament" aria-hidden="true">
+              <span />
+              <b>♥</b>
+              <span />
+            </div>
+
+            <h1 className="hero-title">
+              <span className="hero-number">100</span>
+              <span className="hero-days">Days of Love</span>
+            </h1>
+
+            <p className="hero-invite-copy">
+              Join us for our little one&apos;s
+              <br />
+              100th-day donation ceremony.
+            </p>
+
+            <a className="sage-button hero-cta" href="#event-details">
+              <span>View invitation</span>
+              <span className="hero-cta-arrow" aria-hidden="true">↓</span>
+            </a>
+          </div>
 
           <div className="hero-photo-shell" data-reveal>
+            <div className="hero-photo-glow" aria-hidden="true" />
             <div className="hero-photo-blob">
               <img
                 src="/child's photo/01-100-days-baby-portrait.jpg"
@@ -108,21 +134,10 @@ export default function InvitationContent() {
             <span className="hero-photo-bubble hero-photo-bubble-one" aria-hidden="true" />
             <span className="hero-photo-bubble hero-photo-bubble-two" aria-hidden="true" />
           </div>
-
-          <div className="hero-copy-new" data-reveal>
-            <span className="hero-number">100</span>
-            <h1>Days of Love</h1>
-            <span className="small-heart" aria-hidden="true">♡</span>
-            <p>
-              Please join us for a special day of gratitude, love and blessings
-              as we celebrate our little one&apos;s first one hundred days.
-            </p>
-            <a className="sage-button" href="#event-details">
-              View invitation <span aria-hidden="true">↓</span>
-            </a>
-          </div>
         </div>
       </section>
+
+      <MilestoneSection />
 
       <section className="love-section meaning-section">
         <div className="mobile-shell meaning-layout">
