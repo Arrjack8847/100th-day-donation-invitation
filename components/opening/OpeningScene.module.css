@@ -6,10 +6,9 @@
   place-items: center;
   min-height: 100svh;
   min-height: 100dvh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation;
   background: #f7f4ee;
   color: #30312e;
   transition:
@@ -163,6 +162,10 @@
   width: min(100%, 560px);
   min-height: 100svh;
   min-height: 100dvh;
+  height: 100svh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   padding:
     max(2.4rem, env(safe-area-inset-top))
     1rem
