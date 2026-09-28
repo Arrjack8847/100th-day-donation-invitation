@@ -15,8 +15,7 @@
   transition:
     opacity .5s ease,
     visibility .5s ease,
-    transform .62s cubic-bezier(.2,.8,.2,1),
-    background-color .18s ease;
+    transform .62s cubic-bezier(.2,.8,.2,1);
 }
 
 .invitationBackground {
@@ -100,9 +99,9 @@
 }
 
 .transitionVideoLayer {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 150;
   overflow: hidden;
   visibility: hidden;
   pointer-events: none;
@@ -133,6 +132,7 @@
 
 .transitioning {
   pointer-events: none;
+  transition: none;
 }
 
 .transitioning .content {
