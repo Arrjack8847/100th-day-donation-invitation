@@ -387,7 +387,7 @@ export default function MotionSystem() {
                   autoAlpha: 1,
                   y: 0,
                   scale: 1,
-                  duration: 0.92,
+                  duration: 0.92 * durationScale,
                   clearProps: "willChange",
                 },
                 "-=0.35",
@@ -412,7 +412,7 @@ export default function MotionSystem() {
             if (meaningNote) {
               meaningTimeline.to(
                 meaningNote,
-                { autoAlpha: 1, y: 0, duration: 0.7 },
+                { autoAlpha: 1, y: 0, duration: 0.7 * durationScale },
                 "-=0.48",
               );
             }
@@ -420,7 +420,7 @@ export default function MotionSystem() {
             if (meaningFeelings) {
               meaningTimeline.to(
                 meaningFeelings,
-                { autoAlpha: 1, y: 0, duration: 0.7 },
+                { autoAlpha: 1, y: 0, duration: 0.7 * durationScale },
                 "-=0.38",
               );
             }
@@ -508,7 +508,7 @@ export default function MotionSystem() {
                     x: 0,
                     y: 0,
                     rotation: finalRotation + (index % 2 === 0 ? 0.7 : -0.7),
-                    duration: 0.72,
+                    duration: 0.72 * durationScale,
                     ease: "power3.out",
                   },
                   placementTime,
@@ -586,7 +586,7 @@ export default function MotionSystem() {
               eventTimeline.to(card, {
                 autoAlpha: 1,
                 y: 0,
-                duration: 0.78,
+                duration: 0.78 * durationScale,
               });
 
               eventTimeline.to(
@@ -594,8 +594,8 @@ export default function MotionSystem() {
                 {
                   autoAlpha: 1,
                   y: 0,
-                  duration: 0.58,
-                  stagger: 0.1,
+                  duration: 0.58 * durationScale,
+                  stagger: 0.1 * staggerScale,
                   clearProps: "willChange",
                 },
                 "-=0.36",
@@ -648,7 +648,7 @@ export default function MotionSystem() {
               closingTimeline.to(photo, {
                 autoAlpha: 1,
                 y: 0,
-                duration: 0.9,
+                duration: 0.9 * durationScale,
               });
 
               const image = photo.querySelector<HTMLImageElement>("img");
@@ -670,7 +670,7 @@ export default function MotionSystem() {
             if (copy) {
               closingTimeline.to(
                 copy,
-                { autoAlpha: 1, y: 0, duration: 0.82 },
+                { autoAlpha: 1, y: 0, duration: 0.82 * durationScale },
                 "-=0.44",
               );
             }
