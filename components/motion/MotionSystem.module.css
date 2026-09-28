@@ -1,0 +1,171 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  contain: layout style;
+}
+
+.memoryTrail {
+  position: absolute;
+  top: min(13rem, 16vh);
+  left: min(88vw, calc(100% - 42px));
+  width: 28px;
+  height: 28px;
+  opacity: .78;
+  will-change: transform, opacity;
+}
+
+.memoryPointer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+.memoryBubble,
+.memorySparkle,
+.memoryHeart {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.memoryBubble {
+  border: 1px solid rgba(173, 155, 145, .42);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255,255,255,.96) 0 8%, transparent 10%),
+    radial-gradient(circle at 56% 64%, rgba(220,229,232,.2), rgba(242,216,199,.11) 56%, transparent 72%);
+  box-shadow:
+    inset 1px 1px 6px rgba(255,255,255,.8),
+    0 4px 12px rgba(97, 77, 62, .05);
+  animation: memoryBubbleBreath 7.5s ease-in-out infinite alternate;
+}
+
+.memorySparkle {
+  color: rgba(180, 129, 94, .78);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.memoryHeart {
+  color: rgba(173, 105, 82, .72);
+  font-family: "Segoe Script", "Bradley Hand", cursive;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.foregroundPetalOne,
+.foregroundPetalTwo,
+.foregroundSparkle {
+  position: absolute;
+  display: block;
+  will-change: transform;
+}
+
+.foregroundPetalOne {
+  top: 30vh;
+  left: 3.5vw;
+  width: 25px;
+  opacity: .34;
+}
+
+.foregroundPetalTwo {
+  top: 112vh;
+  right: 4vw;
+  width: 21px;
+  opacity: .28;
+}
+
+.foregroundPetalOne span,
+.foregroundPetalTwo span,
+.foregroundSparkle span {
+  display: block;
+  will-change: transform;
+}
+
+.foregroundPetalOne img,
+.foregroundPetalTwo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.foregroundSparkle {
+  top: 62vh;
+  right: 8vw;
+  color: rgba(183, 141, 104, .46);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: .72;
+}
+
+.foregroundSparkle > span {
+  animation: sparkleBreath 6.8s ease-in-out infinite;
+}
+
+@keyframes memoryBubbleBreath {
+  from {
+    transform: translate3d(0, 2px, 0) scale(.98);
+  }
+  to {
+    transform: translate3d(2px, -4px, 0) scale(1.02);
+  }
+}
+
+@keyframes sparkleBreath {
+  0%,
+  100% {
+    opacity: .46;
+    transform: scale(.94);
+  }
+
+  50% {
+    opacity: .82;
+    transform: scale(1.02);
+  }
+}
+
+@media (max-width: 768px) {
+  .memoryTrail {
+    left: calc(100% - 32px);
+    width: 22px;
+    height: 22px;
+    opacity: .68;
+  }
+
+  .memoryPointer {
+    pointer-events: none;
+  }
+
+  .foregroundPetalOne {
+    width: 18px;
+    left: 2vw;
+    opacity: .24;
+  }
+
+  .foregroundPetalTwo {
+    display: none;
+  }
+
+  .foregroundSparkle {
+    right: 4vw;
+    font-size: .82rem;
+    opacity: .5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    display: none;
+  }
+}
