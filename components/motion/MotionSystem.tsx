@@ -139,6 +139,8 @@ export default function MotionSystem() {
         const context = gsap.context(() => {
           const compactMotion = window.innerWidth <= 768;
           const distanceScale = compactMotion ? 0.52 : 1;
+          const durationScale = compactMotion ? 0.88 : 1;
+          const staggerScale = compactMotion ? 0.78 : 1;
           const allReveal = asElements<HTMLElement>(root, "[data-reveal]");
 
           // GSAP owns reveal transforms once the motion system is active.
@@ -296,8 +298,8 @@ export default function MotionSystem() {
               autoAlpha: 1,
               y: 0,
               scale: 1,
-              duration,
-              stagger,
+              duration: duration * durationScale,
+              stagger: stagger * staggerScale,
               ease: "power3.out",
               clearProps: "willChange",
               scrollTrigger: {
@@ -372,8 +374,8 @@ export default function MotionSystem() {
             meaningTimeline.to(meaningText, {
               autoAlpha: 1,
               y: 0,
-              duration: 0.8,
-              stagger: 0.11,
+              duration: 0.8 * durationScale,
+              stagger: 0.11 * staggerScale,
               clearProps: "willChange",
             });
 
@@ -399,7 +401,7 @@ export default function MotionSystem() {
                   {
                     filter: "blur(0px)",
                     scale: 1,
-                    duration: 0.72,
+                    duration: 0.72 * durationScale,
                     ease: "power2.out",
                   },
                   "<",
@@ -468,7 +470,7 @@ export default function MotionSystem() {
                 y: direction.y,
                 rotation: finalRotation + direction.extraRotation,
                 transformOrigin: "50% 50%",
-                willChange: "transform, opacity",
+                willChange: compactMotion ? "auto" : "transform, opacity",
               });
             });
 
@@ -515,7 +517,7 @@ export default function MotionSystem() {
                   photo,
                   {
                     rotation: finalRotation,
-                    duration: 0.26,
+                    duration: 0.26 * durationScale,
                     ease: "power2.out",
                     clearProps: "willChange",
                   },
@@ -532,7 +534,7 @@ export default function MotionSystem() {
                   {
                     autoAlpha: 1,
                     scale: 1,
-                    duration: 0.42,
+                    duration: 0.42 * durationScale,
                     ease: "power2.out",
                   },
                   placementTime + 0.48,
@@ -543,7 +545,7 @@ export default function MotionSystem() {
             if (momentCaption) {
               momentTimeline.to(
                 momentCaption,
-                { autoAlpha: 1, y: 0, duration: 0.65 },
+                { autoAlpha: 1, y: 0, duration: 0.65 * durationScale },
                 0.78,
               );
             }
@@ -551,7 +553,7 @@ export default function MotionSystem() {
             if (momentClosing) {
               momentTimeline.to(
                 momentClosing,
-                { autoAlpha: 1, y: 0, duration: 0.68 },
+                { autoAlpha: 1, y: 0, duration: 0.68 * durationScale },
                 0.94,
               );
             }
@@ -783,6 +785,53 @@ export default function MotionSystem() {
               },
             });
           });
+
+          // Dedicated mobile GSAP profile: section content still gets full
+          // one-time reveals, plus one tiny ambient transform while the section
+          // is visible. Off-screen ambient tweens are paused, so only nearby
+          // content consumes animation frames.
+          if (compactMotion) {
+            const mobileSections = asElements<HTMLElement>(
+              root,
+              "[data-motion-section]",
+            );
+
+            mobileSections.forEach((section, sectionIndex) => {
+              const decorAssets = asElements<HTMLImageElement>(
+                section,
+                ':scope > div[aria-hidden="true"] img',
+              );
+
+              const ambientTarget =
+                decorAssets.find((asset) => {
+                  const src = asset.getAttribute("src") ?? "";
+                  return !src.includes("soft-glow") && !src.includes("wash");
+                }) ?? decorAssets[0];
+
+              if (!ambientTarget) return;
+
+              const ambientTween = gsap.to(ambientTarget, {
+                y: sectionIndex % 2 === 0 ? -4 : 4,
+                x: sectionIndex % 3 === 0 ? 2 : -2,
+                duration: 3.4 + (sectionIndex % 3) * 0.45,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: -1,
+                paused: true,
+                force3D: true,
+              });
+
+              ScrollTrigger.create({
+                trigger: section,
+                start: "top 92%",
+                end: "bottom 8%",
+                onEnter: () => ambientTween.play(),
+                onEnterBack: () => ambientTween.play(),
+                onLeave: () => ambientTween.pause(),
+                onLeaveBack: () => ambientTween.pause(),
+              });
+            });
+          }
 
           const memoryTrail =
             layer.querySelector<HTMLElement>("[data-memory-trail]");
