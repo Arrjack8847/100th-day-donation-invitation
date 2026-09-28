@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type CSSProperties } from "react";
 import MilestoneSection from "./MilestoneSection";
 import MeaningSection from "./MeaningSection";
 
@@ -293,7 +293,7 @@ export default function InvitationContent() {
                   className={`ceremony-detail ceremony-detail-${detail.type}`}
                   data-reveal
                   key={detail.label}
-                  style={{ "--detail-delay": `${0.12 + index * 0.11}s` } as React.CSSProperties}
+                  style={{ "--detail-delay": `${0.12 + index * 0.11}s` } as CSSProperties}
                 >
                   <span className="ceremony-illustration" aria-hidden="true">
                     <CeremonyIllustration type={detail.type} />
