@@ -4,10 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./MilestoneSection.module.css";
 import { SectionDecor } from "../decor/SiteDecor";
 
+const SOUND_SRC = "/mu-hehehehe-cat-memes-hehe-shorts_v8KezVEr.mp3";
+
 export default function MilestoneSection() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [isReacting, setIsReacting] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -16,99 +19,84 @@ export default function MilestoneSection() {
   }, []);
 
   const playSurprise = () => {
-    if (isReacting) return;
+    if (isShaking) return;
 
-    setIsReacting(true);
-    setHasInteracted(true);
+    setIsShaking(true);
+    setHasPlayed(true);
+
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = 0.62;
+      void audio.play().catch(() => {});
+    }
 
     if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setIsReacting(false), 900);
+    timerRef.current = setTimeout(() => setIsShaking(false), 650);
   };
 
   return (
     <section
       className={styles.section}
       data-reveal
-      aria-labelledby="milestone-title"
+      aria-label="Celebrating one hundred days"
     >
+      <audio ref={audioRef} src={SOUND_SRC} preload="auto" />
       <div className={styles.paperGlow} aria-hidden="true" />
       <SectionDecor variant="milestone" />
 
       <div className={styles.inner}>
-        <header className={styles.heading}>
-          <p className={styles.eyebrow}>OUR FIRST 100 DAYS</p>
-
-          <div className={styles.ornament} aria-hidden="true">
-            <span />
-            <b>♡</b>
-            <span />
-          </div>
-
-          <h2 id="milestone-title">
-            One little milestone,
-            <em>so much love.</em>
-          </h2>
-        </header>
-
         <div className={styles.portraitStage}>
-          <span className={styles.peachWash} aria-hidden="true" />
-          <span className={styles.sageWash} aria-hidden="true" />
-
           <button
             type="button"
-            className={`${styles.portraitButton} ${isReacting ? styles.isReacting : ""}`}
+            className={`${styles.portraitButton} ${isShaking ? styles.isShaking : ""}`}
             onClick={playSurprise}
-            aria-label="Tap our little one for a tiny celebration"
+            aria-label="Tap the baby for a little surprise"
           >
-            <span className={styles.portraitHalo} aria-hidden="true" />
-
             <img
               className={styles.portrait}
               src="/photo_2026-09-28_14-18-19-Photoroom.png"
-              alt="Our little one celebrating the first 100 days"
+              alt="Our little one celebrating 100 days"
               loading="lazy"
               decoding="async"
               draggable={false}
             />
-
             <span
-              className={`${styles.heartPop} ${isReacting ? styles.heartPopActive : ""}`}
+              className={`${styles.tapHeart} ${isShaking ? styles.tapHeartActive : ""}`}
               aria-hidden="true"
             >
               ♡
             </span>
-
-            <span
-              className={`${styles.sparklePop} ${isReacting ? styles.sparklePopActive : ""}`}
-              aria-hidden="true"
-            >
-              ✦
-            </span>
           </button>
 
-          <span className={styles.doodleHeart} aria-hidden="true">♡</span>
-          <span className={styles.doodleSparkle} aria-hidden="true">✧</span>
         </div>
 
-        <p className={styles.tapHint} aria-live="polite">
-          {hasInteracted
-            ? "a little love for you ♡"
-            : "tap for a tiny celebration ♡"}
+        <p
+          className={`${styles.tapHint} ${hasPlayed ? styles.tapHintUsed : ""}`}
+          aria-hidden="true"
+        >
+          tap for a little surprise ♡
         </p>
 
-        <div className={styles.story}>
-          <p>
-            A hundred days of sleepy cuddles, tiny smiles, and little moments
-            we never want to forget.
-          </p>
+        <div className={styles.message}>
+          <img
+            className={styles.textArtwork}
+            src="/text.png"
+            alt="100 Days of Love"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
 
-          <div className={styles.memoryLine} aria-hidden="true">
-            <span>100 days</span>
-            <b>♡</b>
-            <span>countless cuddles</span>
-            <b>♡</b>
-            <span>endless love</span>
-          </div>
+        <div className={styles.bannerWrap} aria-hidden="true">
+          <img
+            className={styles.banner}
+            src="/banner.png"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </section>
