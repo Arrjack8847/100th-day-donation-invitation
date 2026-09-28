@@ -217,6 +217,17 @@
   .milestoneToMeaning:global(.is-visible) .primary {
     opacity: .28;
   }
+
+  .wash {
+    filter: none;
+  }
+
+  .heroToMilestone .primary,
+  .heroToMilestone .secondary,
+  .eventToDonation .primary,
+  .donationToClosing .primary {
+    animation: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
