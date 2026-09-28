@@ -39,6 +39,7 @@
 
 .inner {
   position: relative;
+  z-index: 2;
   width: min(100% - 32px, 900px);
   margin-inline: auto;
 }
