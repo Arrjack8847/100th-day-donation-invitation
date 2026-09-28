@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import MilestoneSection from "./MilestoneSection";\nimport MeaningSection from "./MeaningSection";
+import MilestoneSection from "./MilestoneSection";
+import MeaningSection from "./MeaningSection";
 
 const photos = [
   "/child's photo/01-100-days-baby-portrait.jpg",
