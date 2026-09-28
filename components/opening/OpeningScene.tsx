@@ -247,6 +247,16 @@ export default function OpeningScene() {
           preload="auto"
           onLoadedData={(event) => {
             const video = event.currentTarget;
+
+            // If decoding finished after the handoff already began, do not
+            // rewind or pause it — that would create a visible mobile stutter.
+            if (introFadeStartedRef.current) {
+              if (video.paused) {
+                void video.play().catch(() => {});
+              }
+              return;
+            }
+
             video.pause();
             try {
               video.currentTime = 0;
