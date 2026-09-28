@@ -13,13 +13,19 @@ const INVITATION_BACKGROUND_VIDEO =
   "/opening/invitation-background.mp4";
 
 const PAGE_SWAP_TIME_SECONDS = 0.95;
+const INTRO_HANDOFF_SECONDS = 0.36;
+const INTRO_FADE_MS = 360;
+const CONTENT_REVEAL_DELAY_MS = 430;
 
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [introFading, setIntroFading] = useState(false);
   const [introHidden, setIntroHidden] = useState(false);
-  const [invitationVisible, setInvitationVisible] = useState(false);
+  const [invitationBackgroundVisible, setInvitationBackgroundVisible] =
+    useState(false);
+  const [invitationContentVisible, setInvitationContentVisible] =
+    useState(false);
   const [transitionActive, setTransitionActive] = useState(false);
   const [transitionFading, setTransitionFading] = useState(false);
   const [mainRevealed, setMainRevealed] = useState(false);
@@ -29,7 +35,9 @@ export default function OpeningScene() {
   const transitionDoneRef = useRef(false);
   const mainRevealRef = useRef(false);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
+  const invitationBackgroundVideoRef = useRef<HTMLVideoElement | null>(null);
   const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const contentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -39,12 +47,14 @@ export default function OpeningScene() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       introFadeStartedRef.current = true;
       setIntroHidden(true);
-      setInvitationVisible(true);
+      setInvitationBackgroundVisible(true);
+      setInvitationContentVisible(true);
     }
 
     return () => {
       document.body.classList.remove("intro-active");
       if (introTimerRef.current) clearTimeout(introTimerRef.current);
+      if (contentTimerRef.current) clearTimeout(contentTimerRef.current);
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
       if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
     };
@@ -54,12 +64,38 @@ export default function OpeningScene() {
     if (introFadeStartedRef.current) return;
 
     introFadeStartedRef.current = true;
-    setInvitationVisible(true);
+
+    const backgroundVideo = invitationBackgroundVideoRef.current;
+
+    // The invitation background is deliberately kept paused at frame 0 until
+    // this handoff. That makes the first visible frame deterministic across
+    // desktop, Android and iOS instead of revealing a random point in a loop.
+    if (backgroundVideo) {
+      try {
+        if (backgroundVideo.readyState >= HTMLMediaElement.HAVE_METADATA) {
+          backgroundVideo.currentTime = 0;
+        }
+      } catch {
+        // A seek can fail briefly on slower Safari decoders. The video still
+        // starts from its default frame 0 because it has never autoplayed.
+      }
+
+      void backgroundVideo.play().catch(() => {
+        // Keep the decoded first frame visible if autoplay is temporarily
+        // blocked. The invitation itself should never be held hostage by media.
+      });
+    }
+
+    setInvitationBackgroundVisible(true);
     setIntroFading(true);
 
     introTimerRef.current = setTimeout(() => {
       setIntroHidden(true);
-    }, 720);
+    }, INTRO_FADE_MS);
+
+    contentTimerRef.current = setTimeout(() => {
+      setInvitationContentVisible(true);
+    }, CONTENT_REVEAL_DELAY_MS);
   };
 
   const handleIntroProgress = (
@@ -70,7 +106,7 @@ export default function OpeningScene() {
     if (
       Number.isFinite(video.duration) &&
       video.duration > 0 &&
-      video.duration - video.currentTime <= 0.78
+      video.duration - video.currentTime <= INTRO_HANDOFF_SECONDS
     ) {
       revealInvitation();
     }
@@ -197,18 +233,27 @@ export default function OpeningScene() {
     >
       <div
         className={`${styles.invitationBackground} ${
-          invitationVisible ? styles.invitationBackgroundVisible : ""
+          invitationBackgroundVisible ? styles.invitationBackgroundVisible : ""
         }`}
         aria-hidden="true"
       >
         <video
+          ref={invitationBackgroundVideoRef}
           className={styles.invitationBackgroundVideo}
           src={INVITATION_BACKGROUND_VIDEO}
-          autoPlay
           muted
           loop
           playsInline
           preload="auto"
+          onLoadedData={(event) => {
+            const video = event.currentTarget;
+            video.pause();
+            try {
+              video.currentTime = 0;
+            } catch {
+              // Some mobile browsers reject an early seek until metadata settles.
+            }
+          }}
         />
         <div className={styles.invitationBackgroundVeil} />
       </div>
@@ -237,7 +282,7 @@ export default function OpeningScene() {
 
       <div
         className={`${styles.content} ${
-          invitationVisible ? styles.contentReady : ""
+          invitationContentVisible ? styles.contentReady : ""
         }`}
       >
         <p className={styles.eyebrow}>WITH LOVE &amp; GRATITUDE</p>
