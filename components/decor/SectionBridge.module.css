@@ -93,7 +93,6 @@
   left: clamp(14px, 7vw, 110px);
   top: 26px;
   transform: rotate(-8deg);
-  animation: bridgeFloatLeft 8.5s ease-in-out infinite alternate;
 }
 
 .secondary {
@@ -101,7 +100,6 @@
   right: clamp(18px, 9vw, 135px);
   bottom: 24px;
   transform: rotate(8deg);
-  animation: bridgeFloatRight 9.8s ease-in-out -2.4s infinite alternate;
 }
 
 .heart {
@@ -138,6 +136,20 @@
 .heroToMilestone:global(.is-visible) .primary,
 .donationToClosing:global(.is-visible) .primary {
   opacity: .32;
+}
+
+.heroToMilestone .primary,
+.donationToClosing .primary {
+  animation: bridgeBubbleDrift 12s ease-in-out infinite alternate;
+}
+
+.heroToMilestone .secondary,
+.meaningToMoments .secondary {
+  animation: bridgeSparkleBreathe 7s ease-in-out -1.5s infinite;
+}
+
+.eventToDonation .primary {
+  animation: bridgePetalDrift 15s ease-in-out -4s infinite alternate;
 }
 
 .milestoneToMeaning {
@@ -209,21 +221,33 @@
   width: clamp(30px, 5.5vw, 50px);
 }
 
-@keyframes bridgeFloatLeft {
+@keyframes bridgeBubbleDrift {
   from {
-    transform: translate3d(0, 7px, 0) rotate(-8deg);
+    transform: translate3d(0, 6px, 0) rotate(-8deg);
   }
   to {
-    transform: translate3d(9px, -8px, 0) rotate(-3deg);
+    transform: translate3d(7px, -9px, 0) rotate(-4deg);
   }
 }
 
-@keyframes bridgeFloatRight {
+@keyframes bridgeSparkleBreathe {
+  0%,
+  100% {
+    transform: rotate(8deg) scale(.92);
+    filter: opacity(.72);
+  }
+  50% {
+    transform: rotate(8deg) scale(1);
+    filter: opacity(1);
+  }
+}
+
+@keyframes bridgePetalDrift {
   from {
-    transform: translate3d(0, -3px, 0) rotate(8deg);
+    transform: translate3d(0, -4px, 0) rotate(-8deg);
   }
   to {
-    transform: translate3d(-8px, 9px, 0) rotate(3deg);
+    transform: translate3d(7px, 10px, 0) rotate(2deg);
   }
 }
 
