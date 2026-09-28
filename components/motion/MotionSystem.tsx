@@ -648,62 +648,85 @@ export default function MotionSystem() {
             }
           }
 
-          // Hand-drawn line treatment for the inline SVG artwork that is
-          // already part of the sections. The drawings run once.
-          asElements<SVGPathElement>(root, "svg path").forEach((path) => {
-            let length = 0;
-            try {
-              length = path.getTotalLength();
-            } catch {
-              return;
-            }
+          // Hand-drawn treatment is intentionally limited to two sections,
+          // and each section shares one trigger instead of creating a trigger
+          // for every SVG path.
+          ["meaning", "event"].forEach((sectionName) => {
+            const section = root.querySelector<HTMLElement>(
+              `[data-motion-section="${sectionName}"]`,
+            );
+            if (!section) return;
 
-            if (!Number.isFinite(length) || length < 18) return;
+            const paths = asElements<SVGPathElement>(section, "svg path")
+              .filter((path) => {
+                try {
+                  return path.getTotalLength() >= 18;
+                } catch {
+                  return false;
+                }
+              });
 
-            gsap.set(path, {
-              strokeDasharray: length,
-              strokeDashoffset: length,
+            if (!paths.length) return;
+
+            paths.forEach((path) => {
+              const length = path.getTotalLength();
+              gsap.set(path, {
+                strokeDasharray: length,
+                strokeDashoffset: length,
+              });
             });
 
-            const trigger =
-              path.closest<HTMLElement>("section") ?? path.parentElement;
-
-            gsap.to(path, {
+            gsap.to(paths, {
               strokeDashoffset: 0,
-              duration: Math.min(1.15, Math.max(0.62, length / 210)),
+              duration: 0.9,
+              stagger: 0.055,
               ease: "power2.out",
               scrollTrigger: {
-                trigger,
+                trigger: section,
                 start: "top 82%",
                 once: true,
               },
             });
           });
 
-          // A handful of section-background assets get very small depth shifts.
-          // Photos and critical content remain essentially stationary.
-          asElements<HTMLElement>(
-            root,
-            '[data-motion-section]',
-          ).forEach((section) => {
-            const decor = asElements<HTMLElement>(
-              section,
-              ':scope > div[aria-hidden="true"] img',
-            ).slice(0, 2);
+          // Use only a few shared scrubbed depth timelines. This keeps the
+          // dimensional effect while avoiding dozens of simultaneous triggers.
+          ["hero", "meaning", "moments", "closing"].forEach(
+            (sectionName) => {
+              const section = root.querySelector<HTMLElement>(
+                `[data-motion-section="${sectionName}"]`,
+              );
+              if (!section) return;
 
-            decor.forEach((asset, index) => {
-              gsap.to(asset, {
-                y: (index === 0 ? -7 : 10) * distanceScale,
-                ease: "none",
+              const decor = asElements<HTMLElement>(
+                section,
+                ':scope > div[aria-hidden="true"] img',
+              ).slice(0, 2);
+
+              if (!decor.length) return;
+
+              const parallaxTimeline = gsap.timeline({
                 scrollTrigger: {
                   trigger: section,
                   start: "top bottom",
                   end: "bottom top",
-                  scrub: 1.1,
+                  scrub: 1.15,
                 },
               });
-            });
-          });
+
+              decor.forEach((asset, index) => {
+                parallaxTimeline.to(
+                  asset,
+                  {
+                    y: (index === 0 ? -7 : 10) * distanceScale,
+                    duration: 1,
+                    ease: "none",
+                  },
+                  0,
+                );
+              });
+            },
+          );
 
           // Section bridges are allowed to breathe across boundaries, but are
           // deliberately quieter than the section content itself.
@@ -750,27 +773,35 @@ export default function MotionSystem() {
           const sparkle =
             layer.querySelector<HTMLElement>("[data-foreground-sparkle]");
 
-          if (memoryTrail) {
+          if (memorySparkle) {
             gsap.set(memorySparkle, { autoAlpha: 0, scale: 0.72 });
+          }
+          if (memoryHeart) {
             gsap.set(memoryHeart, { autoAlpha: 0, scale: 0.72 });
+          }
 
-            const trailTimeline = gsap.timeline({
-              scrollTrigger: {
-                trigger: root,
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1.15,
-                invalidateOnRefresh: true,
-              },
-            });
+          const storyTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: root,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 1.2,
+              invalidateOnRefresh: true,
+            },
+          });
 
-            trailTimeline
-              .to(memoryTrail, {
-                y: () => root.scrollHeight * 0.17,
-                x: compactMotion ? "-3vw" : "-7vw",
-                duration: 1,
-                ease: "none",
-              })
+          if (memoryTrail) {
+            storyTimeline
+              .to(
+                memoryTrail,
+                {
+                  y: () => root.scrollHeight * 0.17,
+                  x: compactMotion ? "-3vw" : "-7vw",
+                  duration: 1,
+                  ease: "none",
+                },
+                0,
+              )
               .to(
                 memoryBubble,
                 { autoAlpha: 0, scale: 0.68, duration: 0.22 },
@@ -781,18 +812,26 @@ export default function MotionSystem() {
                 { autoAlpha: 0.72, scale: 1, duration: 0.24 },
                 0.76,
               )
-              .to(memoryTrail, {
-                y: () => root.scrollHeight * 0.34,
-                x: compactMotion ? "2vw" : "5vw",
-                duration: 1,
-                ease: "none",
-              })
-              .to(memoryTrail, {
-                y: () => root.scrollHeight * 0.51,
-                x: compactMotion ? "-1.5vw" : "-3vw",
-                duration: 1,
-                ease: "none",
-              })
+              .to(
+                memoryTrail,
+                {
+                  y: () => root.scrollHeight * 0.34,
+                  x: compactMotion ? "2vw" : "5vw",
+                  duration: 1,
+                  ease: "none",
+                },
+                1,
+              )
+              .to(
+                memoryTrail,
+                {
+                  y: () => root.scrollHeight * 0.51,
+                  x: compactMotion ? "-1.5vw" : "-3vw",
+                  duration: 1,
+                  ease: "none",
+                },
+                2,
+              )
               .to(
                 memorySparkle,
                 { autoAlpha: 0, scale: 0.72, duration: 0.24 },
@@ -803,18 +842,26 @@ export default function MotionSystem() {
                 { autoAlpha: 0.64, scale: 1, duration: 0.26 },
                 2.62,
               )
-              .to(memoryTrail, {
-                y: () => root.scrollHeight * 0.69,
-                x: compactMotion ? "1.5vw" : "4vw",
-                duration: 1,
-                ease: "none",
-              })
-              .to(memoryTrail, {
-                y: () => root.scrollHeight * 0.87,
-                x: compactMotion ? "-2vw" : "-5vw",
-                duration: 1,
-                ease: "none",
-              })
+              .to(
+                memoryTrail,
+                {
+                  y: () => root.scrollHeight * 0.69,
+                  x: compactMotion ? "1.5vw" : "4vw",
+                  duration: 1,
+                  ease: "none",
+                },
+                3,
+              )
+              .to(
+                memoryTrail,
+                {
+                  y: () => root.scrollHeight * 0.87,
+                  x: compactMotion ? "-2vw" : "-5vw",
+                  duration: 1,
+                  ease: "none",
+                },
+                4,
+              )
               .to(
                 [memoryHeart, memoryTrail],
                 { autoAlpha: 0, duration: 0.34 },
@@ -823,57 +870,45 @@ export default function MotionSystem() {
           }
 
           if (petalOne) {
-            gsap.fromTo(
+            storyTimeline.fromTo(
               petalOne,
               { y: 0, x: 0, rotation: -14 },
               {
                 y: () => root.scrollHeight * 0.58,
-                x: "3vw",
-                rotation: 18,
+                x: compactMotion ? "1.2vw" : "3vw",
+                rotation: compactMotion ? 8 : 18,
+                duration: 5,
                 ease: "none",
-                scrollTrigger: {
-                  trigger: root,
-                  start: "top top",
-                  end: "bottom bottom",
-                  scrub: 1.4,
-                  invalidateOnRefresh: true,
-                },
               },
+              0,
             );
           }
 
           if (petalTwo) {
-            gsap.fromTo(
+            storyTimeline.fromTo(
               petalTwo,
               { y: 0, x: 0, rotation: 18 },
               {
                 y: () => root.scrollHeight * 0.42,
-                x: "-2vw",
-                rotation: -12,
+                x: compactMotion ? "-1vw" : "-2vw",
+                rotation: compactMotion ? 5 : -12,
+                duration: 5,
                 ease: "none",
-                scrollTrigger: {
-                  trigger: root,
-                  start: "top 20%",
-                  end: "bottom bottom",
-                  scrub: 1.6,
-                  invalidateOnRefresh: true,
-                },
               },
+              0,
             );
           }
 
           if (sparkle) {
-            gsap.to(sparkle, {
-              y: () => root.scrollHeight * 0.3,
-              ease: "none",
-              scrollTrigger: {
-                trigger: root,
-                start: "top top",
-                end: "70% bottom",
-                scrub: 1.7,
-                invalidateOnRefresh: true,
+            storyTimeline.to(
+              sparkle,
+              {
+                y: () => root.scrollHeight * 0.3,
+                duration: 5,
+                ease: "none",
               },
-            });
+              0,
+            );
           }
 
           const velocityPetal =
