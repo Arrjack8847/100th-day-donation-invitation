@@ -48,10 +48,8 @@ export default function MeaningSection() {
           </h2>
 
           <p className={styles.intro} data-reveal>
-            These first one hundred days have been filled with tiny moments,
-            warm embraces and so much love. We are grateful to mark this
-            milestone by sharing our joy and making a donation in our
-            child&apos;s name.
+            These first 100 days have been filled with tiny moments, warm
+            embraces and more love than we imagined.
           </p>
 
           <p className={styles.scriptLine} data-reveal>
@@ -63,14 +61,6 @@ export default function MeaningSection() {
           <img
             className={[styles.doodle, styles.sparkles].join(" ")}
             src="/decor/sparkle-doodle.png"
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            draggable={false}
-          />
-          <img
-            className={[styles.doodle, styles.heartLeft].join(" ")}
-            src="/decor/heart-doodle.png"
             alt=""
             aria-hidden="true"
             loading="lazy"
