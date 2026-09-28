@@ -11,50 +11,61 @@ const photos = [
   "/child's photo/06-baby-smiling-with-parents.jpg",
 ];
 
-function CalendarIcon() {
+type CeremonyDetailType = "date" | "time" | "venue";
+
+function CeremonyIllustration({ type }: { type: CeremonyDetailType }) {
+  if (type === "date") {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M18 17.5h28a5 5 0 0 1 5 5v27H13v-27a5 5 0 0 1 5-5Z" />
+        <path d="M13 27h38M22 12v10M42 12v10" />
+        <path d="M31.9 34.2c-3.8-4.5-10.3 1.1 0 9.1 10.3-8 3.8-13.6 0-9.1Z" />
+      </svg>
+    );
+  }
+
+  if (type === "time") {
+    return (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="34" r="18.5" />
+        <path d="M32 22v12l8 5M24 11h16M27 15h10" />
+        <path d="M17.5 20.5 13 16M46.5 20.5 51 16" />
+      </svg>
+    );
+  }
+
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M7 3v3M17 3v3M4.5 9h15M6 5h12a2 2 0 0 1 2 2v12H4V7a2 2 0 0 1 2-2Z" />
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M14 48h36M18 48V29l14-12 14 12v19" />
+      <path d="M24 48V36h16v12M28 28h8M32 24v8" />
+      <path d="M11 49.5c5 2.7 10 2.7 15 0M38 49.5c5 2.7 10 2.7 15 0" />
     </svg>
   );
 }
 
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M12 7.5V12l3 2" />
-    </svg>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" />
-      <circle cx="12" cy="10" r="2" />
-    </svg>
-  );
-}
-
-const details = [
+const details: Array<{
+  type: CeremonyDetailType;
+  label: string;
+  value: string;
+  note: string;
+}> = [
   {
-    icon: <CalendarIcon />,
+    type: "date",
     label: "Date",
     value: "To be confirmed",
-    note: "The family will share the ceremony date here.",
+    note: "Ceremony date",
   },
   {
-    icon: <ClockIcon />,
+    type: "time",
     label: "Time",
     value: "To be confirmed",
-    note: "The final ceremony time will be added here.",
+    note: "Ceremony time",
   },
   {
-    icon: <PinIcon />,
+    type: "venue",
     label: "Venue",
     value: "To be confirmed",
-    note: "The complete venue and address will appear here.",
+    note: "Full location will be shared soon.",
   },
 ];
 
@@ -226,31 +237,79 @@ export default function InvitationContent() {
       </section>
 
       <section id="event-details" className="love-section event-section">
-        <div className="page-bubbles page-bubbles-details" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
+        <div className="event-paper-texture" aria-hidden="true" />
 
-        <div className="mobile-shell">
-          <div className="section-heading-new" data-reveal>
-            <p className="mini-label">YOU&apos;RE INVITED</p>
-            <h2>Ceremony Information</h2>
-            <p>Everything you need for the special day, kept simple and easy to read.</p>
-          </div>
+        <div className="mobile-shell event-shell">
+          <article className="ceremony-paper" data-reveal>
+            <div className="ceremony-paper-grain" aria-hidden="true" />
+            <span className="ceremony-tape" aria-hidden="true" />
+            <span className="ceremony-ribbon" aria-hidden="true">
+              <i />
+              <b />
+            </span>
 
-          <div className="event-card" data-reveal>
-            {details.map((detail) => (
-              <div className="event-row" key={detail.label}>
-                <span className="event-icon">{detail.icon}</span>
-                <div>
-                  <span className="event-label">{detail.label}</span>
-                  <strong>{detail.value}</strong>
-                  <p>{detail.note}</p>
-                </div>
+            <svg
+              className="ceremony-botanical ceremony-botanical-top"
+              viewBox="0 0 120 150"
+              aria-hidden="true"
+            >
+              <path d="M83 142C78 108 80 71 99 20" />
+              <path d="M88 99c-17-7-27-20-26-32 15 2 25 12 26 32ZM91 79c16-8 24-20 22-31-14 2-22 12-22 31ZM80 119c-13-4-23-13-26-24 13-1 23 7 26 24Z" />
+              <circle cx="100" cy="18" r="7" />
+              <path d="M100 10c-5-9-13-5-11 2M107 13c8-7 12 1 8 5M96 23c-7 7 1 12 6 8" />
+            </svg>
+
+            <svg
+              className="ceremony-botanical ceremony-botanical-bottom"
+              viewBox="0 0 120 150"
+              aria-hidden="true"
+            >
+              <path d="M35 145C37 108 34 74 17 25" />
+              <path d="M31 113c15-7 24-18 23-29-14 2-23 11-23 29ZM28 91c-14-6-22-17-21-27 13 1 21 10 21 27ZM38 130c12-3 21-11 24-21-12-1-21 6-24 21Z" />
+            </svg>
+
+            <header className="ceremony-heading">
+              <p className="ceremony-kicker">YOU&apos;RE INVITED</p>
+              <h2>
+                Join Us for
+                <span>
+                  A Special Day <i aria-hidden="true">♡</i>
+                </span>
+              </h2>
+              <p className="ceremony-script">
+                celebrating 100 beautiful days <span aria-hidden="true">♡</span>
+              </p>
+
+              <div className="ceremony-divider" aria-hidden="true">
+                <span />
+                <b>♡</b>
+                <span />
               </div>
-            ))}
-          </div>
+            </header>
+
+            <div className="ceremony-details">
+              {details.map((detail, index) => (
+                <div
+                  className={`ceremony-detail ceremony-detail-${detail.type}`}
+                  data-reveal
+                  key={detail.label}
+                  style={{ "--detail-delay": `${0.12 + index * 0.11}s` } as React.CSSProperties}
+                >
+                  <span className="ceremony-illustration" aria-hidden="true">
+                    <CeremonyIllustration type={detail.type} />
+                  </span>
+
+                  <div className="ceremony-detail-copy">
+                    <span className="ceremony-detail-label">{detail.label}</span>
+                    <strong>{detail.value}</strong>
+                    <em>{detail.note}</em>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="ceremony-finial" aria-hidden="true">♡</div>
+          </article>
         </div>
       </section>
 
