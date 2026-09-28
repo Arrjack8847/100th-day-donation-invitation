@@ -18,6 +18,7 @@ const PEAK_COVERAGE_SWAP_SECONDS = 0.95;
 const INTRO_HANDOFF_SECONDS = 0.36;
 const INTRO_FADE_MS = 360;
 const CONTENT_REVEAL_DELAY_MS = 430;
+const BACKDROP_READY_FALLBACK_MS = 500;
 
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
@@ -35,12 +36,14 @@ export default function OpeningScene() {
 
   const openingStartedRef = useRef(false);
   const introFadeStartedRef = useRef(false);
+  const visualHandoffStartedRef = useRef(false);
   const transitionDoneRef = useRef(false);
   const mainRevealRef = useRef(false);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
   const invitationBackgroundVideoRef = useRef<HTMLVideoElement | null>(null);
   const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const contentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const backdropReadyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const frameCallbackRef = useRef<number | null>(null);
@@ -74,11 +77,33 @@ export default function OpeningScene() {
       document.body.classList.remove("intro-active");
       if (introTimerRef.current) clearTimeout(introTimerRef.current);
       if (contentTimerRef.current) clearTimeout(contentTimerRef.current);
+      if (backdropReadyTimerRef.current) clearTimeout(backdropReadyTimerRef.current);
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
       if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
       cancelTransitionFrameTracking();
     };
   }, []);
+
+  const completeIntroHandoff = () => {
+    if (visualHandoffStartedRef.current) return;
+    visualHandoffStartedRef.current = true;
+
+    if (backdropReadyTimerRef.current) {
+      clearTimeout(backdropReadyTimerRef.current);
+      backdropReadyTimerRef.current = null;
+    }
+
+    setInvitationBackgroundVisible(true);
+    setIntroFading(true);
+
+    introTimerRef.current = setTimeout(() => {
+      setIntroHidden(true);
+    }, INTRO_FADE_MS);
+
+    contentTimerRef.current = setTimeout(() => {
+      setInvitationContentVisible(true);
+    }, CONTENT_REVEAL_DELAY_MS);
+  };
 
   const revealInvitation = () => {
     if (introFadeStartedRef.current) return;
@@ -104,18 +129,18 @@ export default function OpeningScene() {
         // Keep the decoded first frame visible if autoplay is temporarily
         // blocked. The invitation itself should never be held hostage by media.
       });
+
+      if (backgroundVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        completeIntroHandoff();
+        return;
+      }
     }
 
-    setInvitationBackgroundVisible(true);
-    setIntroFading(true);
-
-    introTimerRef.current = setTimeout(() => {
-      setIntroHidden(true);
-    }, INTRO_FADE_MS);
-
-    contentTimerRef.current = setTimeout(() => {
-      setInvitationContentVisible(true);
-    }, CONTENT_REVEAL_DELAY_MS);
+    // On a slow phone, keep the final intro frame on screen until the next
+    // video's first frame is decoded. This prevents a cream/blank flash.
+    backdropReadyTimerRef.current = setTimeout(() => {
+      completeIntroHandoff();
+    }, BACKDROP_READY_FALLBACK_MS);
   };
 
   const handleIntroProgress = (
@@ -304,6 +329,7 @@ export default function OpeningScene() {
               if (video.paused) {
                 void video.play().catch(() => {});
               }
+              completeIntroHandoff();
               return;
             }
 
@@ -312,6 +338,11 @@ export default function OpeningScene() {
               video.currentTime = 0;
             } catch {
               // Some mobile browsers reject an early seek until metadata settles.
+            }
+          }}
+          onError={() => {
+            if (introFadeStartedRef.current) {
+              completeIntroHandoff();
             }
           }}
         />
