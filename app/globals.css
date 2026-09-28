@@ -250,6 +250,33 @@ a {
   animation: bubble-float 6s ease-in-out infinite alternate;
 }
 
+.page-bubbles span,
+.hero-photo-bubble {
+  animation: bubble-drift 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.page-bubbles span:nth-child(2),
+.hero-photo-bubble-two {
+  animation-delay: -2.1s;
+  animation-duration: 6.4s;
+}
+
+.page-bubbles span:nth-child(3) {
+  animation-delay: -3.3s;
+  animation-duration: 5.1s;
+}
+
+.page-bubbles span:nth-child(4) {
+  animation-delay: -1.2s;
+  animation-duration: 6.9s;
+}
+
+.hero-photo-bubble-one {
+  animation-delay: -1.4s;
+  animation-duration: 6.1s;
+}
+
 .bubble-a { width: 92px; height: 92px; left: -30px; top: 7%; background-color: rgba(220,229,232,.28); }
 .bubble-b { width: 58px; height: 58px; right: 7%; top: 6%; background-color: rgba(242,216,199,.25); animation-delay: -2s; }
 .bubble-c { width: 42px; height: 42px; left: 13%; top: 25%; background-color: rgba(220,227,213,.34); animation-delay: -4s; }
@@ -748,6 +775,11 @@ body:has(#invitation-content:target) {
 @keyframes bubble-float {
   from { transform: translate3d(-3px, -6px, 0) scale(.98); }
   to { transform: translate3d(7px, 10px, 0) scale(1.03); }
+}
+
+@keyframes bubble-drift {
+  0%, 100% { transform: translate3d(-7px, 8px, 0) scale(.98); }
+  50% { transform: translate3d(15px, -24px, 0) scale(1.06); }
 }
 
 @keyframes bubble-release {
