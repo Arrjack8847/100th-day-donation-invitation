@@ -585,3 +585,18 @@
     animation: none !important;
   }
 }
+
+
+/* Mobile performance: keep the artwork, stop decorative loops that would
+   otherwise animate even while their section is off-screen. */
+@media (max-width: 768px) {
+  .bubble,
+  .sparkle,
+  .petal {
+    animation: none !important;
+  }
+
+  .paperTexture {
+    opacity: .028;
+  }
+}
