@@ -27,7 +27,10 @@
   opacity: 0;
   pointer-events: none;
   background: #f7f4ee;
-  transition: opacity .72s cubic-bezier(.22,1,.36,1);
+  transition: opacity .36s cubic-bezier(.22,1,.36,1);
+  will-change: opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .invitationBackgroundVisible {
@@ -43,6 +46,8 @@
   object-fit: cover;
   object-position: center;
   filter: saturate(.92) brightness(1.02);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .invitationBackgroundVeil {
@@ -61,7 +66,10 @@
   overflow: hidden;
   background: #f7f4ee;
   opacity: 1;
-  transition: opacity .72s cubic-bezier(.22,1,.36,1);
+  transition: opacity .36s cubic-bezier(.22,1,.36,1);
+  will-change: opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .videoIntroFading {
@@ -78,6 +86,8 @@
   object-fit: cover;
   object-position: center;
   background: #f7f4ee;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .videoVeil {
