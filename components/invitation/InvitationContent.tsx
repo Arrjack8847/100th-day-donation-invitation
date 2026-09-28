@@ -36,9 +36,10 @@ function CeremonyIllustration({ type }: { type: CeremonyDetailType }) {
 
   return (
     <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path d="M14 48h36M18 48V29l14-12 14 12v19" />
-      <path d="M24 48V36h16v12M28 28h8M32 24v8" />
-      <path d="M11 49.5c5 2.7 10 2.7 15 0M38 49.5c5 2.7 10 2.7 15 0" />
+      <path d="M12 50h40M18 46h28M21 41h22M24 36h16" />
+      <path d="M27 36h10l-2-5h-6l-2 5ZM29 31h6l-1.5-5h-3L29 31Z" />
+      <path d="M30.5 26h3l-1.5-6-1.5 6ZM32 20v-5M29.5 17.5 32 14l2.5 3.5" />
+      <path d="M18 46c2-3 4-4 6-5M46 46c-2-3-4-4-6-5" />
     </svg>
   );
 }
