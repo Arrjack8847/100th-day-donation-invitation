@@ -164,17 +164,34 @@ export default function MotionSystem() {
             heroCue,
           ].filter(Boolean) as HTMLElement[];
 
-          gsap.set(heroPhoto, {
-            autoAlpha: 0,
-            y: 22,
-            scale: 0.97,
-            transformOrigin: "50% 55%",
-          });
-          gsap.set(heroIntro, { autoAlpha: 0, y: 8 });
-          gsap.set(heroTitleMain, { autoAlpha: 0, y: 15 });
-          gsap.set(heroTitleScript, { autoAlpha: 0, y: 12 });
-          gsap.set(heroCopy, { autoAlpha: 0, y: 12 });
-          gsap.set(heroCue, { autoAlpha: 0, y: 8 });
+          if (heroPhoto) {
+            gsap.set(heroPhoto, {
+              autoAlpha: 0,
+              y: 22,
+              scale: 0.97,
+              transformOrigin: "50% 55%",
+            });
+          }
+
+          if (heroIntro) {
+            gsap.set(heroIntro, { autoAlpha: 0, y: 8 });
+          }
+
+          if (heroTitleMain) {
+            gsap.set(heroTitleMain, { autoAlpha: 0, y: 15 });
+          }
+
+          if (heroTitleScript) {
+            gsap.set(heroTitleScript, { autoAlpha: 0, y: 12 });
+          }
+
+          if (heroCopy) {
+            gsap.set(heroCopy, { autoAlpha: 0, y: 12 });
+          }
+
+          if (heroCue) {
+            gsap.set(heroCue, { autoAlpha: 0, y: 8 });
+          }
 
           const heroTimeline = gsap.timeline({
             paused: true,
