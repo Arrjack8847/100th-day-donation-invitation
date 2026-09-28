@@ -6,16 +6,25 @@ import styles from "./OpeningScene.module.css";
 const INTRO_VIDEO =
   "/opening/Soap_bubbles_floating_upward_1080p_20260928174125.mp4";
 
+const TRANSITION_VIDEO =
+  "/opening/Bubbles_transition_for_baby_invitation_20260928174820.mp4";
+
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [introFading, setIntroFading] = useState(false);
   const [introHidden, setIntroHidden] = useState(false);
   const [invitationVisible, setInvitationVisible] = useState(false);
+  const [transitionActive, setTransitionActive] = useState(false);
+  const [transitionFading, setTransitionFading] = useState(false);
 
   const openingStartedRef = useRef(false);
   const introFadeStartedRef = useRef(false);
+  const transitionDoneRef = useRef(false);
+  const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
   const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     document.body.classList.add("intro-active");
@@ -29,6 +38,8 @@ export default function OpeningScene() {
     return () => {
       document.body.classList.remove("intro-active");
       if (introTimerRef.current) clearTimeout(introTimerRef.current);
+      if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
     };
   }, []);
 
@@ -58,26 +69,98 @@ export default function OpeningScene() {
     }
   };
 
-  const openInvitation = () => {
-    if (openingStartedRef.current || !introHidden) return;
-    openingStartedRef.current = true;
+  const revealMainWebsite = () => {
+    if (transitionDoneRef.current) return;
+    transitionDoneRef.current = true;
 
-    setLeaving(true);
+    if (fallbackTimerRef.current) {
+      clearTimeout(fallbackTimerRef.current);
+      fallbackTimerRef.current = null;
+    }
 
-    window.setTimeout(() => {
+    setTransitionFading(true);
+
+    exitTimerRef.current = setTimeout(() => {
       setHidden(true);
       document.body.classList.remove("intro-active");
       document.getElementById("invitation-content")?.scrollIntoView({
         block: "start",
+        behavior: "auto",
       });
-    }, 620);
+    }, 340);
+  };
+
+  const handleTransitionProgress = (
+    event: React.SyntheticEvent<HTMLVideoElement>,
+  ) => {
+    const video = event.currentTarget;
+
+    if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+
+    const fadeWindow = Math.min(0.42, video.duration * 0.22);
+    if (video.duration - video.currentTime <= fadeWindow) {
+      setTransitionFading(true);
+    }
+  };
+
+  const fallbackToSimpleExit = () => {
+    setTransitionActive(false);
+    setLeaving(true);
+
+    exitTimerRef.current = setTimeout(() => {
+      setHidden(true);
+      document.body.classList.remove("intro-active");
+      document.getElementById("invitation-content")?.scrollIntoView({
+        block: "start",
+        behavior: "auto",
+      });
+    }, 520);
+  };
+
+  const openInvitation = () => {
+    if (openingStartedRef.current || !introHidden) return;
+    openingStartedRef.current = true;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (reduceMotion) {
+      fallbackToSimpleExit();
+      return;
+    }
+
+    document.getElementById("invitation-content")?.scrollIntoView({
+      block: "start",
+      behavior: "auto",
+    });
+
+    setTransitionActive(true);
+
+    const video = transitionVideoRef.current;
+    if (!video) {
+      fallbackToSimpleExit();
+      return;
+    }
+
+    video.currentTime = 0;
+
+    void video.play().catch(() => {
+      fallbackToSimpleExit();
+    });
+
+    fallbackTimerRef.current = setTimeout(() => {
+      revealMainWebsite();
+    }, 5000);
   };
 
   if (hidden) return null;
 
   return (
     <section
-      className={`${styles.opening} ${leaving ? styles.leaving : ""}`}
+      className={`${styles.opening} ${leaving ? styles.leaving : ""} ${
+        transitionActive ? styles.transitioning : ""
+      }`}
       aria-label="100 Days of Love opening"
     >
       {!introHidden && (
@@ -149,6 +232,25 @@ export default function OpeningScene() {
           <b>♥</b>
           <span />
         </div>
+      </div>
+
+      <div
+        className={`${styles.transitionVideoLayer} ${
+          transitionActive ? styles.transitionVideoLayerActive : ""
+        } ${transitionFading ? styles.transitionVideoLayerFading : ""}`}
+        aria-hidden="true"
+      >
+        <video
+          ref={transitionVideoRef}
+          className={styles.transitionVideo}
+          src={TRANSITION_VIDEO}
+          muted
+          playsInline
+          preload="auto"
+          onTimeUpdate={handleTransitionProgress}
+          onEnded={revealMainWebsite}
+          onError={fallbackToSimpleExit}
+        />
       </div>
     </section>
   );
