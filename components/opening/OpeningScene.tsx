@@ -388,6 +388,14 @@ export default function OpeningScene() {
     // invitation is still covering it.
     destination?.getBoundingClientRect();
 
+    // Freeze the invitation background on its current frame before the full-
+    // screen transition video starts. Mobile devices then decode one video
+    // instead of two at the same time, while the visible frame stays intact.
+    const invitationBackdropVideo = invitationBackgroundVideoRef.current;
+    if (invitationBackdropVideo && !invitationBackdropVideo.paused) {
+      invitationBackdropVideo.pause();
+    }
+
     transitionDoneRef.current = false;
     mainRevealRef.current = false;
     transitionFrameReadyRef.current = false;
