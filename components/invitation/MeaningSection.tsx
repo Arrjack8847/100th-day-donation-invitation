@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./MeaningSection.module.css";
-import { ScrapbookTape, SectionDecor } from "../decor/SiteDecor";
+import { SectionDecor } from "../decor/SiteDecor";
 
 function SunriseIcon() {
   return (
@@ -60,8 +60,6 @@ export default function MeaningSection() {
         </header>
 
         <div className={styles.photoStage}>
-          <ScrapbookTape kind="paper" placement="topCenter" />
-
           <div className={styles.photoPaper} data-reveal>
             <img
               className={styles.babyPhoto}
