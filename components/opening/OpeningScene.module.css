@@ -123,17 +123,14 @@
   object-position: center;
   background: transparent;
   opacity: 1;
-  mix-blend-mode: screen;
-  filter: contrast(1.28) brightness(.96) saturate(1.12);
-  will-change: opacity, filter;
+  mix-blend-mode: lighten;
+  filter: none;
+  will-change: opacity;
 }
-@supports not (mix-blend-mode: screen) {
-  .transitionVideoLayer {
-    mix-blend-mode: normal;
-  }
-
+@supports not (mix-blend-mode: lighten) {
+  .transitionVideoLayer,
   .transitionVideo {
-    mix-blend-mode: lighten;
+    mix-blend-mode: normal;
   }
 }
 
