@@ -192,7 +192,6 @@
   left: 50%;
   top: 14%;
   transform: translateX(-50%);
-  mix-blend-mode: screen;
 }
 
 .openingBubbleLeft {
@@ -228,7 +227,6 @@
   --decor-size: clamp(360px, 92vw, 690px);
   left: -12%;
   top: 10%;
-  mix-blend-mode: screen;
 }
 
 .heroWash {
