@@ -539,3 +539,270 @@
     animation: none !important;
   }
 }
+
+
+/* Section 3 refinement — calmer, more emotional hierarchy */
+.section {
+  padding: clamp(2.2rem, 5vw, 3.2rem) 0 clamp(2rem, 4.5vw, 2.8rem);
+  background:
+    radial-gradient(ellipse at 16% 14%, rgba(255,255,255,.9), transparent 18rem),
+    radial-gradient(ellipse at 84% 46%, rgba(232,190,166,.11), transparent 19rem),
+    radial-gradient(ellipse at 18% 82%, rgba(166,181,155,.07), transparent 17rem),
+    #fbf6ee;
+}
+
+.watermark {
+  top: 1.8rem;
+  right: -4.4rem;
+  opacity: .72;
+  color: rgba(190,126,108,.045);
+}
+
+.inner {
+  width: min(100% - 28px, 900px);
+}
+
+.header {
+  width: min(100%, 610px);
+}
+
+.eyebrow {
+  font-size: .62rem;
+  letter-spacing: .33em;
+}
+
+.ornament {
+  width: min(185px, 52vw);
+  margin: .45rem auto .65rem;
+}
+
+.title {
+  font-size: clamp(2.65rem, 12vw, 3.35rem);
+  line-height: .93;
+}
+
+.title span:last-child {
+  margin-top: .02em;
+}
+
+.intro {
+  width: min(100%, 360px);
+  margin-top: .72rem;
+  color: #71645a;
+  font-size: clamp(.88rem, 3.5vw, .98rem);
+  line-height: 1.58;
+}
+
+.scriptLine {
+  margin-top: .38rem;
+  color: #c87965;
+  font-size: clamp(1rem, 4.7vw, 1.2rem);
+}
+
+.photoStage {
+  width: min(94vw, 382px);
+  height: clamp(310px, 41svh, 352px);
+  margin-top: 1rem;
+}
+
+.photoPaper {
+  padding: 6px;
+  box-shadow:
+    0 18px 38px rgba(105,76,54,.075),
+    0 4px 10px rgba(105,76,54,.035);
+  transform: rotate(-.22deg);
+}
+
+.loveNote {
+  right: -3px;
+  bottom: 12px;
+  width: clamp(110px, 29vw, 122px);
+  padding: 8px 7px 7px;
+  color: #735849;
+  font-size: clamp(.69rem, 3vw, .8rem);
+  box-shadow: 0 9px 18px rgba(105,76,54,.085);
+  transform: rotate(1.5deg);
+}
+
+.noteArrow {
+  top: -33px;
+  left: -37px;
+  width: 41px;
+  height: 35px;
+  stroke: #c87965;
+}
+
+.feelings {
+  width: min(100%, 390px);
+  min-height: 54px;
+  margin-top: .8rem;
+}
+
+.feeling {
+  color: #6e5140;
+  font-size: clamp(.64rem, 2.8vw, .76rem);
+}
+
+.feeling svg {
+  width: 24px;
+  height: 24px;
+  stroke: #c87965;
+}
+
+.closingOrnament {
+  width: min(170px, 48vw);
+  margin-top: .55rem;
+}
+
+@media (max-width: 380px) {
+  .section {
+    padding-top: 1.8rem;
+    padding-bottom: 1.55rem;
+  }
+
+  .inner {
+    width: min(100% - 24px, 380px);
+  }
+
+  .title {
+    font-size: clamp(2.45rem, 12.2vw, 2.95rem);
+  }
+
+  .intro {
+    width: min(100%, 330px);
+    margin-top: .58rem;
+    font-size: .85rem;
+    line-height: 1.5;
+  }
+
+  .scriptLine {
+    margin-top: .3rem;
+    font-size: 1rem;
+  }
+
+  .photoStage {
+    width: min(93vw, 350px);
+    height: clamp(294px, 39svh, 324px);
+    margin-top: .8rem;
+  }
+
+  .feelings {
+    margin-top: .62rem;
+    min-height: 50px;
+  }
+
+  .closingOrnament {
+    margin-top: .42rem;
+  }
+}
+
+@media (max-height: 760px) and (orientation: portrait) {
+  .section {
+    padding-top: 1.45rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .ornament {
+    margin-block: .3rem .48rem;
+  }
+
+  .title {
+    font-size: clamp(2.35rem, 10.9vw, 2.8rem);
+  }
+
+  .intro {
+    margin-top: .45rem;
+    font-size: .82rem;
+    line-height: 1.43;
+  }
+
+  .scriptLine {
+    margin-top: .2rem;
+    font-size: .94rem;
+  }
+
+  .photoStage {
+    width: min(88vw, 332px);
+    height: clamp(272px, 36svh, 298px);
+    margin-top: .65rem;
+  }
+
+  .feelings {
+    min-height: 46px;
+    margin-top: .5rem;
+  }
+
+  .closingOrnament {
+    margin-top: .3rem;
+  }
+}
+
+@media (min-width: 700px) {
+  .section {
+    min-height: auto;
+    padding: clamp(5rem, 8vw, 6.8rem) 0 clamp(4.6rem, 7vw, 5.8rem);
+  }
+
+  .header {
+    width: min(100%, 680px);
+  }
+
+  .eyebrow {
+    font-size: .72rem;
+  }
+
+  .ornament {
+    width: 230px;
+    margin: .6rem auto .9rem;
+  }
+
+  .title {
+    font-size: clamp(4.3rem, 7vw, 5.8rem);
+  }
+
+  .intro {
+    width: min(100%, 540px);
+    margin-top: 1rem;
+    font-size: 1.06rem;
+    line-height: 1.62;
+  }
+
+  .scriptLine {
+    margin-top: .45rem;
+    font-size: 1.35rem;
+  }
+
+  .photoStage {
+    width: min(720px, 86vw);
+    height: clamp(420px, 48vw, 500px);
+    margin-top: 1.6rem;
+  }
+
+  .loveNote {
+    right: 4px;
+    bottom: 28px;
+    width: 158px;
+    padding: 12px 10px 10px;
+    font-size: .95rem;
+  }
+
+  .feelings {
+    width: min(620px, 88%);
+    min-height: 66px;
+    margin-top: 1.3rem;
+  }
+
+  .feeling {
+    font-size: .9rem;
+  }
+
+  .feeling svg {
+    width: 31px;
+    height: 31px;
+  }
+
+  .closingOrnament {
+    width: 240px;
+    margin-top: 1rem;
+  }
+}
