@@ -120,13 +120,16 @@ export default function InvitationContent() {
             </div>
           </header>
 
-          <div className="hero-photo-shell" data-reveal>
+          <div className="hero-photo-shell">
             <div className="hero-photo-glow" aria-hidden="true" />
 
             <div className="hero-photo-blob">
               <img
                 src="/child's photo/01-100-days-baby-portrait.jpg"
                 alt="Our little one celebrating 100 days"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
 
@@ -136,7 +139,7 @@ export default function InvitationContent() {
             <span className="hero-heart hero-heart-two" aria-hidden="true">♡</span>
           </div>
 
-          <div className="hero-copy-new" data-reveal>
+          <div className="hero-copy-new">
             <h1 className="hero-title">
               <span className="hero-title-main">100 tiny days,</span>
               <span className="hero-title-script">
