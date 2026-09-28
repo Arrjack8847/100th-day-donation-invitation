@@ -1,0 +1,309 @@
+.bridge {
+  --bridge-color: 184, 116, 88;
+  position: relative;
+  z-index: 18;
+  height: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.canvas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -76px;
+  height: 152px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wash {
+  position: absolute;
+  width: min(440px, 74vw);
+  height: 92px;
+  left: 50%;
+  top: 28px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(var(--bridge-color), 0.105) 0%,
+    rgba(var(--bridge-color), 0.04) 48%,
+    transparent 76%
+  );
+  filter: blur(9px);
+  opacity: 0;
+  transform: translateX(-50%) scale(.82);
+  transition:
+    opacity 1s ease .12s,
+    transform 1.15s cubic-bezier(.2,.8,.2,1) .12s;
+}
+
+.bridge:global(.is-visible) .wash {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.thread {
+  position: absolute;
+  width: min(1080px, 112vw);
+  height: 118px;
+  left: 50%;
+  top: 17px;
+  overflow: visible;
+  transform: translateX(-50%);
+  opacity: .44;
+}
+
+.threadPath {
+  fill: none;
+  stroke: rgba(var(--bridge-color), .52);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1260;
+  stroke-dashoffset: 1260;
+  transition: stroke-dashoffset 1.35s cubic-bezier(.22,.76,.2,1) .08s;
+}
+
+.bridge:global(.is-visible) .threadPath {
+  stroke-dashoffset: 0;
+}
+
+.asset {
+  position: absolute;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition:
+    opacity .75s ease .22s,
+    filter .75s ease .22s;
+  will-change: transform;
+}
+
+.bridge:global(.is-visible) .asset {
+  opacity: .54;
+}
+
+.primary {
+  width: clamp(54px, 10vw, 96px);
+  left: clamp(14px, 7vw, 110px);
+  top: 26px;
+  transform: rotate(-8deg);
+  animation: bridgeFloatLeft 8.5s ease-in-out infinite alternate;
+}
+
+.secondary {
+  width: clamp(32px, 6vw, 66px);
+  right: clamp(18px, 9vw, 135px);
+  bottom: 24px;
+  transform: rotate(8deg);
+  animation: bridgeFloatRight 9.8s ease-in-out -2.4s infinite alternate;
+}
+
+.heart {
+  position: absolute;
+  left: 50%;
+  top: 63px;
+  color: rgba(var(--bridge-color), .72);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(.72rem, 1.5vw, 1rem);
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-50%, 7px) rotate(-5deg) scale(.8);
+  transition:
+    opacity .65s ease .72s,
+    transform .8s cubic-bezier(.2,.8,.2,1) .72s;
+}
+
+.bridge:global(.is-visible) .heart {
+  opacity: .72;
+  transform: translate(-50%, 0) rotate(-5deg) scale(1);
+}
+
+.heroToMilestone {
+  --bridge-color: 190, 126, 100;
+}
+
+.heroToMilestone .primary,
+.donationToClosing .primary {
+  width: clamp(72px, 14vw, 126px);
+  opacity: 0;
+  mix-blend-mode: multiply;
+}
+
+.heroToMilestone:global(.is-visible) .primary,
+.donationToClosing:global(.is-visible) .primary {
+  opacity: .32;
+}
+
+.milestoneToMeaning {
+  --bridge-color: 166, 118, 91;
+}
+
+.milestoneToMeaning .thread,
+.momentsToEvent .thread,
+.donationToClosing .thread {
+  transform: translateX(-50%) scaleX(-1);
+}
+
+.milestoneToMeaning .primary {
+  width: clamp(110px, 22vw, 205px);
+  left: clamp(-30px, 2vw, 34px);
+  top: 15px;
+}
+
+.meaningToMoments {
+  --bridge-color: 144, 142, 112;
+}
+
+.meaningToMoments .primary {
+  width: clamp(76px, 15vw, 138px);
+  left: clamp(-18px, 4vw, 65px);
+  top: 13px;
+}
+
+.momentsToEvent {
+  --bridge-color: 184, 126, 97;
+}
+
+.momentsToEvent .primary {
+  width: clamp(135px, 28vw, 260px);
+  left: clamp(-46px, 3vw, 58px);
+  top: 35px;
+  opacity: 0;
+}
+
+.momentsToEvent:global(.is-visible) .primary {
+  opacity: .34;
+}
+
+.momentsToEvent .secondary {
+  width: clamp(54px, 10vw, 92px);
+}
+
+.eventToDonation {
+  --bridge-color: 176, 126, 102;
+}
+
+.eventToDonation .primary {
+  width: clamp(28px, 5vw, 46px);
+  left: clamp(30px, 13vw, 180px);
+  top: 33px;
+}
+
+.eventToDonation .secondary {
+  width: clamp(72px, 14vw, 125px);
+  right: clamp(-22px, 4vw, 62px);
+  bottom: 9px;
+}
+
+.donationToClosing {
+  --bridge-color: 182, 116, 92;
+}
+
+.donationToClosing .secondary {
+  width: clamp(30px, 5.5vw, 50px);
+}
+
+@keyframes bridgeFloatLeft {
+  from {
+    transform: translate3d(0, 7px, 0) rotate(-8deg);
+  }
+  to {
+    transform: translate3d(9px, -8px, 0) rotate(-3deg);
+  }
+}
+
+@keyframes bridgeFloatRight {
+  from {
+    transform: translate3d(0, -3px, 0) rotate(8deg);
+  }
+  to {
+    transform: translate3d(-8px, 9px, 0) rotate(3deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .canvas {
+    top: -62px;
+    height: 124px;
+  }
+
+  .thread {
+    width: 142vw;
+    height: 96px;
+    top: 14px;
+    opacity: .36;
+  }
+
+  .wash {
+    width: 82vw;
+    height: 72px;
+    top: 25px;
+  }
+
+  .primary {
+    left: 9px;
+    top: 25px;
+  }
+
+  .secondary {
+    right: 12px;
+    bottom: 17px;
+  }
+
+  .heart {
+    top: 54px;
+  }
+
+  .bridge:global(.is-visible) .asset {
+    opacity: .44;
+  }
+
+  .heroToMilestone:global(.is-visible) .primary,
+  .donationToClosing:global(.is-visible) .primary {
+    opacity: .27;
+  }
+
+  .momentsToEvent:global(.is-visible) .primary {
+    opacity: .3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bridge,
+  .wash,
+  .threadPath,
+  .asset,
+  .heart {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .bridge {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .wash {
+    opacity: .8;
+    transform: translateX(-50%) scale(1);
+  }
+
+  .threadPath {
+    stroke-dashoffset: 0;
+  }
+
+  .asset {
+    opacity: .42;
+  }
+
+  .heart {
+    opacity: .65;
+    transform: translate(-50%, 0) rotate(-5deg) scale(1);
+  }
+}
