@@ -245,6 +245,11 @@ export default function OpeningScene() {
     });
   };
 
+  const startMainMotion = () => {
+    document.documentElement.dataset.invitationMotionReady = "true";
+    window.dispatchEvent(new Event("invitation:motion-ready"));
+  };
+
   const revealMainUnderlay = () => {
     if (mainRevealRef.current) return;
 
@@ -259,6 +264,7 @@ export default function OpeningScene() {
     // The main page is now the active experience, so release the intro scroll
     // lock immediately instead of waiting for the bubble MP4 to finish.
     unlockMainPage();
+    startMainMotion();
   };
 
   const finishTransition = () => {
@@ -352,6 +358,7 @@ export default function OpeningScene() {
     // The fallback overlay is already leaving and no longer intercepts input,
     // so restore scrolling immediately rather than after the fade delay.
     unlockMainPage();
+    startMainMotion();
 
     exitTimerRef.current = setTimeout(() => {
       setHidden(true);
