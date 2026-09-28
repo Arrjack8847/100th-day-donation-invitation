@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import MilestoneSection from "./MilestoneSection";
 import MeaningSection from "./MeaningSection";
 import SectionBridge from "../decor/SectionBridge";
+import MotionSystem from "../motion/MotionSystem";
 import {
   ScrapbookPhotoDecor,
   ScrapbookTape,
@@ -78,37 +79,11 @@ const details: Array<{
 ];
 
 export default function InvitationContent() {
-  useEffect(() => {
-    const items = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal]")
-    );
-
-    if (
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-      !("IntersectionObserver" in window)
-    ) {
-      items.forEach((item) => item.classList.add("is-visible"));
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -5% 0px" }
-    );
-
-    items.forEach((item) => observer.observe(item));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div id="invitation-content" className="love-site">
-      <section className="love-hero">
+      <MotionSystem />
+
+      <section className="love-hero" data-motion-section="hero">
         <SectionDecor variant="hero" />
 
         <div className="hero-inner">
@@ -165,7 +140,7 @@ export default function InvitationContent() {
       <MeaningSection />
       <SectionBridge variant="meaningToMoments" />
 
-      <section className="love-section moments-section">
+      <section className="love-section moments-section" data-motion-section="moments">
         <div className="moments-paper" aria-hidden="true" />
         <SectionDecor variant="moments" />
 
@@ -235,7 +210,7 @@ export default function InvitationContent() {
 
       <SectionBridge variant="momentsToEvent" />
 
-      <section id="event-details" className="love-section event-section">
+      <section id="event-details" className="love-section event-section" data-motion-section="event">
         <div className="event-paper-texture" aria-hidden="true" />
         <SectionDecor variant="event" />
 
@@ -292,7 +267,7 @@ export default function InvitationContent() {
 
       <SectionBridge variant="eventToDonation" />
 
-      <section className="love-section donation-section">
+      <section className="love-section donation-section" data-motion-section="donation">
         <div className="donation-paper" aria-hidden="true" />
         <SectionDecor variant="donation" />
 
@@ -335,7 +310,7 @@ export default function InvitationContent() {
 
       <SectionBridge variant="donationToClosing" />
 
-      <section className="love-closing">
+      <section className="love-closing" data-motion-section="closing">
         <SectionDecor variant="closing" />
         <div className="closing-paper" aria-hidden="true" />
 
