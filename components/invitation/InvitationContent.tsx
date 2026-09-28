@@ -3,6 +3,7 @@
 import { useEffect, type CSSProperties } from "react";
 import MilestoneSection from "./MilestoneSection";
 import MeaningSection from "./MeaningSection";
+import SectionBridge from "../decor/SectionBridge";
 import {
   PaperTexture,
   ScrapbookTape,
@@ -158,9 +159,13 @@ export default function InvitationContent() {
         </div>
       </section>
 
+      <SectionBridge variant="heroToMilestone" />
+
       <MilestoneSection />
+      <SectionBridge variant="milestoneToMeaning" />
 
       <MeaningSection />
+      <SectionBridge variant="meaningToMoments" />
 
       <section className="love-section moments-section">
         <div className="moments-paper" aria-hidden="true" />
@@ -226,6 +231,8 @@ export default function InvitationContent() {
         </div>
       </section>
 
+      <SectionBridge variant="momentsToEvent" />
+
       <section id="event-details" className="love-section event-section">
         <div className="event-paper-texture" aria-hidden="true" />
         <SectionDecor variant="event" />
@@ -282,6 +289,8 @@ export default function InvitationContent() {
         </div>
       </section>
 
+      <SectionBridge variant="eventToDonation" />
+
       <section className="love-section donation-section">
         <div className="donation-paper" aria-hidden="true" />
         <SectionDecor variant="donation" />
@@ -322,6 +331,8 @@ export default function InvitationContent() {
           </p>
         </div>
       </section>
+
+      <SectionBridge variant="donationToClosing" />
 
       <section className="love-closing">
         <SectionDecor variant="closing" />
