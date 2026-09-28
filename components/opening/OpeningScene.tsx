@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./OpeningScene.module.css";
 
 const INTRO_VIDEO =
@@ -12,54 +13,134 @@ const TRANSITION_VIDEO =
 const INVITATION_BACKGROUND_VIDEO =
   "/opening/invitation-background.mp4";
 
-const PAGE_SWAP_TIME_SECONDS = 0.95;
+// Peak center coverage in the transition storyboard is 0.8–1.1s.
+const PEAK_COVERAGE_SWAP_SECONDS = 0.95;
+const INTRO_HANDOFF_SECONDS = 0.36;
+const INTRO_FADE_MS = 360;
+const CONTENT_REVEAL_DELAY_MS = 430;
+const BACKDROP_READY_FALLBACK_MS = 500;
 
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [introFading, setIntroFading] = useState(false);
   const [introHidden, setIntroHidden] = useState(false);
-  const [invitationVisible, setInvitationVisible] = useState(false);
+  const [invitationBackgroundVisible, setInvitationBackgroundVisible] =
+    useState(false);
+  const [invitationContentVisible, setInvitationContentVisible] =
+    useState(false);
   const [transitionActive, setTransitionActive] = useState(false);
   const [transitionFading, setTransitionFading] = useState(false);
   const [mainRevealed, setMainRevealed] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
 
   const openingStartedRef = useRef(false);
   const introFadeStartedRef = useRef(false);
+  const visualHandoffStartedRef = useRef(false);
   const transitionDoneRef = useRef(false);
   const mainRevealRef = useRef(false);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
+  const invitationBackgroundVideoRef = useRef<HTMLVideoElement | null>(null);
   const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const contentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const backdropReadyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const frameCallbackRef = useRef<number | null>(null);
+
+  const cancelTransitionFrameTracking = () => {
+    const video = transitionVideoRef.current;
+
+    if (
+      video &&
+      frameCallbackRef.current !== null &&
+      typeof video.cancelVideoFrameCallback === "function"
+    ) {
+      video.cancelVideoFrameCallback(frameCallbackRef.current);
+    }
+
+    frameCallbackRef.current = null;
+  };
 
   useEffect(() => {
+    setPortalReady(true);
     document.body.classList.add("intro-active");
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       introFadeStartedRef.current = true;
       setIntroHidden(true);
-      setInvitationVisible(true);
+      setInvitationBackgroundVisible(true);
+      setInvitationContentVisible(true);
     }
 
     return () => {
       document.body.classList.remove("intro-active");
       if (introTimerRef.current) clearTimeout(introTimerRef.current);
+      if (contentTimerRef.current) clearTimeout(contentTimerRef.current);
+      if (backdropReadyTimerRef.current) clearTimeout(backdropReadyTimerRef.current);
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
       if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
+      cancelTransitionFrameTracking();
     };
   }, []);
+
+  const completeIntroHandoff = () => {
+    if (visualHandoffStartedRef.current) return;
+    visualHandoffStartedRef.current = true;
+
+    if (backdropReadyTimerRef.current) {
+      clearTimeout(backdropReadyTimerRef.current);
+      backdropReadyTimerRef.current = null;
+    }
+
+    setInvitationBackgroundVisible(true);
+    setIntroFading(true);
+
+    introTimerRef.current = setTimeout(() => {
+      setIntroHidden(true);
+    }, INTRO_FADE_MS);
+
+    contentTimerRef.current = setTimeout(() => {
+      setInvitationContentVisible(true);
+    }, CONTENT_REVEAL_DELAY_MS);
+  };
 
   const revealInvitation = () => {
     if (introFadeStartedRef.current) return;
 
     introFadeStartedRef.current = true;
-    setInvitationVisible(true);
-    setIntroFading(true);
 
-    introTimerRef.current = setTimeout(() => {
-      setIntroHidden(true);
-    }, 720);
+    const backgroundVideo = invitationBackgroundVideoRef.current;
+
+    // The invitation background is deliberately kept paused at frame 0 until
+    // this handoff. That makes the first visible frame deterministic across
+    // desktop, Android and iOS instead of revealing a random point in a loop.
+    if (backgroundVideo) {
+      try {
+        if (backgroundVideo.readyState >= HTMLMediaElement.HAVE_METADATA) {
+          backgroundVideo.currentTime = 0;
+        }
+      } catch {
+        // A seek can fail briefly on slower Safari decoders. The video still
+        // starts from its default frame 0 because it has never autoplayed.
+      }
+
+      void backgroundVideo.play().catch(() => {
+        // Keep the decoded first frame visible if autoplay is temporarily
+        // blocked. The invitation itself should never be held hostage by media.
+      });
+
+      if (backgroundVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        completeIntroHandoff();
+        return;
+      }
+    }
+
+    // On a slow phone, keep the final intro frame on screen until the next
+    // video's first frame is decoded. This prevents a cream/blank flash.
+    backdropReadyTimerRef.current = setTimeout(() => {
+      completeIntroHandoff();
+    }, BACKDROP_READY_FALLBACK_MS);
   };
 
   const handleIntroProgress = (
@@ -70,7 +151,7 @@ export default function OpeningScene() {
     if (
       Number.isFinite(video.duration) &&
       video.duration > 0 &&
-      video.duration - video.currentTime <= 0.78
+      video.duration - video.currentTime <= INTRO_HANDOFF_SECONDS
     ) {
       revealInvitation();
     }
@@ -85,6 +166,7 @@ export default function OpeningScene() {
   const finishTransition = () => {
     if (transitionDoneRef.current) return;
     transitionDoneRef.current = true;
+    cancelTransitionFrameTracking();
 
     revealMainUnderlay();
 
@@ -105,27 +187,55 @@ export default function OpeningScene() {
     }, 320);
   };
 
-  const handleTransitionProgress = (
-    event: React.SyntheticEvent<HTMLVideoElement>,
+  const syncTransitionToVideoTime = (
+    currentTime: number,
+    duration: number,
   ) => {
-    const video = event.currentTarget;
-
-    if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+    if (!Number.isFinite(duration) || duration <= 0) return;
 
     if (
       !mainRevealRef.current &&
-      video.currentTime >= PAGE_SWAP_TIME_SECONDS
+      currentTime >= PEAK_COVERAGE_SWAP_SECONDS
     ) {
       revealMainUnderlay();
     }
 
-    const fadeWindow = Math.min(0.28, video.duration * 0.12);
-    if (video.duration - video.currentTime <= fadeWindow) {
+    const fadeWindow = Math.min(0.28, duration * 0.12);
+    if (duration - currentTime <= fadeWindow) {
       setTransitionFading(true);
     }
   };
 
+  const handleTransitionProgress = (
+    event: React.SyntheticEvent<HTMLVideoElement>,
+  ) => {
+    const video = event.currentTarget;
+    syncTransitionToVideoTime(video.currentTime, video.duration);
+  };
+
+  const startTransitionFrameTracking = (video: HTMLVideoElement) => {
+    if (typeof video.requestVideoFrameCallback !== "function") return;
+
+    cancelTransitionFrameTracking();
+
+    const onVideoFrame = (
+      _now: number,
+      metadata: VideoFrameCallbackMetadata,
+    ) => {
+      syncTransitionToVideoTime(metadata.mediaTime, video.duration);
+
+      if (!transitionDoneRef.current && !video.ended) {
+        frameCallbackRef.current =
+          video.requestVideoFrameCallback(onVideoFrame);
+      }
+    };
+
+    frameCallbackRef.current =
+      video.requestVideoFrameCallback(onVideoFrame);
+  };
+
   const fallbackToSimpleExit = () => {
+    cancelTransitionFrameTracking();
     setTransitionActive(false);
     setMainRevealed(false);
     setLeaving(true);
@@ -171,6 +281,7 @@ export default function OpeningScene() {
     }
 
     video.currentTime = 0;
+    startTransitionFrameTracking(video);
 
     void video.play().catch(() => {
       fallbackToSimpleExit();
@@ -197,18 +308,43 @@ export default function OpeningScene() {
     >
       <div
         className={`${styles.invitationBackground} ${
-          invitationVisible ? styles.invitationBackgroundVisible : ""
+          invitationBackgroundVisible ? styles.invitationBackgroundVisible : ""
         }`}
         aria-hidden="true"
       >
         <video
+          ref={invitationBackgroundVideoRef}
           className={styles.invitationBackgroundVideo}
           src={INVITATION_BACKGROUND_VIDEO}
-          autoPlay
           muted
           loop
           playsInline
           preload="auto"
+          onLoadedData={(event) => {
+            const video = event.currentTarget;
+
+            // If decoding finished after the handoff already began, do not
+            // rewind or pause it — that would create a visible mobile stutter.
+            if (introFadeStartedRef.current) {
+              if (video.paused) {
+                void video.play().catch(() => {});
+              }
+              completeIntroHandoff();
+              return;
+            }
+
+            video.pause();
+            try {
+              video.currentTime = 0;
+            } catch {
+              // Some mobile browsers reject an early seek until metadata settles.
+            }
+          }}
+          onError={() => {
+            if (introFadeStartedRef.current) {
+              completeIntroHandoff();
+            }
+          }}
         />
         <div className={styles.invitationBackgroundVeil} />
       </div>
@@ -237,7 +373,7 @@ export default function OpeningScene() {
 
       <div
         className={`${styles.content} ${
-          invitationVisible ? styles.contentReady : ""
+          invitationContentVisible ? styles.contentReady : ""
         }`}
       >
         <p className={styles.eyebrow}>WITH LOVE &amp; GRATITUDE</p>
@@ -284,24 +420,30 @@ export default function OpeningScene() {
         </div>
       </div>
 
-      <div
-        className={`${styles.transitionVideoLayer} ${
-          transitionActive ? styles.transitionVideoLayerActive : ""
-        } ${transitionFading ? styles.transitionVideoLayerFading : ""}`}
-        aria-hidden="true"
-      >
-        <video
-          ref={transitionVideoRef}
-          className={styles.transitionVideo}
-          src={TRANSITION_VIDEO}
-          muted
-          playsInline
-          preload="auto"
-          onTimeUpdate={handleTransitionProgress}
-          onEnded={finishTransition}
-          onError={fallbackToSimpleExit}
-        />
-      </div>
+      {portalReady &&
+        createPortal(
+          <div
+            className={`${styles.transitionVideoLayer} ${
+              transitionActive ? styles.transitionVideoLayerActive : ""
+            } ${
+              transitionFading ? styles.transitionVideoLayerFading : ""
+            }`}
+            aria-hidden="true"
+          >
+            <video
+              ref={transitionVideoRef}
+              className={styles.transitionVideo}
+              src={TRANSITION_VIDEO}
+              muted
+              playsInline
+              preload="auto"
+              onTimeUpdate={handleTransitionProgress}
+              onEnded={finishTransition}
+              onError={fallbackToSimpleExit}
+            />
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }
