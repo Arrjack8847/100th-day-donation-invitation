@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import MilestoneSection from "./MilestoneSection";
+import MeaningSection from "./MeaningSection";
 
 const photos = [
   "/child's photo/01-100-days-baby-portrait.jpg",
@@ -139,29 +140,7 @@ export default function InvitationContent() {
 
       <MilestoneSection />
 
-      <section className="love-section meaning-section">
-        <div className="mobile-shell meaning-layout">
-          <div className="section-copy" data-reveal>
-            <p className="mini-label">ABOUT THIS DAY</p>
-            <h2>A Meaningful<br />100 Days</h2>
-            <p>
-              These first one hundred days have been filled with tiny moments,
-              warm embraces and so much love. We are grateful to mark this
-              milestone by sharing our joy and making a donation in our
-              child&apos;s name.
-            </p>
-            <p className="script-note">A little one, a big blessing ♡</p>
-          </div>
-
-          <figure className="soft-photo large-soft-photo" data-reveal>
-            <img
-              src="/child's photo/05-sleeping-newborn-closeup.jpg"
-              alt="A peaceful newborn memory"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-      </section>
+      <MeaningSection />
 
       <section className="love-section moments-section">
         <div className="mobile-shell">
