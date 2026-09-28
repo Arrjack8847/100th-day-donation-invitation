@@ -330,16 +330,71 @@ export default function InvitationContent() {
       </section>
 
       <section className="love-section donation-section">
-        <div className="mobile-shell donation-card" data-reveal>
-          <div className="donation-decoration" aria-hidden="true">♡</div>
-          <p className="mini-label">DONATION</p>
-          <h2>Sharing Love</h2>
-          <p>
-            In celebration of our child&apos;s 100th day, we will be making a
-            donation as a gesture of gratitude and kindness. Your presence and
-            blessings are the most meaningful gifts to us.
+        <div className="donation-paper" aria-hidden="true" />
+
+        <div className="mobile-shell donation-wrap">
+          <header className="donation-heading" data-reveal>
+            <p className="mini-label">A GESTURE OF GRATITUDE</p>
+
+            <div className="donation-ornament" aria-hidden="true">
+              <span />
+              <b>♡</b>
+              <span />
+            </div>
+
+            <h2>Sharing Love</h2>
+          </header>
+
+          <article className="donation-card" data-reveal>
+            <span className="donation-wash donation-wash-peach" aria-hidden="true" />
+            <span className="donation-wash donation-wash-sage" aria-hidden="true" />
+
+            <svg
+              className="donation-botanical donation-botanical-left"
+              viewBox="0 0 120 170"
+              aria-hidden="true"
+            >
+              <path d="M84 164C76 129 72 89 91 24" />
+              <path d="M80 125c-17-8-26-21-24-33 15 2 24 13 24 33ZM84 101c16-9 24-22 21-34-14 3-22 14-21 34ZM75 145c-13-4-23-13-26-24 13-1 23 7 26 24Z" />
+              <circle cx="93" cy="22" r="6" />
+            </svg>
+
+            <svg
+              className="donation-botanical donation-botanical-right"
+              viewBox="0 0 120 170"
+              aria-hidden="true"
+            >
+              <path d="M36 164C44 129 48 89 29 24" />
+              <path d="M40 125c17-8 26-21 24-33-15 2-24 13-24 33ZM36 101c-16-9-24-22-21-34 14 3 22 14 21 34ZM45 145c13-4 23-13 26-24-13-1-23 7-26 24Z" />
+              <circle cx="27" cy="22" r="6" />
+            </svg>
+
+            <div className="donation-heart-seal" aria-hidden="true">♡</div>
+
+            <p className="donation-lead">
+              In celebration of our little one&apos;s first 100 days, we&apos;re
+              sharing this joy through a donation made with gratitude and love.
+            </p>
+
+            <div className="donation-divider" aria-hidden="true">
+              <span />
+              <b>♡</b>
+              <span />
+            </div>
+
+            <p className="donation-presence">
+              Your presence, warm wishes, and blessings are already the most
+              meaningful gifts to our family.
+            </p>
+
+            <blockquote className="donation-quote">
+              Love grows when it is shared.
+            </blockquote>
+          </article>
+
+          <p className="donation-closing-note" data-reveal>
+            With thankful hearts, we celebrate and give. <span aria-hidden="true">♡</span>
           </p>
-          <span className="script-note">Love grows when it is shared.</span>
         </div>
       </section>
 
