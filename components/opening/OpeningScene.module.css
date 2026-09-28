@@ -125,6 +125,8 @@
   opacity: 1;
   mix-blend-mode: lighten;
   will-change: opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .transitionVideoReady {
