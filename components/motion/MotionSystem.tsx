@@ -1045,9 +1045,8 @@ export default function MotionSystem() {
       <span
         className={styles.foregroundPetalTwo}
         data-foreground-petal-two
-        data-velocity-petal
       >
-        <span data-pointer-depth="0.5">
+        <span data-pointer-depth="0.5" data-velocity-petal>
           <img
             src="/components/floating-petals/floating-petal-05.png"
             alt=""
