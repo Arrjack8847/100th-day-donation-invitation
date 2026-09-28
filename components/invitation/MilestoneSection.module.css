@@ -352,6 +352,119 @@
   }
 }
 
+
+
+/* Interactive baby portrait */
+.portraitButton {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transform-origin: 50% 62%;
+  user-select: none;
+}
+
+.portraitButton:focus-visible {
+  outline: 3px solid rgba(113,128,107,.28);
+  outline-offset: 8px;
+  border-radius: 42% 42% 36% 36%;
+}
+
+.portraitButton:active:not(.isShaking) {
+  transform: scale(.985);
+}
+
+.isShaking {
+  animation: babyWiggle .62s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.tapHeart {
+  position: absolute;
+  z-index: 5;
+  right: 2%;
+  top: 42%;
+  color: #cb9270;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px) scale(.65) rotate(8deg);
+}
+
+.tapHeartActive {
+  animation: littleHeartPop .64s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.tapHint {
+  margin: .3rem auto 0;
+  color: rgba(119,92,72,.62);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(.68rem, 2.5vw, .8rem);
+  font-style: italic;
+  letter-spacing: .025em;
+  line-height: 1.35;
+  transition:
+    opacity .35s ease,
+    transform .35s ease;
+}
+
+.tapHintUsed {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+@keyframes babyWiggle {
+  0%   { transform: rotate(0deg) scale(1); }
+  10%  { transform: rotate(0deg) scale(.985); }
+  24%  { transform: rotate(-2deg) scale(1.005); }
+  38%  { transform: rotate(2.4deg) scale(1.005); }
+  52%  { transform: rotate(-1.6deg) scale(1.003); }
+  66%  { transform: rotate(1.05deg) scale(1.002); }
+  82%  { transform: rotate(-.45deg) scale(1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes littleHeartPop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(.65) rotate(8deg);
+  }
+  24% {
+    opacity: .95;
+    transform: translateY(-2px) scale(1.12) rotate(-4deg);
+  }
+  72% {
+    opacity: .78;
+    transform: translateY(-15px) scale(1) rotate(3deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-27px) scale(.84) rotate(7deg);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portraitButton:hover .portrait {
+    filter:
+      drop-shadow(0 20px 30px rgba(107,83,62,.14))
+      brightness(1.012);
+  }
+
+  .portraitButton:hover {
+    transform: translateY(-2px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .portraitGroup,
   .bow,
@@ -362,4 +475,22 @@
     transform: none !important;
     animation: none !important;
   }
+
+  .isShaking {
+    animation: babyPulse .42s ease both !important;
+  }
+
+  .tapHeartActive {
+    animation: littleHeartFade .48s ease both !important;
+  }
+}
+
+@keyframes babyPulse {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.025); }
+}
+
+@keyframes littleHeartFade {
+  0%, 100% { opacity: 0; }
+  45% { opacity: .8; }
 }
