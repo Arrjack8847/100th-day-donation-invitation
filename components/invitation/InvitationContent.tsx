@@ -5,6 +5,7 @@ import MilestoneSection from "./MilestoneSection";
 import MeaningSection from "./MeaningSection";
 import SectionBridge from "../decor/SectionBridge";
 import {
+  ScrapbookPhotoDecor,
   ScrapbookTape,
   SectionDecor,
   SectionDivider,
@@ -182,6 +183,7 @@ export default function InvitationContent() {
 
           <div className="moments-collage">
             <figure className="moment-photo moment-photo-hero" data-reveal>
+              <ScrapbookPhotoDecor variant="hero" />
               <ScrapbookTape kind="gingham" placement="topLeft" />
               <img
                 src={photos[0]}
@@ -191,6 +193,7 @@ export default function InvitationContent() {
             </figure>
 
             <figure className="moment-photo moment-photo-newborn" data-reveal>
+              <ScrapbookPhotoDecor variant="newborn" />
               <ScrapbookTape kind="paper" placement="topCenter" />
               <img
                 src={photos[1]}
@@ -200,6 +203,7 @@ export default function InvitationContent() {
             </figure>
 
             <figure className="moment-photo moment-photo-family" data-reveal>
+              <ScrapbookPhotoDecor variant="family" />
               <img
                 src={photos[2]}
                 alt="A family memory from the first 100 days"
@@ -208,6 +212,7 @@ export default function InvitationContent() {
             </figure>
 
             <figure className="moment-photo moment-photo-smile" data-reveal>
+              <ScrapbookPhotoDecor variant="smile" />
               <ScrapbookTape kind="paper" placement="corner" />
               <img
                 src={photos[3]}
@@ -250,7 +255,7 @@ export default function InvitationContent() {
                 celebrating 100 beautiful days <span aria-hidden="true">♡</span>
               </p>
 
-              <SectionDivider />
+              <SectionDivider variant="lotus" />
             </header>
 
             <div className="ceremony-details">
@@ -310,7 +315,7 @@ export default function InvitationContent() {
               sharing this joy through a donation made with gratitude and love.
             </p>
 
-            <SectionDivider />
+            <SectionDivider variant="lotus" />
 
             <p className="donation-presence">
               Your presence, warm wishes, and blessings are already the most
@@ -366,6 +371,8 @@ export default function InvitationContent() {
             </p>
 
             <p className="closing-see-you">See you on this special day ♡</p>
+
+            <SectionDivider variant="lotus" />
 
             <div className="closing-signoff" aria-hidden="true">
               <span>with grateful hearts,</span>
