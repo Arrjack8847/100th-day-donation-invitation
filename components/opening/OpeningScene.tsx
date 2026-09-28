@@ -12,9 +12,7 @@ const TRANSITION_VIDEO =
 const INVITATION_BACKGROUND_VIDEO =
   "/opening/invitation-background.mp4";
 
-const COVERAGE_CANVAS_WIDTH = 48;
-const COVERAGE_CANVAS_HEIGHT = 84;
-const MIN_PEAK_TIME_SECONDS = 0.55;
+const PAGE_SWAP_TIME_SECONDS = 0.95;
 
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
@@ -30,9 +28,6 @@ export default function OpeningScene() {
   const introFadeStartedRef = useRef(false);
   const transitionDoneRef = useRef(false);
   const mainRevealRef = useRef(false);
-  const peakCoverageRef = useRef(0);
-  const peakCoverageTimeRef = useRef(0);
-  const coverageCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const transitionVideoRef = useRef<HTMLVideoElement | null>(null);
   const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -110,82 +105,6 @@ export default function OpeningScene() {
     }, 320);
   };
 
-  const measureCentralBubbleCoverage = (video: HTMLVideoElement) => {
-    if (
-      video.readyState < 2 ||
-      video.videoWidth === 0 ||
-      video.videoHeight === 0
-    ) {
-      return null;
-    }
-
-    try {
-      let canvas = coverageCanvasRef.current;
-
-      if (!canvas) {
-        canvas = document.createElement("canvas");
-        canvas.width = COVERAGE_CANVAS_WIDTH;
-        canvas.height = COVERAGE_CANVAS_HEIGHT;
-        coverageCanvasRef.current = canvas;
-      }
-
-      const context = canvas.getContext("2d", {
-        alpha: false,
-        willReadFrequently: true,
-      });
-
-      if (!context) return null;
-
-      context.drawImage(
-        video,
-        0,
-        0,
-        COVERAGE_CANVAS_WIDTH,
-        COVERAGE_CANVAS_HEIGHT,
-      );
-
-      const image = context.getImageData(
-        0,
-        0,
-        COVERAGE_CANVAS_WIDTH,
-        COVERAGE_CANVAS_HEIGHT,
-      ).data;
-
-      const left = Math.floor(COVERAGE_CANVAS_WIDTH * 0.16);
-      const right = Math.ceil(COVERAGE_CANVAS_WIDTH * 0.84);
-      const top = Math.floor(COVERAGE_CANVAS_HEIGHT * 0.14);
-      const bottom = Math.ceil(COVERAGE_CANVAS_HEIGHT * 0.86);
-
-      let brightnessTotal = 0;
-      let brightPixels = 0;
-      let pixelCount = 0;
-
-      for (let y = top; y < bottom; y += 1) {
-        for (let x = left; x < right; x += 1) {
-          const index = (y * COVERAGE_CANVAS_WIDTH + x) * 4;
-          const brightness = Math.max(
-            image[index],
-            image[index + 1],
-            image[index + 2],
-          );
-
-          brightnessTotal += brightness / 255;
-          if (brightness > 52) brightPixels += 1;
-          pixelCount += 1;
-        }
-      }
-
-      if (pixelCount === 0) return null;
-
-      const averageBrightness = brightnessTotal / pixelCount;
-      const brightPixelRatio = brightPixels / pixelCount;
-
-      return averageBrightness * 0.58 + brightPixelRatio * 0.42;
-    } catch {
-      return null;
-    }
-  };
-
   const handleTransitionProgress = (
     event: React.SyntheticEvent<HTMLVideoElement>,
   ) => {
@@ -193,40 +112,14 @@ export default function OpeningScene() {
 
     if (!Number.isFinite(video.duration) || video.duration <= 0) return;
 
-    if (!mainRevealRef.current) {
-      const coverage = measureCentralBubbleCoverage(video);
-
-      if (coverage !== null) {
-        if (coverage > peakCoverageRef.current) {
-          peakCoverageRef.current = coverage;
-          peakCoverageTimeRef.current = video.currentTime;
-        }
-
-        const peakWasStrongEnough = peakCoverageRef.current >= 0.045;
-        const peakWasAfterTheOpeningBeat =
-          peakCoverageTimeRef.current >= MIN_PEAK_TIME_SECONDS;
-        const hasMovedPastPeak =
-          video.currentTime - peakCoverageTimeRef.current >= 0.1;
-        const hasStartedClearing =
-          coverage <= peakCoverageRef.current * 0.9;
-
-        if (
-          peakWasStrongEnough &&
-          peakWasAfterTheOpeningBeat &&
-          hasMovedPastPeak &&
-          hasStartedClearing
-        ) {
-          revealMainUnderlay();
-        }
-      }
-
-      const safetySwapWindow = Math.min(0.72, video.duration * 0.16);
-      if (video.duration - video.currentTime <= safetySwapWindow) {
-        revealMainUnderlay();
-      }
+    if (
+      !mainRevealRef.current &&
+      video.currentTime >= PAGE_SWAP_TIME_SECONDS
+    ) {
+      revealMainUnderlay();
     }
 
-    const fadeWindow = Math.min(0.3, video.duration * 0.12);
+    const fadeWindow = Math.min(0.28, video.duration * 0.12);
     if (video.duration - video.currentTime <= fadeWindow) {
       setTransitionFading(true);
     }
@@ -267,8 +160,6 @@ export default function OpeningScene() {
 
     transitionDoneRef.current = false;
     mainRevealRef.current = false;
-    peakCoverageRef.current = 0;
-    peakCoverageTimeRef.current = 0;
     setMainRevealed(false);
     setTransitionFading(false);
     setTransitionActive(true);
