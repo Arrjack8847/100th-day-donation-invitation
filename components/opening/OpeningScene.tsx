@@ -76,6 +76,7 @@ export default function OpeningScene() {
 
   useEffect(() => {
     setPortalReady(true);
+    document.documentElement.classList.add("intro-active");
     document.body.classList.add("intro-active");
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -86,6 +87,7 @@ export default function OpeningScene() {
     }
 
     return () => {
+      document.documentElement.classList.remove("intro-active");
       document.body.classList.remove("intro-active");
       if (introTimerRef.current) clearTimeout(introTimerRef.current);
       if (contentTimerRef.current) clearTimeout(contentTimerRef.current);
@@ -261,6 +263,7 @@ export default function OpeningScene() {
 
     exitTimerRef.current = setTimeout(() => {
       setHidden(true);
+      document.documentElement.classList.remove("intro-active");
       document.body.classList.remove("intro-active");
       document.getElementById("invitation-content")?.scrollIntoView({
         block: "start",
@@ -340,6 +343,7 @@ export default function OpeningScene() {
 
     exitTimerRef.current = setTimeout(() => {
       setHidden(true);
+      document.documentElement.classList.remove("intro-active");
       document.body.classList.remove("intro-active");
       document.getElementById("invitation-content")?.scrollIntoView({
         block: "start",
