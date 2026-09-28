@@ -29,13 +29,13 @@ function RainbowIcon() {
 
 export default function MeaningSection() {
   return (
-    <section className={styles.section} aria-labelledby="meaning-title">
+    <section className={styles.section} aria-labelledby="meaning-title" data-motion-section="meaning">
       <div className={styles.paperTexture} aria-hidden="true" />
       <SectionDecor variant="meaning" />
       <span className={styles.watermark} aria-hidden="true">100</span>
 
       <div className={styles.inner}>
-        <header className={styles.header}>
+        <header className={styles.header} data-motion-role="meaning-copy">
           <p className={styles.eyebrow} data-reveal>ABOUT THIS DAY</p>
 
           <div className={styles.ornament} data-reveal aria-hidden="true">
@@ -59,8 +59,8 @@ export default function MeaningSection() {
           </p>
         </header>
 
-        <div className={styles.photoStage}>
-          <div className={styles.photoPaper} data-reveal>
+        <div className={styles.photoStage} data-motion-role="meaning-photo-stage">
+          <div className={styles.photoPaper} data-reveal data-motion-role="meaning-photo">
             <img
               className={styles.babyPhoto}
               src="/child's photo/05-sleeping-newborn-closeup.jpg"
@@ -71,7 +71,7 @@ export default function MeaningSection() {
             />
           </div>
 
-          <aside className={styles.loveNote} data-reveal aria-label="A note for our little one">
+          <aside className={styles.loveNote} data-reveal data-motion-role="meaning-note" aria-label="A note for our little one">
             <svg className={styles.noteArrow} viewBox="0 0 80 70" aria-hidden="true">
               <path d="M72 9C46 13 28 28 25 49M25 49l-8-9M25 49l8-8" />
             </svg>
@@ -82,7 +82,7 @@ export default function MeaningSection() {
 
         </div>
 
-        <div className={styles.feelings} data-reveal aria-label="What these 100 days mean to us">
+        <div className={styles.feelings} data-reveal data-motion-role="meaning-feelings" aria-label="What these 100 days mean to us">
           <div className={styles.feeling}>
             <SunriseIcon />
             <span>Tiny moments</span>
