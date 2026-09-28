@@ -143,27 +143,84 @@ export default function InvitationContent() {
       <MeaningSection />
 
       <section className="love-section moments-section">
-        <div className="mobile-shell">
-          <div className="section-heading-new" data-reveal>
+        <div className="moments-paper" aria-hidden="true" />
+
+        <div className="mobile-shell moments-shell">
+          <header className="moments-heading" data-reveal>
             <p className="mini-label">OUR LITTLE ONE</p>
-            <h2>Moments of Joy</h2>
-            <p>A few pieces of our first 100 days that we will always keep close.</p>
+            <h2>
+              Moments <em>of Joy</em>
+              <span className="moments-title-heart" aria-hidden="true">♡</span>
+            </h2>
+            <p className="moments-subtitle">A hundred days of little memories.</p>
+
+            <svg
+              className="moments-divider"
+              viewBox="0 0 210 24"
+              role="presentation"
+              aria-hidden="true"
+            >
+              <path d="M3 12C35 5 69 18 101 12C133 6 168 18 207 12" />
+              <path d="M105 11C97 2 90 5 94 11C97 16 102 14 105 11C113 2 120 5 116 11C113 16 108 14 105 11M105 12V21" />
+            </svg>
+          </header>
+
+          <div className="moments-collage">
+            <span className="moments-wash moments-wash-peach" aria-hidden="true" />
+            <span className="moments-wash moments-wash-sage" aria-hidden="true" />
+
+            <div className="moments-accents" data-reveal aria-hidden="true">
+              <span className="moments-heart moments-heart-one">♡</span>
+              <span className="moments-heart moments-heart-two">♡</span>
+              <span className="moments-sparkle moments-sparkle-one">✦</span>
+              <span className="moments-sparkle moments-sparkle-two">✧</span>
+              <span className="moments-dots">···</span>
+            </div>
+
+            <figure className="moment-photo moment-photo-hero" data-reveal>
+              <span className="moment-tape moment-tape-left" aria-hidden="true" />
+              <img
+                src={photos[0]}
+                alt="Our little one celebrating 100 days"
+                loading="lazy"
+              />
+            </figure>
+
+            <figure className="moment-photo moment-photo-newborn" data-reveal>
+              <span className="moment-tape moment-tape-center" aria-hidden="true" />
+              <img
+                src={photos[1]}
+                alt="A peaceful newborn memory"
+                loading="lazy"
+              />
+            </figure>
+
+            <figure className="moment-photo moment-photo-family" data-reveal>
+              <span className="moment-tape moment-tape-center" aria-hidden="true" />
+              <img
+                src={photos[2]}
+                alt="A family memory from the first 100 days"
+                loading="lazy"
+              />
+            </figure>
+
+            <figure className="moment-photo moment-photo-smile" data-reveal>
+              <span className="moment-tape moment-tape-right" aria-hidden="true" />
+              <img
+                src={photos[3]}
+                alt="A joyful memory with our little one"
+                loading="lazy"
+              />
+            </figure>
+
+            <p className="moments-handwritten" data-reveal>
+              our little sunshine <span aria-hidden="true">♡</span>
+            </p>
           </div>
 
-          <div className="moments-grid">
-            {photos.map((src, index) => (
-              <figure
-                className={`moment-card moment-${index + 1}`}
-                key={src}
-                data-reveal
-              >
-                <img
-                  src={src}
-                  alt={`A family memory from the first 100 days, photo ${index + 1}`}
-                  loading="lazy"
-                />
-              </figure>
-            ))}
+          <div className="moments-closing" data-reveal>
+            <span>100 little days,</span>
+            <span>a lifetime of love. <b aria-hidden="true">♡</b></span>
           </div>
         </div>
       </section>
