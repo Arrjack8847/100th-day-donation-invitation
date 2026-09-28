@@ -148,10 +148,8 @@ export function SectionDecor({ variant }: { variant: DecorVariant }) {
   if (variant === "milestone") {
     return (
       <div className={`${styles.layer} ${styles.milestoneLayer}`} aria-hidden="true">
-        <DecorAsset asset="peach-wash-01" className={styles.milestoneWash} opacity={0.28} rotation={8} />
-        <DecorAsset asset="heart-doodle" className={styles.milestoneHeart} opacity={0.55} rotation={8} />
-        <DecorAsset asset="sparkle-doodle" className={`${styles.sparkle} ${styles.milestoneSparkle}`} opacity={0.55} duration={6.2} />
-        <DecorAsset asset="tiny-bow" className={styles.milestoneBow} opacity={0.76} rotation={-3} />
+        <DecorAsset asset="peach-wash-01" className={styles.milestoneWash} opacity={0.24} rotation={8} />
+        <DecorAsset asset="tiny-bow" className={styles.milestoneBow} opacity={0.68} rotation={-3} />
       </div>
     );
   }
@@ -184,9 +182,8 @@ export function SectionDecor({ variant }: { variant: DecorVariant }) {
   if (variant === "event") {
     return (
       <div className={`${styles.layer} ${styles.eventLayer}`} aria-hidden="true">
-        <DecorAsset asset="botanical-sprig" className={styles.eventSprigTop} opacity={0.48} rotation={-17} />
-        <DecorAsset asset="botanical-sprig" className={styles.eventSprigBottom} opacity={0.34} rotation={164} />
-        <DecorAsset asset="sparkle-doodle" className={`${styles.sparkle} ${styles.eventSparkle}`} opacity={0.4} duration={7.2} />
+        <DecorAsset asset="botanical-sprig" className={styles.eventSprigTop} opacity={0.42} rotation={-17} />
+        <DecorAsset asset="botanical-sprig" className={styles.eventSprigBottom} opacity={0.3} rotation={164} />
       </div>
     );
   }
