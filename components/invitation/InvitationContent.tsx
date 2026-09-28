@@ -325,21 +325,46 @@ export default function InvitationContent() {
 
       <section className="love-closing">
         <SectionDecor variant="closing" />
+        <div className="closing-paper" aria-hidden="true" />
 
-        <div className="closing-photo" data-reveal>
-          <img
-            src="/child's photo/06-baby-smiling-with-parents.jpg"
-            alt="A joyful family memory"
-            loading="lazy"
-          />
-        </div>
+        <div className="closing-inner">
+          <figure className="closing-photo" data-reveal>
+            <span className="closing-photo-wash" aria-hidden="true" />
+            <img
+              src="/child's photo/06-baby-smiling-with-parents.jpg"
+              alt="A joyful family memory with our little one"
+              loading="lazy"
+              decoding="async"
+            />
+            <span className="closing-photo-heart" aria-hidden="true">♡</span>
+          </figure>
 
-        <div className="closing-copy-new" data-reveal>
-          <p className="mini-label">WITH LOVE</p>
-          <h2>See You<br />There ♡</h2>
-          <p>
-            Thank you for being part of this beautiful beginning with us.
-          </p>
+          <div className="closing-copy-new" data-reveal>
+            <p className="mini-label">WITH ALL OUR LOVE</p>
+
+            <div className="closing-ornament" aria-hidden="true">
+              <span />
+              <b>♡</b>
+              <span />
+            </div>
+
+            <h2>
+              <span>Thank You</span>
+              <em>for sharing in our joy.</em>
+            </h2>
+
+            <p className="closing-message">
+              Thank you for being part of this beautiful beginning and for
+              surrounding our little one with so much love.
+            </p>
+
+            <p className="closing-see-you">See you on this special day ♡</p>
+
+            <div className="closing-signoff" aria-hidden="true">
+              <span>with grateful hearts,</span>
+              <b>our little family ♡</b>
+            </div>
+          </div>
         </div>
       </section>
     </div>
