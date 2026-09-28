@@ -89,6 +89,9 @@ export default function InvitationContent() {
         <div className="hero-inner">
           <header className="hero-intro" data-reveal>
             <p className="mini-label hero-kicker">OUR LITTLE ONE</p>
+            <p className="hero-baby-name">
+              Yoon Myat Heather <span>@Hailey</span>
+            </p>
 
             <div className="hero-ornament" aria-hidden="true">
               <span />
