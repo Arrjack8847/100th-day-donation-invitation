@@ -279,7 +279,7 @@ export default function InvitationContent() {
             </svg>
 
             <header className="ceremony-heading">
-              <p className="ceremony-kicker">YOU&apos;RE INVITED</p>
+              <p className="ceremony-kicker">THE CEREMONY</p>
               <h2>
                 Join Us for
                 <span>
@@ -317,6 +317,12 @@ export default function InvitationContent() {
                 </div>
               ))}
             </div>
+
+            {details.some((detail) => detail.value === "To be confirmed") && (
+              <p className="ceremony-pending-note">
+                We&apos;ll share the confirmed ceremony details here soon. <span aria-hidden="true">♡</span>
+              </p>
+            )}
 
             <div className="ceremony-finial" aria-hidden="true">♡</div>
           </article>
