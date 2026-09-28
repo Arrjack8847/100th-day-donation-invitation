@@ -2120,6 +2120,25 @@ body:has(#invitation-content:target) {
   letter-spacing: .34em;
 }
 
+.hero-baby-name {
+  margin: .5rem 0 0;
+  color: #6f5648;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.6vw, 1.28rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: .02em;
+}
+
+.hero-baby-name span {
+  margin-left: .35rem;
+  color: #b77c68;
+  font-family: "Segoe Script", "Bradley Hand", cursive;
+  font-size: .92em;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
 .hero-ornament {
   width: min(220px, 56vw);
   margin: .55rem auto 0;
