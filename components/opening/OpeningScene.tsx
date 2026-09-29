@@ -23,6 +23,26 @@ const INTRO_FADE_MS = 680;
 const CONTENT_REVEAL_DELAY_MS = 620;
 const BACKDROP_READY_FALLBACK_MS = 500;
 
+type ZeroPhotoKey = "left" | "right";
+
+type ZeroPhotoLayout = {
+  x: number;
+  y: number;
+  zoom: number;
+};
+
+type ZeroPhotoLayouts = Record<ZeroPhotoKey, ZeroPhotoLayout>;
+
+const ZERO_PHOTO_STORAGE_KEY = "opening-100-photo-layout-v1";
+
+const DEFAULT_ZERO_PHOTOS: ZeroPhotoLayouts = {
+  left: { x: 50, y: 40, zoom: 1 },
+  right: { x: 50, y: 38, zoom: 1 },
+};
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
 export default function OpeningScene() {
   const [leaving, setLeaving] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -37,6 +57,11 @@ export default function OpeningScene() {
   const [transitionFrameReady, setTransitionFrameReady] = useState(false);
   const [mainRevealed, setMainRevealed] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
+  const [editHundredPhotos, setEditHundredPhotos] = useState(false);
+  const [selectedZero, setSelectedZero] = useState<ZeroPhotoKey>("left");
+  const [zeroPhotos, setZeroPhotos] =
+    useState<ZeroPhotoLayouts>(DEFAULT_ZERO_PHOTOS);
+  const [copiedZeroLayout, setCopiedZeroLayout] = useState(false);
 
   const openingStartedRef = useRef(false);
   const introFadeStartedRef = useRef(false);
@@ -79,7 +104,46 @@ export default function OpeningScene() {
     document.documentElement.classList.add("intro-active");
     document.body.classList.add("intro-active");
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const editMode =
+      new URLSearchParams(window.location.search).get("edit100") === "1";
+
+    if (editMode) {
+      setEditHundredPhotos(true);
+      introFadeStartedRef.current = true;
+      visualHandoffStartedRef.current = true;
+      setIntroHidden(true);
+      setInvitationBackgroundVisible(true);
+      setInvitationContentVisible(true);
+
+      try {
+        const saved = window.localStorage.getItem(ZERO_PHOTO_STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved) as Partial<ZeroPhotoLayouts>;
+          setZeroPhotos({
+            left: {
+              x: clamp(Number(parsed.left?.x ?? DEFAULT_ZERO_PHOTOS.left.x), 0, 100),
+              y: clamp(Number(parsed.left?.y ?? DEFAULT_ZERO_PHOTOS.left.y), 0, 100),
+              zoom: clamp(
+                Number(parsed.left?.zoom ?? DEFAULT_ZERO_PHOTOS.left.zoom),
+                1,
+                3,
+              ),
+            },
+            right: {
+              x: clamp(Number(parsed.right?.x ?? DEFAULT_ZERO_PHOTOS.right.x), 0, 100),
+              y: clamp(Number(parsed.right?.y ?? DEFAULT_ZERO_PHOTOS.right.y), 0, 100),
+              zoom: clamp(
+                Number(parsed.right?.zoom ?? DEFAULT_ZERO_PHOTOS.right.zoom),
+                1,
+                3,
+              ),
+            },
+          });
+        }
+      } catch {
+        setZeroPhotos(DEFAULT_ZERO_PHOTOS);
+      }
+    } else if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       introFadeStartedRef.current = true;
       setIntroHidden(true);
       setInvitationBackgroundVisible(true);
@@ -447,6 +511,52 @@ export default function OpeningScene() {
     }, fallbackDuration);
   };
 
+  useEffect(() => {
+    if (!editHundredPhotos) return;
+
+    try {
+      window.localStorage.setItem(
+        ZERO_PHOTO_STORAGE_KEY,
+        JSON.stringify(zeroPhotos),
+      );
+    } catch {
+      // The editor still works if localStorage is unavailable.
+    }
+  }, [editHundredPhotos, zeroPhotos]);
+
+  const patchZeroPhoto = (
+    key: ZeroPhotoKey,
+    values: Partial<ZeroPhotoLayout>,
+  ) => {
+    setZeroPhotos((previous) => ({
+      ...previous,
+      [key]: {
+        x: clamp(values.x ?? previous[key].x, 0, 100),
+        y: clamp(values.y ?? previous[key].y, 0, 100),
+        zoom: clamp(values.zoom ?? previous[key].zoom, 1, 3),
+      },
+    }));
+  };
+
+  const resetZeroPhoto = (key: ZeroPhotoKey) => {
+    setZeroPhotos((previous) => ({
+      ...previous,
+      [key]: { ...DEFAULT_ZERO_PHOTOS[key] },
+    }));
+  };
+
+  const copyZeroLayout = async () => {
+    const payload = JSON.stringify(zeroPhotos, null, 2);
+
+    try {
+      await navigator.clipboard.writeText(payload);
+      setCopiedZeroLayout(true);
+      window.setTimeout(() => setCopiedZeroLayout(false), 1400);
+    } catch {
+      setCopiedZeroLayout(false);
+    }
+  };
+
   if (hidden) return null;
 
   return (
@@ -531,10 +641,57 @@ export default function OpeningScene() {
         <p className={styles.eyebrow}>WITH LOVE &amp; GRATITUDE</p>
 
         <div className={styles.hero}>
-          <div className={styles.photoMask} aria-hidden="true">
+          <div
+            className={`${styles.photoMask} ${
+              editHundredPhotos ? styles.photoMaskEditing : ""
+            }`}
+            aria-hidden="true"
+          >
             <div className={`${styles.photoSlice} ${styles.photoOne}`} />
-            <div className={`${styles.photoSlice} ${styles.photoTwo}`} />
-            <div className={`${styles.photoSlice} ${styles.photoThree}`} />
+            <div
+              className={`${styles.photoSlice} ${styles.photoTwo} ${
+                editHundredPhotos && selectedZero === "left"
+                  ? styles.photoSliceSelected
+                  : ""
+              }`}
+              onPointerDown={() => {
+                if (editHundredPhotos) setSelectedZero("left");
+              }}
+            >
+              <img
+                className={styles.zeroPhoto}
+                src="/child's photo/09-opening-zero-left-photo.jpg"
+                alt=""
+                draggable={false}
+                style={{
+                  objectPosition: `${zeroPhotos.left.x}% ${zeroPhotos.left.y}%`,
+                  transform: `scale(${zeroPhotos.left.zoom})`,
+                  transformOrigin: `${zeroPhotos.left.x}% ${zeroPhotos.left.y}%`,
+                }}
+              />
+            </div>
+            <div
+              className={`${styles.photoSlice} ${styles.photoThree} ${
+                editHundredPhotos && selectedZero === "right"
+                  ? styles.photoSliceSelected
+                  : ""
+              }`}
+              onPointerDown={() => {
+                if (editHundredPhotos) setSelectedZero("right");
+              }}
+            >
+              <img
+                className={styles.zeroPhoto}
+                src="/child's photo/10-opening-zero-right-photo.jpg"
+                alt=""
+                draggable={false}
+                style={{
+                  objectPosition: `${zeroPhotos.right.x}% ${zeroPhotos.right.y}%`,
+                  transform: `scale(${zeroPhotos.right.zoom})`,
+                  transformOrigin: `${zeroPhotos.right.x}% ${zeroPhotos.right.y}%`,
+                }}
+              />
+            </div>
           </div>
 
           <h1 className={styles.scriptTitle}>
@@ -571,6 +728,106 @@ export default function OpeningScene() {
           <span />
         </div>
       </div>
+
+      {editHundredPhotos && (
+        <aside className={styles.zeroEditor} aria-label="100 photo editor">
+          <div className={styles.zeroEditorHeader}>
+            <div>
+              <strong>100 Photo Editor</strong>
+              <small>Adjust the two zero photos manually</small>
+            </div>
+            <span>EDIT MODE</span>
+          </div>
+
+          <div className={styles.zeroEditorTabs}>
+            <button
+              type="button"
+              className={selectedZero === "left" ? styles.zeroEditorTabActive : ""}
+              onClick={() => setSelectedZero("left")}
+            >
+              Left 0
+            </button>
+            <button
+              type="button"
+              className={selectedZero === "right" ? styles.zeroEditorTabActive : ""}
+              onClick={() => setSelectedZero("right")}
+            >
+              Right 0
+            </button>
+          </div>
+
+          <label className={styles.zeroEditorControl}>
+            <span>
+              Horizontal
+              <b>{Math.round(zeroPhotos[selectedZero].x)}%</b>
+            </span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value={zeroPhotos[selectedZero].x}
+              onChange={(event) =>
+                patchZeroPhoto(selectedZero, { x: Number(event.target.value) })
+              }
+            />
+          </label>
+
+          <label className={styles.zeroEditorControl}>
+            <span>
+              Vertical
+              <b>{Math.round(zeroPhotos[selectedZero].y)}%</b>
+            </span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value={zeroPhotos[selectedZero].y}
+              onChange={(event) =>
+                patchZeroPhoto(selectedZero, { y: Number(event.target.value) })
+              }
+            />
+          </label>
+
+          <label className={styles.zeroEditorControl}>
+            <span>
+              Zoom
+              <b>{zeroPhotos[selectedZero].zoom.toFixed(2)}×</b>
+            </span>
+            <input
+              type="range"
+              min="1"
+              max="3"
+              step="0.01"
+              value={zeroPhotos[selectedZero].zoom}
+              onChange={(event) =>
+                patchZeroPhoto(selectedZero, {
+                  zoom: Number(event.target.value),
+                })
+              }
+            />
+          </label>
+
+          <div className={styles.zeroEditorActions}>
+            <button type="button" onClick={() => resetZeroPhoto(selectedZero)}>
+              Reset selected
+            </button>
+            <button
+              type="button"
+              className={styles.zeroEditorPrimary}
+              onClick={copyZeroLayout}
+            >
+              {copiedZeroLayout ? "Copied!" : "Copy values"}
+            </button>
+          </div>
+
+          <p>
+            Click a zero to select it, then move the sliders. Your values are
+            saved in this browser automatically.
+          </p>
+        </aside>
+      )}
 
       {portalReady &&
         createPortal(
