@@ -88,7 +88,7 @@ export default function InvitationContent() {
 
         <div className="hero-inner">
           <header className="hero-intro" data-reveal>
-            <p className="mini-label hero-kicker">OUR LITTLE ONE</p>
+            <p className="mini-label hero-kicker">YOU ARE KINDLY INVITED TO</p>
             <p className="hero-baby-name">
               Yoon Myat Heather <span>@Hailey</span>
             </p>
@@ -106,26 +106,64 @@ export default function InvitationContent() {
             <div className="hero-photo-blob">
               <img
                 src="/child's photo/01-100-days-baby-portrait.jpg"
-                alt="Our little one celebrating 100 days"
+                alt="Yoon Myat Heather, Hailey, celebrating 100 days"
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
-
           </div>
 
           <div className="hero-copy-new">
             <h1 className="hero-title">
-              <span className="hero-title-main">100 tiny days,</span>
+              <span className="hero-title-main">100th Day</span>
               <span className="hero-title-script">
-                a lifetime of love ahead. <i aria-hidden="true">♡</i>
+                Donation <i aria-hidden="true">♡</i>
               </span>
             </h1>
 
-            <p className="hero-invite-copy">
-              Thank you for celebrating this beautiful beginning with us.
-            </p>
+            <div className="hero-invite-copy hero-event-block">
+              <div className="hero-event-details" aria-label="Event details">
+                <div className="hero-event-detail">
+                  <span className="hero-event-icon" aria-hidden="true">♡</span>
+                  <span className="hero-event-label">SATURDAY</span>
+                  <strong>October 3, 2026</strong>
+                </div>
+
+                <div className="hero-event-detail">
+                  <span className="hero-event-icon" aria-hidden="true">♡</span>
+                  <span className="hero-event-label">TIME</span>
+                  <strong>9:30 AM – 1:00 PM</strong>
+                </div>
+
+                <div className="hero-event-detail">
+                  <span className="hero-event-icon" aria-hidden="true">♡</span>
+                  <span className="hero-event-label">VENUE</span>
+                  <strong>Insein Ywarma Monastery</strong>
+                </div>
+              </div>
+
+              <a
+                className="hero-location-button"
+                href="https://maps.app.goo.gl/BNCS5A6bZF5h1R619?g_st=iv"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span aria-hidden="true">⌖</span>
+                View Location
+                <b aria-hidden="true">→</b>
+              </a>
+
+              <div className="hero-emotional-copy">
+                <p className="hero-emotional-title">100 tiny days,</p>
+                <p className="hero-emotional-script">
+                  a lifetime of love ahead. <span aria-hidden="true">♡</span>
+                </p>
+                <p className="hero-thankyou-copy">
+                  Thank you for celebrating this beautiful beginning with us.
+                </p>
+              </div>
+            </div>
 
             <div className="hero-scroll-cue" aria-hidden="true">
               <span>our little story</span>
