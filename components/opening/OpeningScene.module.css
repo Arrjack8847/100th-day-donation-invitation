@@ -230,6 +230,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  overflow: hidden;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -244,15 +245,165 @@
 .photoTwo {
   left: 28.5%;
   width: 35%;
-  background-image: url("/child's photo/09-opening-zero-left-photo.jpg");
-  background-position: 50% 40%;
 }
 
 .photoThree {
   left: 63.5%;
   width: 36.5%;
-  background-image: url("/child's photo/10-opening-zero-right-photo.jpg");
-  background-position: 50% 38%;
+}
+
+.zeroPhoto {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+
+.photoMaskEditing {
+  pointer-events: auto;
+}
+
+.photoMaskEditing .photoTwo,
+.photoMaskEditing .photoThree {
+  cursor: pointer;
+}
+
+.photoSliceSelected::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  z-index: 2;
+  border: 2px solid rgba(115, 137, 110, .9);
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.62);
+  pointer-events: none;
+}
+
+.zeroEditor {
+  position: absolute;
+  z-index: 80;
+  top: 1rem;
+  right: 1rem;
+  width: min(310px, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  padding: 1rem;
+  border: 1px solid rgba(95, 94, 87, .16);
+  border-radius: 18px;
+  color: #343431;
+  background: rgba(255, 252, 246, .96);
+  box-shadow: 0 18px 50px rgba(66, 60, 51, .16);
+  text-align: left;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.zeroEditorHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.zeroEditorHeader div {
+  min-width: 0;
+  display: grid;
+  gap: .18rem;
+}
+
+.zeroEditorHeader strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.zeroEditorHeader small {
+  color: #77736c;
+  font-size: .72rem;
+  line-height: 1.35;
+}
+
+.zeroEditorHeader > span {
+  flex: 0 0 auto;
+  padding: .3rem .48rem;
+  border-radius: 999px;
+  color: #5f735c;
+  background: rgba(115,137,110,.12);
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.zeroEditorTabs {
+  margin-top: .9rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+}
+
+.zeroEditorTabs button,
+.zeroEditorActions button {
+  min-height: 40px;
+  border: 1px solid rgba(95,94,87,.15);
+  border-radius: 10px;
+  color: #4b4a46;
+  background: #fffdf9;
+  cursor: pointer;
+}
+
+.zeroEditorTabActive {
+  color: #fff !important;
+  border-color: #73896e !important;
+  background: #73896e !important;
+}
+
+.zeroEditorControl {
+  margin-top: .85rem;
+  display: grid;
+  gap: .42rem;
+}
+
+.zeroEditorControl > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  color: #615f59;
+  font-size: .78rem;
+}
+
+.zeroEditorControl b {
+  color: #3f4f3e;
+  font-variant-numeric: tabular-nums;
+}
+
+.zeroEditorControl input[type="range"] {
+  width: 100%;
+  accent-color: #73896e;
+}
+
+.zeroEditorActions {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+
+.zeroEditorPrimary {
+  color: #fff !important;
+  border-color: #73896e !important;
+  background: #73896e !important;
+}
+
+.zeroEditor > p {
+  margin: .75rem 0 0;
+  color: #77736c;
+  font-size: .68rem;
+  line-height: 1.45;
 }
 
 .scriptTitle {
@@ -416,6 +567,29 @@
 }
 
 @media (max-width: 560px) {
+  .zeroEditor {
+    top: auto;
+    right: .65rem;
+    bottom: .65rem;
+    left: .65rem;
+    width: auto;
+    max-height: 46dvh;
+    padding: .85rem;
+    border-radius: 15px;
+  }
+
+  .zeroEditorHeader small {
+    display: none;
+  }
+
+  .zeroEditorControl {
+    margin-top: .65rem;
+  }
+
+  .zeroEditorActions {
+    margin-top: .8rem;
+  }
+
   .content {
     width: 100%;
     padding:
