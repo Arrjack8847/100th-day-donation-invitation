@@ -61,20 +61,20 @@ const details: Array<{
   {
     type: "date",
     label: "Date",
-    value: "To be confirmed",
-    note: "Ceremony date",
+    value: "October 3, 2026",
+    note: "Saturday",
   },
   {
     type: "time",
     label: "Time",
-    value: "To be confirmed",
-    note: "Ceremony time",
+    value: "9:30 AM – 1:00 PM",
+    note: "100th Day Donation",
   },
   {
     type: "venue",
     label: "Venue",
-    value: "To be confirmed",
-    note: "Full location will be shared soon.",
+    value: "Insein Ywarma Monastery",
+    note: "Ceremony venue",
   },
 ];
 
@@ -295,11 +295,16 @@ export default function InvitationContent() {
               ))}
             </div>
 
-            {details.some((detail) => detail.value === "To be confirmed") && (
-              <p className="ceremony-pending-note">
-                We&apos;ll share the confirmed ceremony details here soon. <span aria-hidden="true">♡</span>
-              </p>
-            )}
+            <a
+              className="ceremony-location-link"
+              href="https://maps.app.goo.gl/BNCS5A6bZF5h1R619?g_st=iv"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span aria-hidden="true">⌖</span>
+              View Location
+              <b aria-hidden="true">→</b>
+            </a>
 
             <div className="ceremony-finial" aria-hidden="true">♡</div>
           </article>
