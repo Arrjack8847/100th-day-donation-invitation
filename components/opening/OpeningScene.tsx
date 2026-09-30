@@ -23,7 +23,7 @@ const INTRO_FADE_MS = 680;
 const CONTENT_REVEAL_DELAY_MS = 620;
 const BACKDROP_READY_FALLBACK_MS = 500;
 
-type ZeroPhotoKey = "left" | "right";
+type ZeroPhotoKey = "one" | "left" | "right";
 
 type ZeroPhotoLayout = {
   x: number;
@@ -36,6 +36,7 @@ type ZeroPhotoLayouts = Record<ZeroPhotoKey, ZeroPhotoLayout>;
 const ZERO_PHOTO_STORAGE_KEY = "opening-100-photo-layout-v1";
 
 const DEFAULT_ZERO_PHOTOS: ZeroPhotoLayouts = {
+  one: { x: 50, y: 50, zoom: 1 },
   left: { x: 50, y: 40, zoom: 1 },
   right: { x: 50, y: 38, zoom: 1 },
 };
@@ -58,7 +59,7 @@ export default function OpeningScene() {
   const [mainRevealed, setMainRevealed] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const [editHundredPhotos, setEditHundredPhotos] = useState(false);
-  const [selectedZero, setSelectedZero] = useState<ZeroPhotoKey>("left");
+  const [selectedZero, setSelectedZero] = useState<ZeroPhotoKey>("one");
   const [zeroPhotos, setZeroPhotos] =
     useState<ZeroPhotoLayouts>(DEFAULT_ZERO_PHOTOS);
   const [copiedZeroLayout, setCopiedZeroLayout] = useState(false);
@@ -120,6 +121,15 @@ export default function OpeningScene() {
         if (saved) {
           const parsed = JSON.parse(saved) as Partial<ZeroPhotoLayouts>;
           setZeroPhotos({
+            one: {
+              x: clamp(Number(parsed.one?.x ?? DEFAULT_ZERO_PHOTOS.one.x), 0, 100),
+              y: clamp(Number(parsed.one?.y ?? DEFAULT_ZERO_PHOTOS.one.y), 0, 100),
+              zoom: clamp(
+                Number(parsed.one?.zoom ?? DEFAULT_ZERO_PHOTOS.one.zoom),
+                1,
+                3,
+              ),
+            },
             left: {
               x: clamp(Number(parsed.left?.x ?? DEFAULT_ZERO_PHOTOS.left.x), 0, 100),
               y: clamp(Number(parsed.left?.y ?? DEFAULT_ZERO_PHOTOS.left.y), 0, 100),
@@ -647,9 +657,31 @@ export default function OpeningScene() {
             }`}
             aria-hidden="true"
           >
-            <div className={`${styles.photoSlice} ${styles.photoOne}`} />
             <div
-              className={`${styles.photoSlice} ${styles.photoTwo} ${
+              className={`${styles.numberPhoto} ${styles.numberOne} ${
+                editHundredPhotos && selectedZero === "one"
+                  ? styles.photoSliceSelected
+                  : ""
+              }`}
+              onPointerDown={() => {
+                if (editHundredPhotos) setSelectedZero("one");
+              }}
+            >
+              <img
+                className={styles.zeroPhoto}
+                src="/child's photo/05-sleeping-newborn-closeup.jpg"
+                alt=""
+                draggable={false}
+                style={{
+                  objectPosition: `${zeroPhotos.one.x}% ${zeroPhotos.one.y}%`,
+                  transform: `scale(${zeroPhotos.one.zoom})`,
+                  transformOrigin: `${zeroPhotos.one.x}% ${zeroPhotos.one.y}%`,
+                }}
+              />
+            </div>
+
+            <div
+              className={`${styles.numberPhoto} ${styles.numberZeroLeft} ${
                 editHundredPhotos && selectedZero === "left"
                   ? styles.photoSliceSelected
                   : ""
@@ -670,8 +702,9 @@ export default function OpeningScene() {
                 }}
               />
             </div>
+
             <div
-              className={`${styles.photoSlice} ${styles.photoThree} ${
+              className={`${styles.numberPhoto} ${styles.numberZeroRight} ${
                 editHundredPhotos && selectedZero === "right"
                   ? styles.photoSliceSelected
                   : ""
@@ -693,7 +726,6 @@ export default function OpeningScene() {
               />
             </div>
           </div>
-
           <h1 className={styles.scriptTitle}>
             <span className={styles.srOnly}>100 </span>
             Days of Love
@@ -734,12 +766,19 @@ export default function OpeningScene() {
           <div className={styles.zeroEditorHeader}>
             <div>
               <strong>100 Photo Editor</strong>
-              <small>Adjust the two zero photos manually</small>
+              <small>Adjust each number photo independently</small>
             </div>
             <span>EDIT MODE</span>
           </div>
 
           <div className={styles.zeroEditorTabs}>
+            <button
+              type="button"
+              className={selectedZero === "one" ? styles.zeroEditorTabActive : ""}
+              onClick={() => setSelectedZero("one")}
+            >
+              1
+            </button>
             <button
               type="button"
               className={selectedZero === "left" ? styles.zeroEditorTabActive : ""}
@@ -755,7 +794,6 @@ export default function OpeningScene() {
               Right 0
             </button>
           </div>
-
           <label className={styles.zeroEditorControl}>
             <span>
               Horizontal
@@ -823,8 +861,8 @@ export default function OpeningScene() {
           </div>
 
           <p>
-            Click a zero to select it, then move the sliders. Your values are
-            saved in this browser automatically.
+            Click 1 or either zero to select it, then move the sliders. Each
+            number keeps its own photo position and zoom automatically.
           </p>
         </aside>
       )}
