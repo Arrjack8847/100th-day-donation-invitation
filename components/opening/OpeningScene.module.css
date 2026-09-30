@@ -593,59 +593,59 @@
     width: 100%;
     justify-content: flex-start;
     padding:
-      max(clamp(4.75rem, 8.2dvh, 6.4rem), env(safe-area-inset-top))
+      max(1.45rem, calc(env(safe-area-inset-top) + .2rem))
       .7rem
-      max(1.7rem, env(safe-area-inset-bottom));
+      max(1.6rem, env(safe-area-inset-bottom));
   }
 
   .eyebrow {
-    margin-bottom: clamp(2.4rem, 4.8dvh, 3.35rem);
+    margin-bottom: clamp(1.15rem, 2.4dvh, 1.7rem);
     font-size: clamp(.66rem, 2.8vw, .77rem);
     letter-spacing: .29em;
   }
 
   .hero {
-    width: min(91vw, 420px);
+    width: min(96vw, 430px);
   }
 
   .scriptTitle {
-    margin-top: clamp(.75rem, 1.8dvh, 1.15rem);
+    margin-top: clamp(.1rem, .8dvh, .45rem);
     font-size: clamp(2.9rem, 13vw, 4rem);
   }
 
   .subtitle {
     max-width: 320px;
-    margin-top: clamp(1.65rem, 3.1dvh, 2.15rem);
+    margin-top: clamp(.95rem, 2.1dvh, 1.35rem);
     font-size: clamp(.96rem, 4vw, 1.06rem);
   }
 
   .openButton {
     width: min(76vw, 300px);
     min-height: 58px;
-    margin-top: clamp(1.75rem, 3.2dvh, 2.2rem);
+    margin-top: clamp(1.3rem, 2.8dvh, 1.8rem);
   }
 
   .divider {
-    margin-top: clamp(2rem, 3.8dvh, 2.65rem);
+    margin-top: clamp(1rem, 2.1dvh, 1.45rem);
   }
 }
 
 @media (max-width: 390px) {
   .content {
-    padding-top: max(clamp(4.25rem, 7.8dvh, 5.5rem), env(safe-area-inset-top));
-    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    padding-top: max(1.25rem, calc(env(safe-area-inset-top) + .15rem));
+    padding-bottom: max(1.2rem, env(safe-area-inset-bottom));
   }
 
   .eyebrow {
-    margin-bottom: clamp(2rem, 4.2dvh, 2.7rem);
+    margin-bottom: 1rem;
   }
 
   .hero {
-    width: min(92vw, 365px);
+    width: min(97vw, 375px);
   }
 
   .scriptTitle {
-    margin-top: .7rem;
+    margin-top: .1rem;
     font-size: 2.8rem;
   }
 
@@ -655,19 +655,19 @@
 
   .subtitle {
     max-width: 300px;
-    margin-top: 1.9rem;
+    margin-top: .85rem;
     font-size: .94rem;
   }
 
   .openButton {
     width: 76vw;
     min-height: 55px;
-    margin-top: 1.45rem;
+    margin-top: 1.2rem;
   }
 
   .divider {
     width: 54vw;
-    margin-top: 1.7rem;
+    margin-top: .95rem;
   }
 }
 
