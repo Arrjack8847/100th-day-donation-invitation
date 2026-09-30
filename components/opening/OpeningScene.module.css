@@ -212,44 +212,44 @@
   position: relative;
   pointer-events: none;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  -webkit-mask-image: url("/100%20mask.png");
-  mask-image: url("/100%20mask.png");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
+  aspect-ratio: 1.78 / 1;
+  overflow: visible;
   filter: saturate(.9) contrast(.98) brightness(1.02);
   animation: maskIn .9s cubic-bezier(.18,.82,.22,1) .04s both;
 }
 
-.photoSlice {
+.numberPhoto {
   position: absolute;
   top: 0;
-  bottom: 0;
+  height: 100%;
   overflow: hidden;
-  background-repeat: no-repeat;
-  background-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
-.photoOne {
+.numberOne {
   left: 0;
   width: 28.5%;
-  background-image: url("/child's photo/05-sleeping-newborn-closeup.jpg");
-  background-position: 48% 50%;
+  -webkit-mask-image: url("/opening/100-mask-one.svg");
+  mask-image: url("/opening/100-mask-one.svg");
 }
 
-.photoTwo {
-  left: 28.5%;
-  width: 35%;
+.numberZeroLeft {
+  left: 25.5%;
+  width: 39.5%;
+  -webkit-mask-image: url("/opening/100-mask-zero-left.svg");
+  mask-image: url("/opening/100-mask-zero-left.svg");
 }
 
-.photoThree {
-  left: 63.5%;
-  width: 36.5%;
+.numberZeroRight {
+  left: 61.5%;
+  width: 38.5%;
+  -webkit-mask-image: url("/opening/100-mask-zero-right.svg");
+  mask-image: url("/opening/100-mask-zero-right.svg");
 }
 
 .zeroPhoto {
@@ -267,8 +267,7 @@
   pointer-events: auto;
 }
 
-.photoMaskEditing .photoTwo,
-.photoMaskEditing .photoThree {
+.photoMaskEditing .numberPhoto {
   cursor: pointer;
 }
 
@@ -341,7 +340,7 @@
 .zeroEditorTabs {
   margin-top: .9rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: .45rem;
 }
 
@@ -411,7 +410,7 @@
   pointer-events: none;
   z-index: 3;
   width: fit-content;
-  margin: clamp(-3.65rem, -8vw, -2.2rem) auto 0;
+  margin: clamp(1.35rem, 3.4vh, 2.15rem) auto 0;
   color: #687f65;
   font-family: "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive;
   font-size: clamp(3.25rem, 12vw, 5.65rem);
@@ -609,7 +608,7 @@
   }
 
   .scriptTitle {
-    margin-top: clamp(-2.65rem, -7vw, -1.7rem);
+    margin-top: clamp(1rem, 2.8vh, 1.55rem);
     font-size: clamp(2.9rem, 13vw, 4rem);
   }
 
@@ -645,7 +644,7 @@
   }
 
   .scriptTitle {
-    margin-top: -1.7rem;
+    margin-top: .9rem;
     font-size: 2.8rem;
   }
 
@@ -698,7 +697,7 @@
   }
 
   .scriptTitle {
-    margin-top: -1.25rem;
+    margin-top: .7rem;
     font-size: clamp(2.15rem, 8svh, 3.2rem);
   }
 
@@ -743,7 +742,7 @@
   }
 
   .scriptTitle {
-    margin-top: -1rem;
+    margin-top: .55rem;
     font-size: clamp(1.9rem, 7svh, 2.7rem);
   }
 
