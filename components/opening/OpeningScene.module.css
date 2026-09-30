@@ -591,60 +591,61 @@
 
   .content {
     width: 100%;
+    justify-content: flex-start;
     padding:
-      max(2rem, env(safe-area-inset-top))
+      max(clamp(4.75rem, 8.2dvh, 6.4rem), env(safe-area-inset-top))
       .7rem
       max(1.7rem, env(safe-area-inset-bottom));
   }
 
   .eyebrow {
-    margin-bottom: clamp(1.5rem, 4.2vh, 2rem);
+    margin-bottom: clamp(2.4rem, 4.8dvh, 3.35rem);
     font-size: clamp(.66rem, 2.8vw, .77rem);
     letter-spacing: .29em;
   }
 
   .hero {
-    width: min(95vw, 430px);
+    width: min(91vw, 420px);
   }
 
   .scriptTitle {
-    margin-top: clamp(1rem, 2.8vh, 1.55rem);
+    margin-top: clamp(.75rem, 1.8dvh, 1.15rem);
     font-size: clamp(2.9rem, 13vw, 4rem);
   }
 
   .subtitle {
     max-width: 320px;
-    margin-top: clamp(2.25rem, 5vh, 2.8rem);
+    margin-top: clamp(1.65rem, 3.1dvh, 2.15rem);
     font-size: clamp(.96rem, 4vw, 1.06rem);
   }
 
   .openButton {
-    width: min(74vw, 290px);
+    width: min(76vw, 300px);
     min-height: 58px;
-    margin-top: clamp(1.7rem, 4vh, 2.1rem);
+    margin-top: clamp(1.75rem, 3.2dvh, 2.2rem);
   }
 
   .divider {
-    margin-top: clamp(1.9rem, 4.5vh, 2.5rem);
+    margin-top: clamp(2rem, 3.8dvh, 2.65rem);
   }
 }
 
 @media (max-width: 390px) {
   .content {
-    padding-top: max(1.45rem, env(safe-area-inset-top));
+    padding-top: max(clamp(4.25rem, 7.8dvh, 5.5rem), env(safe-area-inset-top));
     padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
   }
 
   .eyebrow {
-    margin-bottom: 1rem;
+    margin-bottom: clamp(2rem, 4.2dvh, 2.7rem);
   }
 
   .hero {
-    width: min(96vw, 375px);
+    width: min(92vw, 365px);
   }
 
   .scriptTitle {
-    margin-top: .9rem;
+    margin-top: .7rem;
     font-size: 2.8rem;
   }
 
