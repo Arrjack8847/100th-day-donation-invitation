@@ -681,8 +681,9 @@
   }
 }
 
-/* Short screens and mobile landscape: keep every control reachable. */
-@media (max-height: 720px) {
+/* Short landscape screens only: portrait phones must keep the balanced
+   invitation spacing above instead of collapsing back to the old compact layout. */
+@media (max-height: 720px) and (orientation: landscape) {
   .content {
     justify-content: flex-start;
     padding-top: max(.8rem, env(safe-area-inset-top));
