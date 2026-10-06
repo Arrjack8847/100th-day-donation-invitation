@@ -1141,10 +1141,10 @@ export default function MotionSystem() {
           if (heroPhoto && heroPhotoImage) {
             const onHeroPhotoTap = () => {
               gsap.fromTo(
-                heroPhotoImage,
-                { scale: compactMotion ? 1.018 : 1.012 },
+                heroPhoto,
+                { scale: 1 },
                 {
-                  scale: compactMotion ? 1.052 : 1.04,
+                  scale: compactMotion ? 1.018 : 1.012,
                   duration: 0.18,
                   yoyo: true,
                   repeat: 1,
