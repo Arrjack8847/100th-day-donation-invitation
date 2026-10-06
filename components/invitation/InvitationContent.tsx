@@ -103,6 +103,30 @@ export default function InvitationContent() {
           <div className="hero-photo-shell">
             <div className="hero-photo-glow" aria-hidden="true" />
 
+            <div className="essential-hundred-reveal" data-essential-hundred aria-hidden="true">
+              <span className="essential-hundred-piece essential-hundred-one">
+                <img
+                  src="/child's photo/01-100-days-baby-portrait.jpg"
+                  alt=""
+                  draggable={false}
+                />
+              </span>
+              <span className="essential-hundred-piece essential-hundred-zero-left">
+                <img
+                  src="/child's photo/09-opening-zero-left-photo.jpg"
+                  alt=""
+                  draggable={false}
+                />
+              </span>
+              <span className="essential-hundred-piece essential-hundred-zero-right">
+                <img
+                  src="/child's photo/10-opening-zero-right-photo.jpg"
+                  alt=""
+                  draggable={false}
+                />
+              </span>
+            </div>
+
             <div className="hero-photo-blob">
               <img
                 src="/child's photo/01-100-days-baby-portrait.jpg"
