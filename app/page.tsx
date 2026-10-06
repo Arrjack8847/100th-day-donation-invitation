@@ -1,10 +1,8 @@
 import InvitationContent from "@/components/invitation/InvitationContent";
-import OpeningScene from "@/components/opening/OpeningScene";
 
 export default function Home() {
   return (
-    <main>
-      <OpeningScene />
+    <main className="essential-experience">
       <InvitationContent />
     </main>
   );
