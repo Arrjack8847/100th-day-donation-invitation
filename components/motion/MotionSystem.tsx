@@ -167,6 +167,12 @@ export default function MotionSystem() {
             hero?.querySelector<HTMLElement>(".hero-scroll-cue");
           const heroPhotoImage =
             hero?.querySelector<HTMLImageElement>(".hero-photo-blob img");
+          const heroHundredPieces = asElements<HTMLElement>(
+            hero,
+            ".essential-hundred-piece",
+          );
+          const heroHundredReveal =
+            hero?.querySelector<HTMLElement>(".essential-hundred-reveal");
           const heroEventDetails = asElements<HTMLElement>(
             hero,
             ".hero-event-detail",
@@ -196,6 +202,25 @@ export default function MotionSystem() {
 
           if (heroIntro) {
             gsap.set(heroIntro, { autoAlpha: 0, y: 8 });
+          }
+
+          if (heroHundredReveal) {
+            gsap.set(heroHundredReveal, {
+              autoAlpha: 1,
+              scale: compactMotion ? 0.92 : 0.9,
+              transformOrigin: "50% 50%",
+            });
+          }
+
+          if (heroHundredPieces.length) {
+            heroHundredPieces.forEach((piece, index) => {
+              gsap.set(piece, {
+                autoAlpha: 0,
+                x: index === 0 ? -10 : index === 2 ? 10 : 0,
+                y: index === 1 ? 9 : 0,
+                scale: 0.97,
+              });
+            });
           }
 
           if (heroTitleMain) {
@@ -249,6 +274,35 @@ export default function MotionSystem() {
               duration: 1.06,
               clearProps: "willChange",
             });
+          }
+
+          if (heroHundredPieces.length) {
+            heroTimeline.to(
+              heroHundredPieces,
+              {
+                autoAlpha: 0.92,
+                x: 0,
+                y: 0,
+                scale: 1,
+                duration: 0.68 * durationScale,
+                stagger: 0.095 * staggerScale,
+                ease: "power3.out",
+              },
+              0.08,
+            );
+          }
+
+          if (heroHundredReveal) {
+            heroTimeline.to(
+              heroHundredReveal,
+              {
+                autoAlpha: compactMotion ? 0.16 : 0.18,
+                scale: compactMotion ? 1.055 : 1.075,
+                duration: 0.72 * durationScale,
+                ease: "power2.inOut",
+              },
+              0.72,
+            );
           }
 
           if (heroIntro) {
