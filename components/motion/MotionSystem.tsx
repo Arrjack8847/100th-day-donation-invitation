@@ -86,6 +86,10 @@ export default function MotionSystem() {
 
     window.addEventListener(MOTION_READY_EVENT, requestStart);
 
+    // Essential is mobile-first and has no gated cinematic intro. Start motion
+    // immediately; the event path remains for compatibility with older links.
+    requestStart();
+
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -97,6 +101,7 @@ export default function MotionSystem() {
       };
 
       if (
+        startRequested ||
         document.documentElement.dataset.invitationMotionReady === "true"
       ) {
         requestStart();
@@ -394,10 +399,10 @@ export default function MotionSystem() {
               );
 
               const image = meaningPhoto.querySelector<HTMLImageElement>("img");
-              if (image && !compactMotion) {
+              if (image) {
                 meaningTimeline.fromTo(
                   image,
-                  { filter: "blur(2.4px)", scale: 1.012 },
+                  { filter: compactMotion ? "blur(1.2px)" : "blur(2.4px)", scale: 1.012 },
                   {
                     filter: "blur(0px)",
                     scale: 1,
@@ -652,10 +657,10 @@ export default function MotionSystem() {
               });
 
               const image = photo.querySelector<HTMLImageElement>("img");
-              if (image && !compactMotion) {
+              if (image) {
                 closingTimeline.fromTo(
                   image,
-                  { filter: "blur(2px)", scale: 1.01 },
+                  { filter: compactMotion ? "blur(1px)" : "blur(2px)", scale: 1.01 },
                   {
                     filter: "blur(0px)",
                     scale: 1,
@@ -679,7 +684,7 @@ export default function MotionSystem() {
           // Hand-drawn treatment is intentionally limited to two sections,
           // and each section shares one trigger instead of creating a trigger
           // for every SVG path.
-          if (!compactMotion) ["meaning", "event"].forEach((sectionName) => {
+          ["meaning", "event"].forEach((sectionName) => {
             const section = root.querySelector<HTMLElement>(
               `[data-motion-section="${sectionName}"]`,
             );
@@ -717,9 +722,9 @@ export default function MotionSystem() {
             });
           });
 
-          // Use only a few shared scrubbed depth timelines. This keeps the
-          // dimensional effect while avoiding dozens of simultaneous triggers.
-          if (!compactMotion) ["hero", "meaning", "moments", "closing"].forEach(
+          // Use only a few shared scrubbed depth timelines. Mobile receives
+          // the same dimensional choreography with reduced travel distance.
+          ["hero", "meaning", "moments", "closing"].forEach(
             (sectionName) => {
               const section = root.querySelector<HTMLElement>(
                 `[data-motion-section="${sectionName}"]`,
@@ -786,10 +791,9 @@ export default function MotionSystem() {
             });
           });
 
-          // Dedicated mobile GSAP profile: section content still gets full
-          // one-time reveals, plus one tiny ambient transform while the section
-          // is visible. Off-screen ambient tweens are paused, so only nearby
-          // content consumes animation frames.
+          // Dedicated mobile GSAP profile: mobile keeps the complete reveal,
+          // parallax, drawing and story motion, with one extra lightweight
+          // ambient transform. Off-screen ambient tweens pause automatically.
           if (compactMotion) {
             const mobileSections = asElements<HTMLElement>(
               root,
@@ -855,17 +859,15 @@ export default function MotionSystem() {
             gsap.set(memoryHeart, { autoAlpha: 0, scale: 0.72 });
           }
 
-          const storyTimeline = compactMotion
-            ? null
-            : gsap.timeline({
-                scrollTrigger: {
-                  trigger: root,
-                  start: "top top",
-                  end: "bottom bottom",
-                  scrub: 1.2,
-                  invalidateOnRefresh: true,
-                },
-              });
+          const storyTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: root,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: compactMotion ? 1.35 : 1.2,
+              invalidateOnRefresh: true,
+            },
+          });
 
           if (memoryTrail && storyTimeline) {
             storyTimeline
@@ -991,7 +993,7 @@ export default function MotionSystem() {
           const velocityPetal =
             layer.querySelector<HTMLElement>("[data-velocity-petal]");
 
-          if (velocityPetal && !compactMotion) {
+          if (velocityPetal) {
             const rotateTo = gsap.quickTo(velocityPetal, "rotation", {
               duration: 0.55,
               ease: "power2.out",
