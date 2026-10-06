@@ -165,6 +165,16 @@ export default function MotionSystem() {
             hero?.querySelector<HTMLElement>(".hero-invite-copy");
           const heroCue =
             hero?.querySelector<HTMLElement>(".hero-scroll-cue");
+          const heroPhotoImage =
+            hero?.querySelector<HTMLImageElement>(".hero-photo-blob img");
+          const heroEventDetails = asElements<HTMLElement>(
+            hero,
+            ".hero-event-detail",
+          );
+          const heroLocationButton =
+            hero?.querySelector<HTMLElement>(".hero-location-button");
+          const heroEmotionalCopy =
+            hero?.querySelector<HTMLElement>(".hero-emotional-copy");
 
           const heroTargets = [
             heroPhoto,
@@ -202,6 +212,28 @@ export default function MotionSystem() {
 
           if (heroCue) {
             gsap.set(heroCue, { autoAlpha: 0, y: 8 });
+          }
+
+          if (heroEventDetails.length) {
+            gsap.set(heroEventDetails, {
+              autoAlpha: 0,
+              y: compactMotion ? 7 : 10,
+            });
+          }
+
+          if (heroLocationButton) {
+            gsap.set(heroLocationButton, {
+              autoAlpha: 0,
+              y: compactMotion ? 6 : 9,
+              scale: 0.985,
+            });
+          }
+
+          if (heroEmotionalCopy) {
+            gsap.set(heroEmotionalCopy, {
+              autoAlpha: 0,
+              y: compactMotion ? 7 : 10,
+            });
           }
 
           const heroTimeline = gsap.timeline({
@@ -251,12 +283,67 @@ export default function MotionSystem() {
             );
           }
 
+          if (heroEventDetails.length) {
+            heroTimeline.to(
+              heroEventDetails,
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.58 * durationScale,
+                stagger: 0.085 * staggerScale,
+              },
+              0.58,
+            );
+          }
+
+          if (heroLocationButton) {
+            heroTimeline.to(
+              heroLocationButton,
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.52 * durationScale,
+              },
+              0.76,
+            );
+          }
+
+          if (heroEmotionalCopy) {
+            heroTimeline.to(
+              heroEmotionalCopy,
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.62 * durationScale,
+              },
+              0.88,
+            );
+          }
+
           if (heroCue) {
             heroTimeline.to(
               heroCue,
               { autoAlpha: 1, y: 0, duration: 0.62 },
-              0.67,
+              0.98,
             );
+          }
+
+          // The portrait remains alive after the entrance. Scroll changes its
+          // depth on every device; mobile gets the same effect with less travel.
+          if (hero && heroPhotoImage) {
+            gsap.to(heroPhotoImage, {
+              yPercent: compactMotion ? 2.6 : 4.5,
+              scale: compactMotion ? 1.035 : 1.055,
+              ease: "none",
+              force3D: true,
+              scrollTrigger: {
+                trigger: hero,
+                start: "top top",
+                end: "bottom top",
+                scrub: compactMotion ? 1.15 : 1,
+              },
+            });
           }
 
           const prep = (
@@ -1050,6 +1137,33 @@ export default function MotionSystem() {
 
           const tapTarget =
             layer.querySelector<HTMLElement>("[data-motion-tap]");
+
+          if (heroPhoto && heroPhotoImage) {
+            const onHeroPhotoTap = () => {
+              gsap.fromTo(
+                heroPhotoImage,
+                { scale: compactMotion ? 1.018 : 1.012 },
+                {
+                  scale: compactMotion ? 1.052 : 1.04,
+                  duration: 0.18,
+                  yoyo: true,
+                  repeat: 1,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                },
+              );
+            };
+
+            heroPhoto.addEventListener("pointerdown", onHeroPhotoTap, {
+              passive: true,
+            });
+
+            const previousPointerCleanup = pointerCleanup;
+            pointerCleanup = () => {
+              previousPointerCleanup?.();
+              heroPhoto.removeEventListener("pointerdown", onHeroPhotoTap);
+            };
+          }
 
           if (tapTarget) {
             const onTap = () => {
