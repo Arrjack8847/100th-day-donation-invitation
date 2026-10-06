@@ -136,10 +136,11 @@
 }
 
 @media (max-width: 768px) {
-  /* Mobile uses one-time section reveals only. The full-page floating layer
-     is intentionally desktop-only so touch scrolling stays on the compositor. */
+  /* Essential is mobile-first: keep the complete foreground story layer
+     active and reduce its footprint instead of removing the animation. */
   .layer {
-    display: none;
+    display: block;
+    contain: layout style paint;
   }
 
   .memoryTrail {
@@ -160,7 +161,10 @@
   }
 
   .foregroundPetalTwo {
-    display: none;
+    display: block;
+    width: 17px;
+    right: 2vw;
+    opacity: .22;
   }
 
   .foregroundSparkle {
